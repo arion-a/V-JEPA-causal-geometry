@@ -1,0 +1,15 @@
+=== checkpoint_sha256
+{"ok": true, "result": [{"file": "vjepa2_1_vitl_dist_vitG_384.pt", "bytes": 5151198524, "sha256": "7ea9b7cb4a75d10644a8a8d42cff9e177b10dca8f02173f0eaf2b0bed82838c6"}], "seconds": 4.3}
+=== load
+{"ok": true, "result": {"params_M": 304.7, "norms_block": "ModuleList", "norms_block_len": 4}, "seconds": 12.4}
+=== token_map_early_layers
+{"ok": true, "result": {"layers": {"block0": {"frac_mass_inside": 0.568, "inside_over_outside": 19.76, "area_fraction": 0.062}, "block1": {"frac_mass_inside": 0.672, "inside_over_outside": 30.7, "area_fraction": 0.062}, "block3": {"frac_mass_inside": 0.451, "inside_over_outside": 12.32, "area_fraction": 0.062}, "block7": {"frac_mass_inside": 0.14, "inside_over_outside": 2.44, "area_fraction": 0.062}, "block11": {"frac_mass_inside": 0.081, "inside_over_outside": 1.33, "area_fraction": 0.062}, "block17": {"frac_mass_inside": 0.066, "inside_over_outside": 1.06, "area_fraction": 0.062}, "block23": {"frac_mass_inside": 0.064, "inside_over_outside": 1.02, "area_fraction": 0.062}}, "note": "localised if frac_mass_inside >> area_fraction in early blocks; ordering (t,h,w) confirmed then"}, "seconds": 1.4}
+=== fp32_vs_bf16_per_layer
+{"ok": true, "result": {"fp32_repeat_max_abs": 0.0, "bf16_rel_err_by_block": [0.00993, 0.00936, 0.00995, 0.00999, 0.01058, 0.0115, 0.01204, 0.0111, 0.01189, 0.01173, 0.01203, 0.01148, 0.01155, 0.01146, 0.0111, 0.01111, 0.01081, 0.01054, 0.01112, 0.01065, 0.01108, 0.01141, 0.01153, 0.01751]}, "seconds": 1.7}
+=== native_64_frames_memory_throughput
+{"ok": true, "result": {"T64_B1_fp32": {"clips_per_s": 0.2, "peak_gb": 2.47}, "T64_B2_fp32": {"clips_per_s": 0.2, "peak_gb": 3.72}, "T16_B4_fp32": {"clips_per_s": 1.8, "peak_gb": 2.47}}, "seconds": 34.5}
+GATE0B DONE
+/usr/local/lib/python3.12/dist-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/usr/lib/python3.12/contextlib.py:105: FutureWarning: `torch.backends.cuda.sdp_kernel()` is deprecated. In the future, this context manager will be removed. Please see `torch.nn.attention.sdpa_kernel()` for the new context manager, with updated signature.
+  self.gen = func(*args, **kwds)

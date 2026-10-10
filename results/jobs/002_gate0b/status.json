@@ -1,0 +1,11 @@
+{
+ "job": "002_gate0b.sh",
+ "rc": 0,
+ "started": "2026-10-10T13:22:49Z",
+ "seconds": 56.0,
+ "timeout": 1800,
+ "job_sha256": "0c4f73cf4c450e56c3f1f751472575e1f03ab0d6e44e37f270a9c5eb63463239",
+ "host": "ecd8920e9883",
+ "gpu": "NVIDIA RTX 4000 Ada Generation, 20475 MiB",
+ "commit": "b90e145189916078d8d1673b74295347f259d86e"
+}
