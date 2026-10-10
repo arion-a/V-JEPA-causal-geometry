@@ -1,9 +1,11 @@
 """GATE 0 (runs ON the GPU pod, non-interactive). Verifies facts the plan marks [VERIFY]; writes /workspace/out/*.
 Does not assume the V-JEPA 2.1 entry point: it reads the official repo's hubconf and tries what it finds.
-Output files: gate0.log, gate0.json (served read-only over HTTP by the launcher)."""
+Output: $CG_ROOT/results/gate0/gate0.json (+ gate0.log when run via pod_bootstrap.sh). Everything lives on the persistent volume."""
 import hashlib, json, os, re, subprocess, sys, time, traceback
 
-OUT = "/workspace/out"; os.makedirs(OUT, exist_ok=True)
+ROOT = os.environ.get("CG_ROOT", "/workspace/vjepa-causal-geometry")   # persistent network volume
+VENDOR = f"{ROOT}/vendor/vjepa2"
+OUT = f"{ROOT}/results/gate0"; os.makedirs(OUT, exist_ok=True)
 R = dict(started=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), steps={})
 
 
@@ -43,20 +45,20 @@ def _():
 @step("clone_repo")
 def _():
     sh("pip install -q timm einops 2>&1 | tail -1")
-    rc, o = sh("cd /workspace && rm -rf vjepa2 && git clone --depth 1 https://github.com/facebookresearch/vjepa2.git 2>&1 | tail -2")
-    rc2, commit = sh("cd /workspace/vjepa2 && git rev-parse HEAD && git log -1 --format=%cd")
-    lic = open("/workspace/vjepa2/LICENSE").read()[:120] if os.path.exists("/workspace/vjepa2/LICENSE") else None
+    rc, o = sh(f"mkdir -p {ROOT}/vendor && cd {ROOT}/vendor && rm -rf vjepa2 && git clone --depth 1 https://github.com/facebookresearch/vjepa2.git 2>&1 | tail -2")
+    rc2, commit = sh(f"cd {VENDOR} && git rev-parse HEAD && git log -1 --format=%cd")
+    lic = open(f"{VENDOR}/LICENSE").read()[:120] if os.path.exists(f"{VENDOR}/LICENSE") else None
     return dict(rc=rc, commit=commit.strip(), license_head=lic)
 
 
 @step("discover_entrypoints")
 def _():
-    src = open("/workspace/vjepa2/hubconf.py").read()
+    src = open(f"{VENDOR}/hubconf.py").read()
     fns = re.findall(r"^def\s+(\w+)\(", src, re.M)
     R["entrypoints"] = fns
-    urls = sorted(set(re.findall(r"https?://[^\s\"']+\.pt[h]?", open("/workspace/vjepa2/src/hub/backbones.py").read()))) if os.path.exists("/workspace/vjepa2/src/hub/backbones.py") else []
+    urls = sorted(set(re.findall(r"https?://[^\s\"']+\.pt[h]?", open(f"{VENDOR}/src/hub/backbones.py").read()))) if os.path.exists(f"{VENDOR}/src/hub/backbones.py") else []
     return dict(entrypoints=fns, has_2_1=[f for f in fns if "2_1" in f or "21" in f], checkpoint_urls=urls[:40],
-                readme_mentions_2_1=bool(re.search(r"2\.1", open("/workspace/vjepa2/README.md").read())))
+                readme_mentions_2_1=bool(re.search(r"2\.1", open(f"{VENDOR}/README.md").read())))
 
 
 MODEL = {}
@@ -65,13 +67,13 @@ MODEL = {}
 @step("load_model")
 def _():
     import torch
-    sys.path.insert(0, "/workspace/vjepa2")
+    sys.path.insert(0, VENDOR)
     cands = [f for f in R.get("entrypoints", []) if "2_1" in f and "large" in f.lower()] or \
             [f for f in R.get("entrypoints", []) if "2_1" in f] or [f for f in R.get("entrypoints", []) if "large" in f.lower() and "vjepa" in f]
     R["load_candidates"] = cands; tried = []
     for name in cands:
         try:
-            out = torch.hub.load("/workspace/vjepa2", name, source="local")
+            out = torch.hub.load(VENDOR, name, source="local")
             enc = out[0] if isinstance(out, (tuple, list)) else out
             MODEL.update(name=name, enc=enc.cuda().eval()); tried.append((name, "ok")); break
         except Exception as e: tried.append((name, repr(e)[:300]))
