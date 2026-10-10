@@ -1,0 +1,120 @@
+done freefall_freefall_000 10s
+done freefall_freefall_002 20s
+done freefall_freefall_004 30s
+done freefall_freefall_006 41s
+done freefall_freefall_008 51s
+done freefall_freefall_010 61s
+done freefall_freefall_012 71s
+done freefall_freefall_014 82s
+done freefall_freefall_016 92s
+done freefall_freefall_018 102s
+done freefall_freefall_020 113s
+done freefall_freefall_022 123s
+done freefall_freefall_024 133s
+done freefall_freefall_026 144s
+done freefall_freefall_028 154s
+done bounce_bounce_000 175s
+done bounce_bounce_002 195s
+done bounce_bounce_004 216s
+done bounce_bounce_006 237s
+done bounce_bounce_008 258s
+done bounce_bounce_010 279s
+done bounce_bounce_012 299s
+done bounce_bounce_014 320s
+done bounce_bounce_016 341s
+done bounce_bounce_018 362s
+done bounce_bounce_020 383s
+done bounce_bounce_022 403s
+done bounce_bounce_024 424s
+done bounce_bounce_026 445s
+done bounce_bounce_028 466s
+done incline_incline_000 486s
+done incline_incline_002 507s
+done incline_incline_004 528s
+done incline_incline_006 549s
+done incline_incline_008 570s
+done incline_incline_010 590s
+done incline_incline_012 611s
+done incline_incline_014 632s
+done incline_incline_016 653s
+done incline_incline_018 673s
+done incline_incline_020 694s
+done incline_incline_022 715s
+done incline_incline_024 736s
+done incline_incline_026 757s
+done incline_incline_028 777s
+{
+ "hier_check": {
+  "max_abs_diff": 0.0,
+  "ok": true,
+  "final_equals_norm23": true
+ },
+ "verdict": {
+  "g@freefall": {
+   "global": {
+    "taps_ge_0p5": 2,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 2,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "g@bounce": {
+   "global": {
+    "taps_ge_0p5": 0,
+    "passes": false
+   },
+   "window": {
+    "taps_ge_0p5": 0,
+    "passes": false
+   },
+   "case_passes": false
+  },
+  "g@incline": {
+   "global": {
+    "taps_ge_0p5": 0,
+    "passes": false
+   },
+   "window": {
+    "taps_ge_0p5": 0,
+    "passes": false
+   },
+   "case_passes": false
+  },
+  "e@bounce": {
+   "global": {
+    "taps_ge_0p5": 3,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "mu@incline": {
+   "global": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 3,
+    "passes": true
+   },
+   "case_passes": true
+  }
+ },
+ "gate1_v2_pass": false,
+ "n_worlds": {
+  "freefall": 15,
+  "bounce": 15,
+  "incline": 15
+ }
+}
+pybullet build time: Oct 10 2026 13:43:31
+/usr/local/lib/python3.12/dist-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/usr/lib/python3.12/contextlib.py:105: FutureWarning: `torch.backends.cuda.sdp_kernel()` is deprecated. In the future, this context manager will be removed. Please see `torch.nn.attention.sdpa_kernel()` for the new context manager, with updated signature.
+  self.gen = func(*args, **kwds)
