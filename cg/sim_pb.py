@@ -1,0 +1,114 @@
+"""PyBullet scenarios for Protocol A: free fall (g), bounce (g,e), incline (g,mu). Headless, deterministic (DIRECT + TinyRenderer).
+
+Frames: 64 @ 64 fps (1.0 s), physics dt=1/256 (4 substeps/frame), 384x384 RGB. World units metres, z up.
+Combined-coefficient rule in Bullet is a product, so the plane carries 1.0 and the body carries the parameter.
+Engine tolerance vs closed form is O(g*t*dt) (symplectic Euler); documented in tests, not the 1e-6 of the numpy cross-check.
+"""
+from dataclasses import dataclass
+import hashlib
+import numpy as np
+import pybullet as p
+
+FPS, N_FRAMES, SUB, RES = 64, 64, 4, 384
+DT = 1.0 / (FPS * SUB)
+BASE = dict(g=9.8, e=0.6, mu=0.25)
+KINDS = ("freefall", "bounce", "incline")
+OBSERVABLE = {"freefall": ("g",), "bounce": ("g", "e"), "incline": ("g", "mu")}
+
+
+@dataclass
+class World:
+    kind: str; seed: int
+    h0: float          # initial height (m) (bounce/freefall) or distance along slope (incline)
+    x0: float; vx: float; angle: float; size: float
+    color: tuple
+
+
+def derive_seed(root, role, index):
+    """Protocol seed policy: first 4 bytes of SHA256(root|role|index), big endian."""
+    return int.from_bytes(hashlib.sha256(f"{root}|{role}|{index}".encode()).digest()[:4], "big")
+
+
+def make_world(kind, seed):
+    r = np.random.default_rng(seed)
+    return World(kind, int(seed),
+                 h0=float(r.uniform(3.0, 4.0) if kind == "freefall" else r.uniform(0.9, 1.2) if kind == "bounce" else r.uniform(0.3, 0.6)),
+                 x0=float(r.uniform(-0.3, 0.3)), vx=float(r.uniform(-0.3, 0.3)), angle=float(np.radians(r.uniform(28, 34))),
+                 size=float(r.uniform(0.12, 0.18)), color=tuple(float(c) for c in r.uniform(0.2, 0.95, 3)))
+
+
+def _camera(kind, shift=0.0):
+    tgt = {"freefall": (0, 0, 2.0), "bounce": (0, 0, 0.9), "incline": (0.4, 0, 0.1)}[kind]
+    dist = {"freefall": 9.0, "bounce": 4.4, "incline": 6.0}[kind]
+    view = p.computeViewMatrixFromYawPitchRoll([tgt[0] + shift, tgt[1], tgt[2]], dist, 0, 0, 0, 2)
+    proj = p.computeProjectionMatrixFOV(50, 1.0, 0.1, 50)
+    return view, proj
+
+
+def simulate(w, theta=None, nuis=None, render=True):
+    """-> dict(frames uint8[64,384,384,3] or None, pos [64,3], impacts [frame idx], slide_m, apex). Deterministic."""
+    th = {**BASE, **(theta or {})}; nz = nuis or {}
+    cid = p.connect(p.DIRECT)
+    try:
+        p.setGravity(0, 0, -th["g"], physicsClientId=cid); p.setTimeStep(DT, physicsClientId=cid)
+        p.setPhysicsEngineParameter(numSolverIterations=50, deterministicOverlappingPairs=1, physicsClientId=cid)
+        col = nz.get("color", w.color)
+        if w.kind == "incline":
+            ang = w.angle                                   # slab pitched so +x runs DOWNHILL: x-axis -> (cos a, 0, -sin a)
+            q = p.getQuaternionFromEuler([0, ang, 0])
+            plane = p.createCollisionShape(p.GEOM_BOX, halfExtents=[6, 2, 0.05], physicsClientId=cid)
+            pid = p.createMultiBody(0, plane, basePosition=[0, 0, 0], baseOrientation=q, physicsClientId=cid)
+            body_col = p.createCollisionShape(p.GEOM_BOX, halfExtents=[w.size] * 3, physicsClientId=cid)
+            nrm = np.array([np.sin(ang), 0, np.cos(ang)])   # surface normal (up and slightly +x)
+            s0 = -(1.0 + w.h0)                              # start uphill of the origin (metres along the slope)
+            start = np.array([s0 * np.cos(ang), 0, -s0 * np.sin(ang)]) + nrm * (0.05 + w.size)
+            bid = p.createMultiBody(0.5, body_col, basePosition=start.tolist(), baseOrientation=q, physicsClientId=cid)
+            p.changeDynamics(pid, -1, lateralFriction=1.0, restitution=0.0, physicsClientId=cid)
+            p.changeDynamics(bid, -1, lateralFriction=th["mu"], restitution=0.0, linearDamping=0, angularDamping=0,
+                             rollingFriction=0, spinningFriction=0, physicsClientId=cid)
+        else:
+            if w.kind == "bounce":                          # free fall has NO floor (no scored contact)
+                fl = p.createCollisionShape(p.GEOM_PLANE, physicsClientId=cid); floor = p.createMultiBody(0, fl, physicsClientId=cid)
+                p.changeDynamics(floor, -1, restitution=1.0, lateralFriction=0.0, physicsClientId=cid)
+            body_col = p.createCollisionShape(p.GEOM_SPHERE, radius=w.size, physicsClientId=cid)
+            bid = p.createMultiBody(0.5, body_col, basePosition=[w.x0, 0, w.h0 + w.size], physicsClientId=cid)
+            p.changeDynamics(bid, -1, restitution=th["e"] if w.kind == "bounce" else 0.0, lateralFriction=0.0, linearDamping=0, angularDamping=0, physicsClientId=cid)
+            p.resetBaseVelocity(bid, [w.vx, 0, 0], physicsClientId=cid)
+        # static, collision-free reference poles give motion cues (same in every variant of a world)
+        for px in (-1.2, 1.2):
+            pv = p.createVisualShape(p.GEOM_CYLINDER, radius=0.03, length=8.0, rgbaColor=[.35, .35, .4, 1], physicsClientId=cid)
+            p.createMultiBody(0, -1, pv, basePosition=[px, 0.8, 3.0 if w.kind == "freefall" else 1.0], physicsClientId=cid)
+        vis = p.createVisualShape(p.GEOM_BOX if w.kind == "incline" else p.GEOM_SPHERE, **({"halfExtents": [w.size] * 3} if w.kind == "incline" else {"radius": w.size}),
+                                  rgbaColor=list(col) + [1], physicsClientId=cid)
+        p.changeVisualShape(bid, -1, rgbaColor=list(col) + [1], physicsClientId=cid)
+        view, proj = _camera(w.kind, nz.get("cam", 0.0))
+        pos, frames, impacts, vz_prev = [], [], [], 0.0
+        for f in range(N_FRAMES):
+            if render:
+                img = p.getCameraImage(RES, RES, view, proj, renderer=p.ER_TINY_RENDERER, physicsClientId=cid)[2]
+                frames.append(np.asarray(img, np.uint8).reshape(RES, RES, 4)[..., :3])
+            pos.append(p.getBasePositionAndOrientation(bid, physicsClientId=cid)[0])
+            for _ in range(SUB):
+                p.stepSimulation(physicsClientId=cid)
+                vz = p.getBaseVelocity(bid, physicsClientId=cid)[0][2]
+                if w.kind == "bounce" and vz_prev < -1e-3 and vz > 1e-3: impacts.append(f)
+                vz_prev = vz
+        pos = np.array(pos)
+        out = dict(frames=np.stack(frames) if render else None, pos=pos, impacts=impacts)
+        out["slide_m"] = float(np.linalg.norm(pos[-1] - pos[0])) if w.kind == "incline" else None
+        out["apex_after_first_impact"] = float(pos[impacts[0]:, 2].max()) if impacts else None
+        out["in_view"] = bool(_in_view(pos, view, proj))
+        return out
+    finally:
+        p.disconnect(cid)
+
+
+def _in_view(pos, view, proj, margin=0.05):
+    V = np.array(view).reshape(4, 4).T; P = np.array(proj).reshape(4, 4).T
+    h = np.c_[pos, np.ones(len(pos))] @ V.T @ P.T
+    ndc = h[:, :2] / h[:, 3:4]
+    return bool((np.abs(ndc) < 1 - margin).all())
+
+
+def frames_sha256(frames):
+    return hashlib.sha256(np.ascontiguousarray(frames).tobytes()).hexdigest()

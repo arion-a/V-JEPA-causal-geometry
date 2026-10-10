@@ -1,5 +1,27 @@
-{"protocol": "A-pilot-v0", "n_worlds": {"freefall": 10, "bounce": 10, "incline": 10, "nuisance": 10, "composition": 10},
- "clips_total": 200, "frames": 16, "fps": 16, "res": 64,
- "base_theta": {"g": 9.8, "e": 0.6, "mu": 0.2}, "delta": {"g": 1.0, "e": 0.1, "mu": 0.05},
- "model": {"name": "vjepa2_1_vit_large", "checkpoint_sha256": null, "commit": null},
- "budget_usd_ceiling": 25, "primary_layer_summary": "TO_BE_PREDECLARED_BEFORE_ANALYSIS"}
+{
+ "protocol": "A-pilot-v1",
+ "frozen_utc": "2026-10-10",
+ "decisions": {
+  "frames_per_clip": 64, "fps": 64, "clip_seconds": 1.0, "resolution": 384, "physics_dt": "1/256",
+  "engine": "pybullet 3.2.7 DIRECT + TinyRenderer (headless, deterministic)",
+  "primary_representation": "global mean over all tokens (object-window pooling = secondary)",
+  "precision": "fp32 (bf16 rejected: 1.0-1.75% rel. error per block, see reports/gate0.md)",
+  "primary_layers": "hierarchical taps blocks {5,11,17,23} after their own norms_block; all 24 raw block outputs exploratory",
+  "primary_hypothesis": "H2 cross-context gravity alignment, compared against the tracked-trajectory baseline",
+  "unit_of_resampling": "base world"
+ },
+ "base_theta": {"g": 9.8, "e": 0.6, "mu": 0.25},
+ "delta": {"g": 0.5, "e": 0.04, "mu": 0.02},
+ "delta_rule": "delta_g fixed across scenarios (same intervention in every context); delta_e and delta_mu chosen so peak trajectory displacement between +/- variants matches that of delta_g inside the same scenario (dev worlds, medians: bounce g 0.175 m, e(0.05)=0.224 m -> 0.04; incline g 0.148 m, mu(0.025)=0.204 m -> 0.02)",
+ "nuisance": {"cam_shift_m": 0.3, "color": "complement of base colour"},
+ "validity": {"min_peak_displacement_m": 0.05, "bounce_min_impacts_all_variants": 1, "incline_min_slide_m": 0.3, "object_in_view_all_variants": true, "freefall_no_contact": true},
+ "allocation": {"freefall": {"worlds": 10, "variants": ["base","g-","g+"]},
+                "bounce": {"worlds": 10, "variants": ["base","g-","g+","e-","e+"]},
+                "incline": {"worlds": 10, "variants": ["base","g-","g+","mu-","mu+"]},
+                "nuisance": {"worlds": 10, "split_across": {"freefall": 4, "bounce": 3, "incline": 3}, "variants": ["base","cam","color"]},
+                "composition": {"worlds": 10, "split_across": {"bounce": 5, "incline": 5}, "variants": ["base","g+","second+","both+"], "second": {"bounce": "e", "incline": "mu"}}},
+ "split": "per primary scenario 5 development + 5 held-out worlds; nuisance and composition worlds split 5/5 as well",
+ "engine_tolerances": {"freefall_vs_closed_form_m": 0.03, "incline_accel_rel": 0.03, "restitution_apex_ratio_abs_vs_e2": 0.08},
+ "root_seed": "vjepa21-causal-geometry-pilot-v1",
+ "gate1_clip_count": 20
+}
