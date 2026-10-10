@@ -1,0 +1,218 @@
+done ss1_x1|freefall
+done ss1_x1|bounce
+done ss1_x1|incline
+done ss1_x2|freefall
+done ss1_x2|bounce
+done ss1_x2|incline
+done ss2_x1|freefall
+done ss2_x1|bounce
+done ss2_x1|incline
+done ss2_x2|freefall
+done ss2_x2|bounce
+done ss2_x2|incline
+{
+ "summary": {
+  "ss1_x1|global": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "e@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "mu@incline": {
+     "stable_from_m": null,
+     "passes": false
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss1_x1|window": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": 2,
+     "passes": true
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": 2,
+     "passes": true
+    },
+    "e@bounce": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 2,
+     "passes": true
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss1_x2|global": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "e@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "mu@incline": {
+     "stable_from_m": null,
+     "passes": false
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss1_x2|window": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "e@bounce": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss2_x1|global": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "e@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "mu@incline": {
+     "stable_from_m": null,
+     "passes": false
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss2_x1|window": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": 2,
+     "passes": true
+    },
+    "e@bounce": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss2_x2|global": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "e@bounce": {
+     "stable_from_m": 2,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 2,
+     "passes": true
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss2_x2|window": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "e@bounce": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    }
+   },
+   "all
+pybullet build time: Oct 10 2026 13:43:31
+/usr/local/lib/python3.12/dist-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/usr/lib/python3.12/contextlib.py:105: FutureWarning: `torch.backends.cuda.sdp_kernel()` is deprecated. In the future, this context manager will be removed. Please see `torch.nn.attention.sdpa_kernel()` for the new context manager, with updated signature.
+  self.gen = func(*args, **kwds)

@@ -1,0 +1,2539 @@
+{
+ "configs": [
+  "ss1_x1",
+  "ss1_x2",
+  "ss2_x1",
+  "ss2_x2"
+ ],
+ "rule": "(written before the run): a (render config, pooling) is a candidate iff for EACH of the 5 cases\ng@freefall, g@bounce, g@incline, e@bounce, mu@incline there is a step pair (m,2m) such that at >=2 of the 4 hierarchical post-norm taps\ncos(v(m),v(2m)) >= 0.8 and 0.7 <= |v(2m)|/|v(m)| <= 1.4, where v(m)=(z(theta+m d)-z(theta-m d))/(2 m d).",
+ "table": {
+  "ss1_x1|global|g@freefall": {
+   "m1->2|norm5": {
+    "cos": 0.032,
+    "ratio": 0.661,
+    "rel_signal": 0.00716,
+    "jitter_floor": 0.01876,
+    "snr": 0.38
+   },
+   "m1->2|norm11": {
+    "cos": 0.173,
+    "ratio": 0.711,
+    "rel_signal": 0.01036,
+    "jitter_floor": 0.02168,
+    "snr": 0.48
+   },
+   "m1->2|norm17": {
+    "cos": 0.316,
+    "ratio": 0.56,
+    "rel_signal": 0.00902,
+    "jitter_floor": 0.01695,
+    "snr": 0.53
+   },
+   "m1->2|norm23": {
+    "cos": 0.378,
+    "ratio": 0.526,
+    "rel_signal": 0.02194,
+    "jitter_floor": 0.03976,
+    "snr": 0.55
+   },
+   "m2->4|norm5": {
+    "cos": 0.167,
+    "ratio": 1.019,
+    "rel_signal": 0.00947,
+    "jitter_floor": 0.01876,
+    "snr": 0.5
+   },
+   "m2->4|norm11": {
+    "cos": 0.692,
+    "ratio": 0.745,
+    "rel_signal": 0.01472,
+    "jitter_floor": 0.02168,
+    "snr": 0.68
+   },
+   "m2->4|norm17": {
+    "cos": 0.735,
+    "ratio": 0.86,
+    "rel_signal": 0.0101,
+    "jitter_floor": 0.01695,
+    "snr": 0.6
+   },
+   "m2->4|norm23": {
+    "cos": 0.755,
+    "ratio": 0.811,
+    "rel_signal": 0.02307,
+    "jitter_floor": 0.03976,
+    "snr": 0.58
+   }
+  },
+  "ss1_x1|global|g@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.087,
+    "ratio": 1.221,
+    "rel_signal": 0.00355,
+    "jitter_floor": 0.00754,
+    "snr": 0.47
+   },
+   "m1->2|norm11": {
+    "cos": -0.095,
+    "ratio": 0.975,
+    "rel_signal": 0.00336,
+    "jitter_floor": 0.00705,
+    "snr": 0.48
+   },
+   "m1->2|norm17": {
+    "cos": 0.008,
+    "ratio": 1.325,
+    "rel_signal": 0.00215,
+    "jitter_floor": 0.00623,
+    "snr": 0.35
+   },
+   "m1->2|norm23": {
+    "cos": -0.072,
+    "ratio": 1.403,
+    "rel_signal": 0.00561,
+    "jitter_floor": 0.0208,
+    "snr": 0.27
+   },
+   "m2->4|norm5": {
+    "cos": -0.336,
+    "ratio": 0.239,
+    "rel_signal": 0.00867,
+    "jitter_floor": 0.00754,
+    "snr": 1.15
+   },
+   "m2->4|norm11": {
+    "cos": -0.495,
+    "ratio": 0.501,
+    "rel_signal": 0.00656,
+    "jitter_floor": 0.00705,
+    "snr": 0.93
+   },
+   "m2->4|norm17": {
+    "cos": -0.472,
+    "ratio": 0.504,
+    "rel_signal": 0.0057,
+    "jitter_floor": 0.00623,
+    "snr": 0.92
+   },
+   "m2->4|norm23": {
+    "cos": -0.426,
+    "ratio": 0.482,
+    "rel_signal": 0.01574,
+    "jitter_floor": 0.0208,
+    "snr": 0.76
+   }
+  },
+  "ss1_x1|global|g@incline": {
+   "m1->2|norm5": {
+    "cos": -0.116,
+    "ratio": 0.728,
+    "rel_signal": 0.00341,
+    "jitter_floor": 0.01436,
+    "snr": 0.24
+   },
+   "m1->2|norm11": {
+    "cos": 0.159,
+    "ratio": 0.547,
+    "rel_signal": 0.0047,
+    "jitter_floor": 0.0095,
+    "snr": 0.49
+   },
+   "m1->2|norm17": {
+    "cos": 0.517,
+    "ratio": 0.853,
+    "rel_signal": 0.00345,
+    "jitter_floor": 0.007,
+    "snr": 0.49
+   },
+   "m1->2|norm23": {
+    "cos": 0.421,
+    "ratio": 0.869,
+    "rel_signal": 0.00674,
+    "jitter_floor": 0.02122,
+    "snr": 0.32
+   },
+   "m2->4|norm5": {
+    "cos": 0.303,
+    "ratio": 0.875,
+    "rel_signal": 0.00497,
+    "jitter_floor": 0.01436,
+    "snr": 0.35
+   },
+   "m2->4|norm11": {
+    "cos": 0.545,
+    "ratio": 0.766,
+    "rel_signal": 0.00514,
+    "jitter_floor": 0.0095,
+    "snr": 0.54
+   },
+   "m2->4|norm17": {
+    "cos": 0.694,
+    "ratio": 0.609,
+    "rel_signal": 0.00588,
+    "jitter_floor": 0.007,
+    "snr": 0.84
+   },
+   "m2->4|norm23": {
+    "cos": 0.649,
+    "ratio": 0.792,
+    "rel_signal": 0.01171,
+    "jitter_floor": 0.02122,
+    "snr": 0.55
+   }
+  },
+  "ss1_x1|global|e@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.455,
+    "ratio": 0.585,
+    "rel_signal": 0.00235,
+    "jitter_floor": 0.00754,
+    "snr": 0.31
+   },
+   "m1->2|norm11": {
+    "cos": 0.605,
+    "ratio": 0.609,
+    "rel_signal": 0.0023,
+    "jitter_floor": 0.00705,
+    "snr": 0.33
+   },
+   "m1->2|norm17": {
+    "cos": 0.576,
+    "ratio": 0.608,
+    "rel_signal": 0.00239,
+    "jitter_floor": 0.00623,
+    "snr": 0.38
+   },
+   "m1->2|norm23": {
+    "cos": 0.61,
+    "ratio": 0.757,
+    "rel_signal": 0.00549,
+    "jitter_floor": 0.0208,
+    "snr": 0.26
+   },
+   "m2->4|norm5": {
+    "cos": 0.38,
+    "ratio": 0.71,
+    "rel_signal": 0.00275,
+    "jitter_floor": 0.00754,
+    "snr": 0.36
+   },
+   "m2->4|norm11": {
+    "cos": 0.495,
+    "ratio": 0.803,
+    "rel_signal": 0.0028,
+    "jitter_floor": 0.00705,
+    "snr": 0.4
+   },
+   "m2->4|norm17": {
+    "cos": 0.642,
+    "ratio": 0.889,
+    "rel_signal": 0.00291,
+    "jitter_floor": 0.00623,
+    "snr": 0.47
+   },
+   "m2->4|norm23": {
+    "cos": 0.586,
+    "ratio": 0.774,
+    "rel_signal": 0.00831,
+    "jitter_floor": 0.0208,
+    "snr": 0.4
+   }
+  },
+  "ss1_x1|global|mu@incline": {
+   "m1->2|norm5": {
+    "cos": 0.322,
+    "ratio": 0.612,
+    "rel_signal": 0.00396,
+    "jitter_floor": 0.01436,
+    "snr": 0.28
+   },
+   "m1->2|norm11": {
+    "cos": 0.326,
+    "ratio": 0.619,
+    "rel_signal": 0.0046,
+    "jitter_floor": 0.0095,
+    "snr": 0.48
+   },
+   "m1->2|norm17": {
+    "cos": 0.668,
+    "ratio": 0.841,
+    "rel_signal": 0.00367,
+    "jitter_floor": 0.007,
+    "snr": 0.52
+   },
+   "m1->2|norm23": {
+    "cos": 0.735,
+    "ratio": 0.972,
+    "rel_signal": 0.0078,
+    "jitter_floor": 0.02122,
+    "snr": 0.37
+   },
+   "m2->4|norm5": {
+    "cos": 0.755,
+    "ratio": 0.892,
+    "rel_signal": 0.00484,
+    "jitter_floor": 0.01436,
+    "snr": 0.34
+   },
+   "m2->4|norm11": {
+    "cos": 0.727,
+    "ratio": 0.915,
+    "rel_signal": 0.00569,
+    "jitter_floor": 0.0095,
+    "snr": 0.6
+   },
+   "m2->4|norm17": {
+    "cos": 0.772,
+    "ratio": 0.861,
+    "rel_signal": 0.00617,
+    "jitter_floor": 0.007,
+    "snr": 0.88
+   },
+   "m2->4|norm23": {
+    "cos": 0.872,
+    "ratio": 0.769,
+    "rel_signal": 0.01515,
+    "jitter_floor": 0.02122,
+    "snr": 0.71
+   }
+  },
+  "ss1_x1|window|g@freefall": {
+   "m1->2|norm5": {
+    "cos": 0.176,
+    "ratio": 0.689,
+    "rel_signal": 0.00838,
+    "jitter_floor": 0.02355,
+    "snr": 0.36
+   },
+   "m1->2|norm11": {
+    "cos": 0.263,
+    "ratio": 0.759,
+    "rel_signal": 0.01151,
+    "jitter_floor": 0.02458,
+    "snr": 0.47
+   },
+   "m1->2|norm17": {
+    "cos": 0.454,
+    "ratio": 0.725,
+    "rel_signal": 0.01039,
+    "jitter_floor": 0.01907,
+    "snr": 0.54
+   },
+   "m1->2|norm23": {
+    "cos": 0.529,
+    "ratio": 0.627,
+    "rel_signal": 0.02655,
+    "jitter_floor": 0.04359,
+    "snr": 0.61
+   },
+   "m2->4|norm5": {
+    "cos": 0.381,
+    "ratio": 1.054,
+    "rel_signal": 0.01155,
+    "jitter_floor": 0.02355,
+    "snr": 0.49
+   },
+   "m2->4|norm11": {
+    "cos": 0.728,
+    "ratio": 0.786,
+    "rel_signal": 0.01746,
+    "jitter_floor": 0.02458,
+    "snr": 0.71
+   },
+   "m2->4|norm17": {
+    "cos": 0.815,
+    "ratio": 0.839,
+    "rel_signal": 0.01505,
+    "jitter_floor": 0.01907,
+    "snr": 0.79
+   },
+   "m2->4|norm23": {
+    "cos": 0.821,
+    "ratio": 0.818,
+    "rel_signal": 0.0333,
+    "jitter_floor": 0.04359,
+    "snr": 0.76
+   }
+  },
+  "ss1_x1|window|g@bounce": {
+   "m1->2|norm5": {
+    "cos": -0.498,
+    "ratio": 2.07,
+    "rel_signal": 0.00611,
+    "jitter_floor": 0.02023,
+    "snr": 0.3
+   },
+   "m1->2|norm11": {
+    "cos": -0.457,
+    "ratio": 2.249,
+    "rel_signal": 0.00634,
+    "jitter_floor": 0.02446,
+    "snr": 0.26
+   },
+   "m1->2|norm17": {
+    "cos": -0.588,
+    "ratio": 2.758,
+    "rel_signal": 0.00581,
+    "jitter_floor": 0.02452,
+    "snr": 0.24
+   },
+   "m1->2|norm23": {
+    "cos": -0.621,
+    "ratio": 2.977,
+    "rel_signal": 0.01474,
+    "jitter_floor": 0.071,
+    "snr": 0.21
+   },
+   "m2->4|norm5": {
+    "cos": -0.85,
+    "ratio": 0.441,
+    "rel_signal": 0.02529,
+    "jitter_floor": 0.02023,
+    "snr": 1.25
+   },
+   "m2->4|norm11": {
+    "cos": -0.899,
+    "ratio": 0.452,
+    "rel_signal": 0.02852,
+    "jitter_floor": 0.02446,
+    "snr": 1.17
+   },
+   "m2->4|norm17": {
+    "cos": -0.914,
+    "ratio": 0.442,
+    "rel_signal": 0.03206,
+    "jitter_floor": 0.02452,
+    "snr": 1.31
+   },
+   "m2->4|norm23": {
+    "cos": -0.933,
+    "ratio": 0.427,
+    "rel_signal": 0.08777,
+    "jitter_floor": 0.071,
+    "snr": 1.24
+   }
+  },
+  "ss1_x1|window|g@incline": {
+   "m1->2|norm5": {
+    "cos": 0.292,
+    "ratio": 0.743,
+    "rel_signal": 0.00432,
+    "jitter_floor": 0.01621,
+    "snr": 0.27
+   },
+   "m1->2|norm11": {
+    "cos": 0.477,
+    "ratio": 0.72,
+    "rel_signal": 0.00545,
+    "jitter_floor": 0.01276,
+    "snr": 0.43
+   },
+   "m1->2|norm17": {
+    "cos": 0.542,
+    "ratio": 0.89,
+    "rel_signal": 0.00476,
+    "jitter_floor": 0.01094,
+    "snr": 0.43
+   },
+   "m1->2|norm23": {
+    "cos": 0.574,
+    "ratio": 0.911,
+    "rel_signal": 0.0119,
+    "jitter_floor": 0.02711,
+    "snr": 0.44
+   },
+   "m2->4|norm5": {
+    "cos": 0.738,
+    "ratio": 0.976,
+    "rel_signal": 0.00642,
+    "jitter_floor": 0.01621,
+    "snr": 0.4
+   },
+   "m2->4|norm11": {
+    "cos": 0.77,
+    "ratio": 0.85,
+    "rel_signal": 0.00785,
+    "jitter_floor": 0.01276,
+    "snr": 0.62
+   },
+   "m2->4|norm17": {
+    "cos": 0.845,
+    "ratio": 0.83,
+    "rel_signal": 0.00846,
+    "jitter_floor": 0.01094,
+    "snr": 0.77
+   },
+   "m2->4|norm23": {
+    "cos": 0.849,
+    "ratio": 0.831,
+    "rel_signal": 0.02167,
+    "jitter_floor": 0.02711,
+    "snr": 0.8
+   }
+  },
+  "ss1_x1|window|e@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.921,
+    "ratio": 0.766,
+    "rel_signal": 0.01211,
+    "jitter_floor": 0.02023,
+    "snr": 0.6
+   },
+   "m1->2|norm11": {
+    "cos": 0.946,
+    "ratio": 0.765,
+    "rel_signal": 0.01385,
+    "jitter_floor": 0.02446,
+    "snr": 0.57
+   },
+   "m1->2|norm17": {
+    "cos": 0.955,
+    "ratio": 0.808,
+    "rel_signal": 0.01451,
+    "jitter_floor": 0.02452,
+    "snr": 0.59
+   },
+   "m1->2|norm23": {
+    "cos": 0.961,
+    "ratio": 0.804,
+    "rel_signal": 0.03766,
+    "jitter_floor": 0.071,
+    "snr": 0.53
+   },
+   "m2->4|norm5": {
+    "cos": 0.937,
+    "ratio": 0.729,
+    "rel_signal": 0.01855,
+    "jitter_floor": 0.02023,
+    "snr": 0.92
+   },
+   "m2->4|norm11": {
+    "cos": 0.952,
+    "ratio": 0.726,
+    "rel_signal": 0.02119,
+    "jitter_floor": 0.02446,
+    "snr": 0.87
+   },
+   "m2->4|norm17": {
+    "cos": 0.954,
+    "ratio": 0.691,
+    "rel_signal": 0.02345,
+    "jitter_floor": 0.02452,
+    "snr": 0.96
+   },
+   "m2->4|norm23": {
+    "cos": 0.94,
+    "ratio": 0.665,
+    "rel_signal": 0.06058,
+    "jitter_floor": 0.071,
+    "snr": 0.85
+   }
+  },
+  "ss1_x1|window|mu@incline": {
+   "m1->2|norm5": {
+    "cos": 0.645,
+    "ratio": 0.93,
+    "rel_signal": 0.00497,
+    "jitter_floor": 0.01621,
+    "snr": 0.31
+   },
+   "m1->2|norm11": {
+    "cos": 0.575,
+    "ratio": 0.941,
+    "rel_signal": 0.00534,
+    "jitter_floor": 0.01276,
+    "snr": 0.42
+   },
+   "m1->2|norm17": {
+    "cos": 0.662,
+    "ratio": 1.013,
+    "rel_signal": 0.00521,
+    "jitter_floor": 0.01094,
+    "snr": 0.48
+   },
+   "m1->2|norm23": {
+    "cos": 0.706,
+    "ratio": 1.004,
+    "rel_signal": 0.01435,
+    "jitter_floor": 0.02711,
+    "snr": 0.53
+   },
+   "m2->4|norm5": {
+    "cos": 0.88,
+    "ratio": 0.89,
+    "rel_signal": 0.00924,
+    "jitter_floor": 0.01621,
+    "snr": 0.57
+   },
+   "m2->4|norm11": {
+    "cos": 0.847,
+    "ratio": 0.959,
+    "rel_signal": 0.01004,
+    "jitter_floor": 0.01276,
+    "snr": 0.79
+   },
+   "m2->4|norm17": {
+    "cos": 0.894,
+    "ratio": 0.987,
+    "rel_signal": 0.01055,
+    "jitter_floor": 0.01094,
+    "snr": 0.96
+   },
+   "m2->4|norm23": {
+    "cos": 0.913,
+    "ratio": 0.874,
+    "rel_signal": 0.02882,
+    "jitter_floor": 0.02711,
+    "snr": 1.06
+   }
+  },
+  "ss1_x2|global|g@freefall": {
+   "m1->2|norm5": {
+    "cos": -0.448,
+    "ratio": 0.421,
+    "rel_signal": 0.02383,
+    "jitter_floor": 0.01749,
+    "snr": 1.36
+   },
+   "m1->2|norm11": {
+    "cos": -0.007,
+    "ratio": 0.457,
+    "rel_signal": 0.01654,
+    "jitter_floor": 0.02,
+    "snr": 0.83
+   },
+   "m1->2|norm17": {
+    "cos": -0.098,
+    "ratio": 0.471,
+    "rel_signal": 0.01193,
+    "jitter_floor": 0.01534,
+    "snr": 0.78
+   },
+   "m1->2|norm23": {
+    "cos": 0.002,
+    "ratio": 0.485,
+    "rel_signal": 0.02417,
+    "jitter_floor": 0.03344,
+    "snr": 0.72
+   },
+   "m2->4|norm5": {
+    "cos": -0.504,
+    "ratio": 0.668,
+    "rel_signal": 0.02005,
+    "jitter_floor": 0.01749,
+    "snr": 1.15
+   },
+   "m2->4|norm11": {
+    "cos": 0.08,
+    "ratio": 0.703,
+    "rel_signal": 0.0151,
+    "jitter_floor": 0.02,
+    "snr": 0.76
+   },
+   "m2->4|norm17": {
+    "cos": 0.25,
+    "ratio": 0.73,
+    "rel_signal": 0.01124,
+    "jitter_floor": 0.01534,
+    "snr": 0.73
+   },
+   "m2->4|norm23": {
+    "cos": 0.424,
+    "ratio": 0.773,
+    "rel_signal": 0.02347,
+    "jitter_floor": 0.03344,
+    "snr": 0.7
+   }
+  },
+  "ss1_x2|global|g@bounce": {
+   "m1->2|norm5": {
+    "cos": -0.147,
+    "ratio": 0.233,
+    "rel_signal": 0.00839,
+    "jitter_floor": 0.00751,
+    "snr": 1.12
+   },
+   "m1->2|norm11": {
+    "cos": 0.039,
+    "ratio": 0.395,
+    "rel_signal": 0.00383,
+    "jitter_floor": 0.00717,
+    "snr": 0.53
+   },
+   "m1->2|norm17": {
+    "cos": 0.219,
+    "ratio": 0.815,
+    "rel_signal": 0.00225,
+    "jitter_floor": 0.00615,
+    "snr": 0.37
+   },
+   "m1->2|norm23": {
+    "cos": 0.323,
+    "ratio": 0.82,
+    "rel_signal": 0.00647,
+    "jitter_floor": 0.02091,
+    "snr": 0.31
+   },
+   "m2->4|norm5": {
+    "cos": -0.347,
+    "ratio": 0.764,
+    "rel_signal": 0.0039,
+    "jitter_floor": 0.00751,
+    "snr": 0.52
+   },
+   "m2->4|norm11": {
+    "cos": -0.168,
+    "ratio": 1.073,
+    "rel_signal": 0.00302,
+    "jitter_floor": 0.00717,
+    "snr": 0.42
+   },
+   "m2->4|norm17": {
+    "cos": -0.216,
+    "ratio": 0.779,
+    "rel_signal": 0.00368,
+    "jitter_floor": 0.00615,
+    "snr": 0.6
+   },
+   "m2->4|norm23": {
+    "cos": -0.409,
+    "ratio": 0.907,
+    "rel_signal": 0.01061,
+    "jitter_floor": 0.02091,
+    "snr": 0.51
+   }
+  },
+  "ss1_x2|global|g@incline": {
+   "m1->2|norm5": {
+    "cos": -0.556,
+    "ratio": 0.851,
+    "rel_signal": 0.0045,
+    "jitter_floor": 0.01382,
+    "snr": 0.33
+   },
+   "m1->2|norm11": {
+    "cos": 0.331,
+    "ratio": 0.676,
+    "rel_signal": 0.00451,
+    "jitter_floor": 0.00947,
+    "snr": 0.48
+   },
+   "m1->2|norm17": {
+    "cos": 0.571,
+    "ratio": 0.644,
+    "rel_signal": 0.00486,
+    "jitter_floor": 0.00757,
+    "snr": 0.64
+   },
+   "m1->2|norm23": {
+    "cos": 0.655,
+    "ratio": 0.579,
+    "rel_signal": 0.01214,
+    "jitter_floor": 0.0244,
+    "snr": 0.5
+   },
+   "m2->4|norm5": {
+    "cos": -0.21,
+    "ratio": 0.374,
+    "rel_signal": 0.00766,
+    "jitter_floor": 0.01382,
+    "snr": 0.55
+   },
+   "m2->4|norm11": {
+    "cos": 0.589,
+    "ratio": 0.663,
+    "rel_signal": 0.0061,
+    "jitter_floor": 0.00947,
+    "snr": 0.64
+   },
+   "m2->4|norm17": {
+    "cos": 0.768,
+    "ratio": 0.714,
+    "rel_signal": 0.00625,
+    "jitter_floor": 0.00757,
+    "snr": 0.83
+   },
+   "m2->4|norm23": {
+    "cos": 0.743,
+    "ratio": 0.748,
+    "rel_signal": 0.01406,
+    "jitter_floor": 0.0244,
+    "snr": 0.58
+   }
+  },
+  "ss1_x2|global|e@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.647,
+    "ratio": 0.507,
+    "rel_signal": 0.00316,
+    "jitter_floor": 0.00751,
+    "snr": 0.42
+   },
+   "m1->2|norm11": {
+    "cos": 0.329,
+    "ratio": 0.649,
+    "rel_signal": 0.00303,
+    "jitter_floor": 0.00717,
+    "snr": 0.42
+   },
+   "m1->2|norm17": {
+    "cos": 0.242,
+    "ratio": 0.635,
+    "rel_signal": 0.00274,
+    "jitter_floor": 0.00615,
+    "snr": 0.45
+   },
+   "m1->2|norm23": {
+    "cos": 0.216,
+    "ratio": 0.704,
+    "rel_signal": 0.00671,
+    "jitter_floor": 0.02091,
+    "snr": 0.32
+   },
+   "m2->4|norm5": {
+    "cos": 0.711,
+    "ratio": 0.866,
+    "rel_signal": 0.0032,
+    "jitter_floor": 0.00751,
+    "snr": 0.43
+   },
+   "m2->4|norm11": {
+    "cos": 0.737,
+    "ratio": 0.727,
+    "rel_signal": 0.00393,
+    "jitter_floor": 0.00717,
+    "snr": 0.55
+   },
+   "m2->4|norm17": {
+    "cos": 0.688,
+    "ratio": 0.784,
+    "rel_signal": 0.00348,
+    "jitter_floor": 0.00615,
+    "snr": 0.57
+   },
+   "m2->4|norm23": {
+    "cos": 0.681,
+    "ratio": 0.859,
+    "rel_signal": 0.00944,
+    "jitter_floor": 0.02091,
+    "snr": 0.45
+   }
+  },
+  "ss1_x2|global|mu@incline": {
+   "m1->2|norm5": {
+    "cos": -0.058,
+    "ratio": 0.395,
+    "rel_signal": 0.00555,
+    "jitter_floor": 0.01382,
+    "snr": 0.4
+   },
+   "m1->2|norm11": {
+    "cos": 0.23,
+    "ratio": 0.657,
+    "rel_signal": 0.00494,
+    "jitter_floor": 0.00947,
+    "snr": 0.52
+   },
+   "m1->2|norm17": {
+    "cos": 0.583,
+    "ratio": 0.64,
+    "rel_signal": 0.00545,
+    "jitter_floor": 0.00757,
+    "snr": 0.72
+   },
+   "m1->2|norm23": {
+    "cos": 0.6,
+    "ratio": 0.688,
+    "rel_signal": 0.01273,
+    "jitter_floor": 0.0244,
+    "snr": 0.52
+   },
+   "m2->4|norm5": {
+    "cos": 0.525,
+    "ratio": 1.035,
+    "rel_signal": 0.00439,
+    "jitter_floor": 0.01382,
+    "snr": 0.32
+   },
+   "m2->4|norm11": {
+    "cos": 0.676,
+    "ratio": 0.824,
+    "rel_signal": 0.00649,
+    "jitter_floor": 0.00947,
+    "snr": 0.69
+   },
+   "m2->4|norm17": {
+    "cos": 0.834,
+    "ratio": 0.889,
+    "rel_signal": 0.00698,
+    "jitter_floor": 0.00757,
+    "snr": 0.92
+   },
+   "m2->4|norm23": {
+    "cos": 0.621,
+    "ratio": 0.866,
+    "rel_signal": 0.01752,
+    "jitter_floor": 0.0244,
+    "snr": 0.72
+   }
+  },
+  "ss1_x2|window|g@freefall": {
+   "m1->2|norm5": {
+    "cos": -0.316,
+    "ratio": 0.441,
+    "rel_signal": 0.02174,
+    "jitter_floor": 0.02109,
+    "snr": 1.03
+   },
+   "m1->2|norm11": {
+    "cos": 0.214,
+    "ratio": 0.494,
+    "rel_signal": 0.01721,
+    "jitter_floor": 0.02048,
+    "snr": 0.84
+   },
+   "m1->2|norm17": {
+    "cos": 0.266,
+    "ratio": 0.534,
+    "rel_signal": 0.01361,
+    "jitter_floor": 0.01588,
+    "snr": 0.86
+   },
+   "m1->2|norm23": {
+    "cos": 0.283,
+    "ratio": 0.612,
+    "rel_signal": 0.02745,
+    "jitter_floor": 0.03637,
+    "snr": 0.75
+   },
+   "m2->4|norm5": {
+    "cos": -0.181,
+    "ratio": 0.788,
+    "rel_signal": 0.01916,
+    "jitter_floor": 0.02109,
+    "snr": 0.91
+   },
+   "m2->4|norm11": {
+    "cos": 0.375,
+    "ratio": 0.827,
+    "rel_signal": 0.01701,
+    "jitter_floor": 0.02048,
+    "snr": 0.83
+   },
+   "m2->4|norm17": {
+    "cos": 0.58,
+    "ratio": 0.911,
+    "rel_signal": 0.01454,
+    "jitter_floor": 0.01588,
+    "snr": 0.92
+   },
+   "m2->4|norm23": {
+    "cos": 0.655,
+    "ratio": 0.869,
+    "rel_signal": 0.03362,
+    "jitter_floor": 0.03637,
+    "snr": 0.92
+   }
+  },
+  "ss1_x2|window|g@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.16,
+    "ratio": 0.866,
+    "rel_signal": 0.0099,
+    "jitter_floor": 0.00643,
+    "snr": 1.54
+   },
+   "m1->2|norm11": {
+    "cos": 0.261,
+    "ratio": 0.828,
+    "rel_signal": 0.00931,
+    "jitter_floor": 0.00773,
+    "snr": 1.21
+   },
+   "m1->2|norm17": {
+    "cos": 0.24,
+    "ratio": 0.87,
+    "rel_signal": 0.00896,
+    "jitter_floor": 0.00764,
+    "snr": 1.17
+   },
+   "m1->2|norm23": {
+    "cos": 0.331,
+    "ratio": 0.812,
+    "rel_signal": 0.02402,
+    "jitter_floor": 0.02197,
+    "snr": 1.09
+   },
+   "m2->4|norm5": {
+    "cos": -0.258,
+    "ratio": 0.837,
+    "rel_signal": 0.01714,
+    "jitter_floor": 0.00643,
+    "snr": 2.67
+   },
+   "m2->4|norm11": {
+    "cos": -0.227,
+    "ratio": 0.887,
+    "rel_signal": 0.01542,
+    "jitter_floor": 0.00773,
+    "snr": 2.0
+   },
+   "m2->4|norm17": {
+    "cos": -0.272,
+    "ratio": 0.844,
+    "rel_signal": 0.01559,
+    "jitter_floor": 0.00764,
+    "snr": 2.04
+   },
+   "m2->4|norm23": {
+    "cos": -0.344,
+    "ratio": 1.024,
+    "rel_signal": 0.03902,
+    "jitter_floor": 0.02197,
+    "snr": 1.78
+   }
+  },
+  "ss1_x2|window|g@incline": {
+   "m1->2|norm5": {
+    "cos": 0.751,
+    "ratio": 0.775,
+    "rel_signal": 0.00795,
+    "jitter_floor": 0.01302,
+    "snr": 0.61
+   },
+   "m1->2|norm11": {
+    "cos": 0.764,
+    "ratio": 0.708,
+    "rel_signal": 0.01012,
+    "jitter_floor": 0.01142,
+    "snr": 0.89
+   },
+   "m1->2|norm17": {
+    "cos": 0.823,
+    "ratio": 0.722,
+    "rel_signal": 0.01091,
+    "jitter_floor": 0.01045,
+    "snr": 1.04
+   },
+   "m1->2|norm23": {
+    "cos": 0.825,
+    "ratio": 0.714,
+    "rel_signal": 0.02784,
+    "jitter_floor": 0.03003,
+    "snr": 0.93
+   },
+   "m2->4|norm5": {
+    "cos": 0.901,
+    "ratio": 0.881,
+    "rel_signal": 0.01232,
+    "jitter_floor": 0.01302,
+    "snr": 0.95
+   },
+   "m2->4|norm11": {
+    "cos": 0.899,
+    "ratio": 0.839,
+    "rel_signal": 0.01433,
+    "jitter_floor": 0.01142,
+    "snr": 1.25
+   },
+   "m2->4|norm17": {
+    "cos": 0.93,
+    "ratio": 0.831,
+    "rel_signal": 0.01575,
+    "jitter_floor": 0.01045,
+    "snr": 1.51
+   },
+   "m2->4|norm23": {
+    "cos": 0.918,
+    "ratio": 0.833,
+    "rel_signal": 0.03977,
+    "jitter_floor": 0.03003,
+    "snr": 1.32
+   }
+  },
+  "ss1_x2|window|e@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.916,
+    "ratio": 0.829,
+    "rel_signal": 0.0169,
+    "jitter_floor": 0.00643,
+    "snr": 2.63
+   },
+   "m1->2|norm11": {
+    "cos": 0.868,
+    "ratio": 0.842,
+    "rel_signal": 0.0152,
+    "jitter_floor": 0.00773,
+    "snr": 1.97
+   },
+   "m1->2|norm17": {
+    "cos": 0.869,
+    "ratio": 0.884,
+    "rel_signal": 0.01329,
+    "jitter_floor": 0.00764,
+    "snr": 1.74
+   },
+   "m1->2|norm23": {
+    "cos": 0.825,
+    "ratio": 0.882,
+    "rel_signal": 0.03564,
+    "jitter_floor": 0.02197,
+    "snr": 1.62
+   },
+   "m2->4|norm5": {
+    "cos": 0.951,
+    "ratio": 0.822,
+    "rel_signal": 0.028,
+    "jitter_floor": 0.00643,
+    "snr": 4.35
+   },
+   "m2->4|norm11": {
+    "cos": 0.939,
+    "ratio": 0.842,
+    "rel_signal": 0.02561,
+    "jitter_floor": 0.00773,
+    "snr": 3.31
+   },
+   "m2->4|norm17": {
+    "cos": 0.937,
+    "ratio": 0.863,
+    "rel_signal": 0.02351,
+    "jitter_floor": 0.00764,
+    "snr": 3.08
+   },
+   "m2->4|norm23": {
+    "cos": 0.935,
+    "ratio": 0.902,
+    "rel_signal": 0.06284,
+    "jitter_floor": 0.02197,
+    "snr": 2.86
+   }
+  },
+  "ss1_x2|window|mu@incline": {
+   "m1->2|norm5": {
+    "cos": 0.879,
+    "ratio": 0.781,
+    "rel_signal": 0.01049,
+    "jitter_floor": 0.01302,
+    "snr": 0.81
+   },
+   "m1->2|norm11": {
+    "cos": 0.819,
+    "ratio": 0.735,
+    "rel_signal": 0.01298,
+    "jitter_floor": 0.01142,
+    "snr": 1.14
+   },
+   "m1->2|norm17": {
+    "cos": 0.858,
+    "ratio": 0.721,
+    "rel_signal": 0.01429,
+    "jitter_floor": 0.01045,
+    "snr": 1.37
+   },
+   "m1->2|norm23": {
+    "cos": 0.877,
+    "ratio": 0.772,
+    "rel_signal": 0.03465,
+    "jitter_floor": 0.03003,
+    "snr": 1.15
+   },
+   "m2->4|norm5": {
+    "cos": 0.948,
+    "ratio": 0.86,
+    "rel_signal": 0.01639,
+    "jitter_floor": 0.01302,
+    "snr": 1.26
+   },
+   "m2->4|norm11": {
+    "cos": 0.927,
+    "ratio": 0.808,
+    "rel_signal": 0.01908,
+    "jitter_floor": 0.01142,
+    "snr": 1.67
+   },
+   "m2->4|norm17": {
+    "cos": 0.93,
+    "ratio": 0.816,
+    "rel_signal": 0.02062,
+    "jitter_floor": 0.01045,
+    "snr": 1.97
+   },
+   "m2->4|norm23": {
+    "cos": 0.91,
+    "ratio": 0.791,
+    "rel_signal": 0.05347,
+    "jitter_floor": 0.03003,
+    "snr": 1.78
+   }
+  },
+  "ss2_x1|global|g@freefall": {
+   "m1->2|norm5": {
+    "cos": -0.005,
+    "ratio": 0.472,
+    "rel_signal": 0.01396,
+    "jitter_floor": 0.0198,
+    "snr": 0.7
+   },
+   "m1->2|norm11": {
+    "cos": -0.037,
+    "ratio": 0.66,
+    "rel_signal": 0.01157,
+    "jitter_floor": 0.01587,
+    "snr": 0.73
+   },
+   "m1->2|norm17": {
+    "cos": 0.176,
+    "ratio": 0.632,
+    "rel_signal": 0.0079,
+    "jitter_floor": 0.01187,
+    "snr": 0.67
+   },
+   "m1->2|norm23": {
+    "cos": 0.291,
+    "ratio": 0.679,
+    "rel_signal": 0.01508,
+    "jitter_floor": 0.02538,
+    "snr": 0.59
+   },
+   "m2->4|norm5": {
+    "cos": -0.343,
+    "ratio": 1.075,
+    "rel_signal": 0.01318,
+    "jitter_floor": 0.0198,
+    "snr": 0.67
+   },
+   "m2->4|norm11": {
+    "cos": 0.421,
+    "ratio": 0.748,
+    "rel_signal": 0.01528,
+    "jitter_floor": 0.01587,
+    "snr": 0.96
+   },
+   "m2->4|norm17": {
+    "cos": 0.541,
+    "ratio": 0.934,
+    "rel_signal": 0.00999,
+    "jitter_floor": 0.01187,
+    "snr": 0.84
+   },
+   "m2->4|norm23": {
+    "cos": 0.602,
+    "ratio": 0.94,
+    "rel_signal": 0.02047,
+    "jitter_floor": 0.02538,
+    "snr": 0.81
+   }
+  },
+  "ss2_x1|global|g@bounce": {
+   "m1->2|norm5": {
+    "cos": -0.134,
+    "ratio": 0.899,
+    "rel_signal": 0.00276,
+    "jitter_floor": 0.01132,
+    "snr": 0.24
+   },
+   "m1->2|norm11": {
+    "cos": 0.013,
+    "ratio": 1.059,
+    "rel_signal": 0.00325,
+    "jitter_floor": 0.01031,
+    "snr": 0.32
+   },
+   "m1->2|norm17": {
+    "cos": -0.059,
+    "ratio": 1.244,
+    "rel_signal": 0.00235,
+    "jitter_floor": 0.00827,
+    "snr": 0.28
+   },
+   "m1->2|norm23": {
+    "cos": -0.18,
+    "ratio": 1.341,
+    "rel_signal": 0.00604,
+    "jitter_floor": 0.02291,
+    "snr": 0.26
+   },
+   "m2->4|norm5": {
+    "cos": -0.604,
+    "ratio": 0.462,
+    "rel_signal": 0.00497,
+    "jitter_floor": 0.01132,
+    "snr": 0.44
+   },
+   "m2->4|norm11": {
+    "cos": -0.603,
+    "ratio": 0.486,
+    "rel_signal": 0.00689,
+    "jitter_floor": 0.01031,
+    "snr": 0.67
+   },
+   "m2->4|norm17": {
+    "cos": -0.618,
+    "ratio": 0.516,
+    "rel_signal": 0.00586,
+    "jitter_floor": 0.00827,
+    "snr": 0.71
+   },
+   "m2->4|norm23": {
+    "cos": -0.513,
+    "ratio": 0.502,
+    "rel_signal": 0.01621,
+    "jitter_floor": 0.02291,
+    "snr": 0.71
+   }
+  },
+  "ss2_x1|global|g@incline": {
+   "m1->2|norm5": {
+    "cos": -0.314,
+    "ratio": 1.18,
+    "rel_signal": 0.00558,
+    "jitter_floor": 0.00989,
+    "snr": 0.56
+   },
+   "m1->2|norm11": {
+    "cos": -0.106,
+    "ratio": 0.671,
+    "rel_signal": 0.00532,
+    "jitter_floor": 0.00868,
+    "snr": 0.61
+   },
+   "m1->2|norm17": {
+    "cos": 0.439,
+    "ratio": 0.612,
+    "rel_signal": 0.00468,
+    "jitter_floor": 0.00557,
+    "snr": 0.84
+   },
+   "m1->2|norm23": {
+    "cos": 0.29,
+    "ratio": 0.754,
+    "rel_signal": 0.00923,
+    "jitter_floor": 0.01461,
+    "snr": 0.63
+   },
+   "m2->4|norm5": {
+    "cos": 0.237,
+    "ratio": 0.282,
+    "rel_signal": 0.01317,
+    "jitter_floor": 0.00989,
+    "snr": 1.33
+   },
+   "m2->4|norm11": {
+    "cos": 0.36,
+    "ratio": 0.577,
+    "rel_signal": 0.00713,
+    "jitter_floor": 0.00868,
+    "snr": 0.82
+   },
+   "m2->4|norm17": {
+    "cos": 0.65,
+    "ratio": 0.741,
+    "rel_signal": 0.00572,
+    "jitter_floor": 0.00557,
+    "snr": 1.03
+   },
+   "m2->4|norm23": {
+    "cos": 0.698,
+    "ratio": 0.713,
+    "rel_signal": 0.01393,
+    "jitter_floor": 0.01461,
+    "snr": 0.95
+   }
+  },
+  "ss2_x1|global|e@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.645,
+    "ratio": 0.733,
+    "rel_signal": 0.00231,
+    "jitter_floor": 0.01132,
+    "snr": 0.2
+   },
+   "m1->2|norm11": {
+    "cos": 0.413,
+    "ratio": 0.849,
+    "rel_signal": 0.00206,
+    "jitter_floor": 0.01031,
+    "snr": 0.2
+   },
+   "m1->2|norm17": {
+    "cos": 0.413,
+    "ratio": 0.784,
+    "rel_signal": 0.00199,
+    "jitter_floor": 0.00827,
+    "snr": 0.24
+   },
+   "m1->2|norm23": {
+    "cos": 0.488,
+    "ratio": 0.771,
+    "rel_signal": 0.00528,
+    "jitter_floor": 0.02291,
+    "snr": 0.23
+   },
+   "m2->4|norm5": {
+    "cos": 0.311,
+    "ratio": 1.079,
+    "rel_signal": 0.00339,
+    "jitter_floor": 0.01132,
+    "snr": 0.3
+   },
+   "m2->4|norm11": {
+    "cos": 0.596,
+    "ratio": 0.803,
+    "rel_signal": 0.00349,
+    "jitter_floor": 0.01031,
+    "snr": 0.34
+   },
+   "m2->4|norm17": {
+    "cos": 0.655,
+    "ratio": 0.89,
+    "rel_signal": 0.00311,
+    "jitter_floor": 0.00827,
+    "snr": 0.38
+   },
+   "m2->4|norm23": {
+    "cos": 0.64,
+    "ratio": 0.825,
+    "rel_signal": 0.00814,
+    "jitter_floor": 0.02291,
+    "snr": 0.36
+   }
+  },
+  "ss2_x1|global|mu@incline": {
+   "m1->2|norm5": {
+    "cos": 0.534,
+    "ratio": 0.726,
+    "rel_signal": 0.00539,
+    "jitter_floor": 0.00989,
+    "snr": 0.54
+   },
+   "m1->2|norm11": {
+    "cos": 0.646,
+    "ratio": 0.777,
+    "rel_signal": 0.005,
+    "jitter_floor": 0.00868,
+    "snr": 0.58
+   },
+   "m1->2|norm17": {
+    "cos": 0.773,
+    "ratio": 0.917,
+    "rel_signal": 0.00401,
+    "jitter_floor": 0.00557,
+    "snr": 0.72
+   },
+   "m1->2|norm23": {
+    "cos": 0.825,
+    "ratio": 0.941,
+    "rel_signal": 0.00952,
+    "jitter_floor": 0.01461,
+    "snr": 0.65
+   },
+   "m2->4|norm5": {
+    "cos": 0.399,
+    "ratio": 0.597,
+    "rel_signal": 0.00783,
+    "jitter_floor": 0.00989,
+    "snr": 0.79
+   },
+   "m2->4|norm11": {
+    "cos": 0.475,
+    "ratio": 0.682,
+    "rel_signal": 0.00776,
+    "jitter_floor": 0.00868,
+    "snr": 0.89
+   },
+   "m2->4|norm17": {
+    "cos": 0.673,
+    "ratio": 0.769,
+    "rel_signal": 0.00736,
+    "jitter_floor": 0.00557,
+    "snr": 1.32
+   },
+   "m2->4|norm23": {
+    "cos": 0.796,
+    "ratio": 0.82,
+    "rel_signal": 0.01792,
+    "jitter_floor": 0.01461,
+    "snr": 1.23
+   }
+  },
+  "ss2_x1|window|g@freefall": {
+   "m1->2|norm5": {
+    "cos": -0.06,
+    "ratio": 0.461,
+    "rel_signal": 0.01512,
+    "jitter_floor": 0.02256,
+    "snr": 0.67
+   },
+   "m1->2|norm11": {
+    "cos": 0.094,
+    "ratio": 0.634,
+    "rel_signal": 0.01351,
+    "jitter_floor": 0.01832,
+    "snr": 0.74
+   },
+   "m1->2|norm17": {
+    "cos": 0.346,
+    "ratio": 0.714,
+    "rel_signal": 0.00972,
+    "jitter_floor": 0.01365,
+    "snr": 0.71
+   },
+   "m1->2|norm23": {
+    "cos": 0.406,
+    "ratio": 0.701,
+    "rel_signal": 0.02058,
+    "jitter_floor": 0.02949,
+    "snr": 0.7
+   },
+   "m2->4|norm5": {
+    "cos": -0.214,
+    "ratio": 1.111,
+    "rel_signal": 0.01394,
+    "jitter_floor": 0.02256,
+    "snr": 0.62
+   },
+   "m2->4|norm11": {
+    "cos": 0.487,
+    "ratio": 0.812,
+    "rel_signal": 0.01714,
+    "jitter_floor": 0.01832,
+    "snr": 0.94
+   },
+   "m2->4|norm17": {
+    "cos": 0.696,
+    "ratio": 0.916,
+    "rel_signal": 0.01388,
+    "jitter_floor": 0.01365,
+    "snr": 1.02
+   },
+   "m2->4|norm23": {
+    "cos": 0.743,
+    "ratio": 0.905,
+    "rel_signal": 0.02884,
+    "jitter_floor": 0.02949,
+    "snr": 0.98
+   }
+  },
+  "ss2_x1|window|g@bounce": {
+   "m1->2|norm5": {
+    "cos": -0.521,
+    "ratio": 1.873,
+    "rel_signal": 0.00674,
+    "jitter_floor": 0.01819,
+    "snr": 0.37
+   },
+   "m1->2|norm11": {
+    "cos": -0.559,
+    "ratio": 1.94,
+    "rel_signal": 0.00727,
+    "jitter_floor": 0.02509,
+    "snr": 0.29
+   },
+   "m1->2|norm17": {
+    "cos": -0.599,
+    "ratio": 1.956,
+    "rel_signal": 0.00755,
+    "jitter_floor": 0.02465,
+    "snr": 0.31
+   },
+   "m1->2|norm23": {
+    "cos": -0.685,
+    "ratio": 1.987,
+    "rel_signal": 0.02018,
+    "jitter_floor": 0.0734,
+    "snr": 0.27
+   },
+   "m2->4|norm5": {
+    "cos": -0.847,
+    "ratio": 0.444,
+    "rel_signal": 0.02525,
+    "jitter_floor": 0.01819,
+    "snr": 1.39
+   },
+   "m2->4|norm11": {
+    "cos": -0.873,
+    "ratio": 0.453,
+    "rel_signal": 0.0282,
+    "jitter_floor": 0.02509,
+    "snr": 1.12
+   },
+   "m2->4|norm17": {
+    "cos": -0.876,
+    "ratio": 0.463,
+    "rel_signal": 0.02951,
+    "jitter_floor": 0.02465,
+    "snr": 1.2
+   },
+   "m2->4|norm23": {
+    "cos": -0.902,
+    "ratio": 0.451,
+    "rel_signal": 0.08019,
+    "jitter_floor": 0.0734,
+    "snr": 1.09
+   }
+  },
+  "ss2_x1|window|g@incline": {
+   "m1->2|norm5": {
+    "cos": 0.097,
+    "ratio": 0.841,
+    "rel_signal": 0.00532,
+    "jitter_floor": 0.01056,
+    "snr": 0.5
+   },
+   "m1->2|norm11": {
+    "cos": 0.399,
+    "ratio": 0.73,
+    "rel_signal": 0.00598,
+    "jitter_floor": 0.00888,
+    "snr": 0.67
+   },
+   "m1->2|norm17": {
+    "cos": 0.456,
+    "ratio": 0.878,
+    "rel_signal": 0.00546,
+    "jitter_floor": 0.00682,
+    "snr": 0.8
+   },
+   "m1->2|norm23": {
+    "cos": 0.431,
+    "ratio": 0.924,
+    "rel_signal": 0.01344,
+    "jitter_floor": 0.01791,
+    "snr": 0.75
+   },
+   "m2->4|norm5": {
+    "cos": 0.603,
+    "ratio": 0.691,
+    "rel_signal": 0.00895,
+    "jitter_floor": 0.01056,
+    "snr": 0.85
+   },
+   "m2->4|norm11": {
+    "cos": 0.784,
+    "ratio": 0.823,
+    "rel_signal": 0.00874,
+    "jitter_floor": 0.00888,
+    "snr": 0.98
+   },
+   "m2->4|norm17": {
+    "cos": 0.85,
+    "ratio": 0.782,
+    "rel_signal": 0.00959,
+    "jitter_floor": 0.00682,
+    "snr": 1.41
+   },
+   "m2->4|norm23": {
+    "cos": 0.854,
+    "ratio": 0.779,
+    "rel_signal": 0.02485,
+    "jitter_floor": 0.01791,
+    "snr": 1.39
+   }
+  },
+  "ss2_x1|window|e@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.922,
+    "ratio": 0.819,
+    "rel_signal": 0.01083,
+    "jitter_floor": 0.01819,
+    "snr": 0.6
+   },
+   "m1->2|norm11": {
+    "cos": 0.916,
+    "ratio": 0.858,
+    "rel_signal": 0.01091,
+    "jitter_floor": 0.02509,
+    "snr": 0.43
+   },
+   "m1->2|norm17": {
+    "cos": 0.937,
+    "ratio": 0.908,
+    "rel_signal": 0.0106,
+    "jitter_floor": 0.02465,
+    "snr": 0.43
+   },
+   "m1->2|norm23": {
+    "cos": 0.948,
+    "ratio": 0.882,
+    "rel_signal": 0.02769,
+    "jitter_floor": 0.0734,
+    "snr": 0.38
+   },
+   "m2->4|norm5": {
+    "cos": 0.922,
+    "ratio": 0.719,
+    "rel_signal": 0.01774,
+    "jitter_floor": 0.01819,
+    "snr": 0.98
+   },
+   "m2->4|norm11": {
+    "cos": 0.946,
+    "ratio": 0.726,
+    "rel_signal": 0.01871,
+    "jitter_floor": 0.02509,
+    "snr": 0.75
+   },
+   "m2->4|norm17": {
+    "cos": 0.952,
+    "ratio": 0.705,
+    "rel_signal": 0.01924,
+    "jitter_floor": 0.02465,
+    "snr": 0.78
+   },
+   "m2->4|norm23": {
+    "cos": 0.95,
+    "ratio": 0.714,
+    "rel_signal": 0.04882,
+    "jitter_floor": 0.0734,
+    "snr": 0.67
+   }
+  },
+  "ss2_x1|window|mu@incline": {
+   "m1->2|norm5": {
+    "cos": 0.766,
+    "ratio": 0.823,
+    "rel_signal": 0.00586,
+    "jitter_floor": 0.01056,
+    "snr": 0.56
+   },
+   "m1->2|norm11": {
+    "cos": 0.806,
+    "ratio": 0.87,
+    "rel_signal": 0.0063,
+    "jitter_floor": 0.00888,
+    "snr": 0.71
+   },
+   "m1->2|norm17": {
+    "cos": 0.858,
+    "ratio": 0.906,
+    "rel_signal": 0.006,
+    "jitter_floor": 0.00682,
+    "snr": 0.88
+   },
+   "m1->2|norm23": {
+    "cos": 0.873,
+    "ratio": 0.91,
+    "rel_signal": 0.01636,
+    "jitter_floor": 0.01791,
+    "snr": 0.91
+   },
+   "m2->4|norm5": {
+    "cos": 0.859,
+    "ratio": 0.872,
+    "rel_signal": 0.00965,
+    "jitter_floor": 0.01056,
+    "snr": 0.91
+   },
+   "m2->4|norm11": {
+    "cos": 0.826,
+    "ratio": 0.906,
+    "rel_signal": 0.01097,
+    "jitter_floor": 0.00888,
+    "snr": 1.23
+   },
+   "m2->4|norm17": {
+    "cos": 0.854,
+    "ratio": 1.005,
+    "rel_signal": 0.01087,
+    "jitter_floor": 0.00682,
+    "snr": 1.59
+   },
+   "m2->4|norm23": {
+    "cos": 0.884,
+    "ratio": 0.94,
+    "rel_signal": 0.02977,
+    "jitter_floor": 0.01791,
+    "snr": 1.66
+   }
+  },
+  "ss2_x2|global|g@freefall": {
+   "m1->2|norm5": {
+    "cos": -0.443,
+    "ratio": 0.69,
+    "rel_signal": 0.01283,
+    "jitter_floor": 0.02272,
+    "snr": 0.56
+   },
+   "m1->2|norm11": {
+    "cos": 0.203,
+    "ratio": 0.498,
+    "rel_signal": 0.01317,
+    "jitter_floor": 0.01612,
+    "snr": 0.82
+   },
+   "m1->2|norm17": {
+    "cos": 0.115,
+    "ratio": 0.61,
+    "rel_signal": 0.0087,
+    "jitter_floor": 0.01176,
+    "snr": 0.74
+   },
+   "m1->2|norm23": {
+    "cos": 0.131,
+    "ratio": 0.651,
+    "rel_signal": 0.01644,
+    "jitter_floor": 0.02349,
+    "snr": 0.7
+   },
+   "m2->4|norm5": {
+    "cos": -0.361,
+    "ratio": 0.911,
+    "rel_signal": 0.0177,
+    "jitter_floor": 0.02272,
+    "snr": 0.78
+   },
+   "m2->4|norm11": {
+    "cos": 0.291,
+    "ratio": 0.808,
+    "rel_signal": 0.01313,
+    "jitter_floor": 0.01612,
+    "snr": 0.81
+   },
+   "m2->4|norm17": {
+    "cos": 0.375,
+    "ratio": 0.831,
+    "rel_signal": 0.01062,
+    "jitter_floor": 0.01176,
+    "snr": 0.9
+   },
+   "m2->4|norm23": {
+    "cos": 0.388,
+    "ratio": 0.915,
+    "rel_signal": 0.02139,
+    "jitter_floor": 0.02349,
+    "snr": 0.91
+   }
+  },
+  "ss2_x2|global|g@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.223,
+    "ratio": 0.806,
+    "rel_signal": 0.00272,
+    "jitter_floor": 0.0106,
+    "snr": 0.26
+   },
+   "m1->2|norm11": {
+    "cos": 0.225,
+    "ratio": 0.723,
+    "rel_signal": 0.00234,
+    "jitter_floor": 0.01018,
+    "snr": 0.23
+   },
+   "m1->2|norm17": {
+    "cos": 0.169,
+    "ratio": 0.88,
+    "rel_signal": 0.00199,
+    "jitter_floor": 0.00822,
+    "snr": 0.24
+   },
+   "m1->2|norm23": {
+    "cos": 0.169,
+    "ratio": 1.139,
+    "rel_signal": 0.00571,
+    "jitter_floor": 0.02326,
+    "snr": 0.25
+   },
+   "m2->4|norm5": {
+    "cos": -0.531,
+    "ratio": 0.818,
+    "rel_signal": 0.00438,
+    "jitter_floor": 0.0106,
+    "snr": 0.41
+   },
+   "m2->4|norm11": {
+    "cos": -0.375,
+    "ratio": 1.289,
+    "rel_signal": 0.00339,
+    "jitter_floor": 0.01018,
+    "snr": 0.33
+   },
+   "m2->4|norm17": {
+    "cos": -0.296,
+    "ratio": 1.08,
+    "rel_signal": 0.00351,
+    "jitter_floor": 0.00822,
+    "snr": 0.43
+   },
+   "m2->4|norm23": {
+    "cos": -0.498,
+    "ratio": 0.899,
+    "rel_signal": 0.01301,
+    "jitter_floor": 0.02326,
+    "snr": 0.56
+   }
+  },
+  "ss2_x2|global|g@incline": {
+   "m1->2|norm5": {
+    "cos": 0.045,
+    "ratio": 0.192,
+    "rel_signal": 0.00949,
+    "jitter_floor": 0.00846,
+    "snr": 1.12
+   },
+   "m1->2|norm11": {
+    "cos": 0.351,
+    "ratio": 0.4,
+    "rel_signal": 0.00562,
+    "jitter_floor": 0.00837,
+    "snr": 0.67
+   },
+   "m1->2|norm17": {
+    "cos": 0.49,
+    "ratio": 0.44,
+    "rel_signal": 0.00483,
+    "jitter_floor": 0.00552,
+    "snr": 0.88
+   },
+   "m1->2|norm23": {
+    "cos": 0.656,
+    "ratio": 0.632,
+    "rel_signal": 0.01091,
+    "jitter_floor": 0.01628,
+    "snr": 0.67
+   },
+   "m2->4|norm5": {
+    "cos": 0.49,
+    "ratio": 0.949,
+    "rel_signal": 0.00365,
+    "jitter_floor": 0.00846,
+    "snr": 0.43
+   },
+   "m2->4|norm11": {
+    "cos": 0.698,
+    "ratio": 0.953,
+    "rel_signal": 0.0045,
+    "jitter_floor": 0.00837,
+    "snr": 0.54
+   },
+   "m2->4|norm17": {
+    "cos": 0.761,
+    "ratio": 1.131,
+    "rel_signal": 0.00425,
+    "jitter_floor": 0.00552,
+    "snr": 0.77
+   },
+   "m2->4|norm23": {
+    "cos": 0.864,
+    "ratio": 0.862,
+    "rel_signal": 0.01378,
+    "jitter_floor": 0.01628,
+    "snr": 0.85
+   }
+  },
+  "ss2_x2|global|e@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.603,
+    "ratio": 0.6,
+    "rel_signal": 0.00297,
+    "jitter_floor": 0.0106,
+    "snr": 0.28
+   },
+   "m1->2|norm11": {
+    "cos": 0.605,
+    "ratio": 0.643,
+    "rel_signal": 0.00285,
+    "jitter_floor": 0.01018,
+    "snr": 0.28
+   },
+   "m1->2|norm17": {
+    "cos": 0.531,
+    "ratio": 0.578,
+    "rel_signal": 0.00277,
+    "jitter_floor": 0.00822,
+    "snr": 0.34
+   },
+   "m1->2|norm23": {
+    "cos": 0.483,
+    "ratio": 0.6,
+    "rel_signal": 0.00729,
+    "jitter_floor": 0.02326,
+    "snr": 0.31
+   },
+   "m2->4|norm5": {
+    "cos": 0.734,
+    "ratio": 0.844,
+    "rel_signal": 0.00356,
+    "jitter_floor": 0.0106,
+    "snr": 0.34
+   },
+   "m2->4|norm11": {
+    "cos": 0.822,
+    "ratio": 0.789,
+    "rel_signal": 0.00367,
+    "jitter_floor": 0.01018,
+    "snr": 0.36
+   },
+   "m2->4|norm17": {
+    "cos": 0.856,
+    "ratio": 0.825,
+    "rel_signal": 0.0032,
+    "jitter_floor": 0.00822,
+    "snr": 0.39
+   },
+   "m2->4|norm23": {
+    "cos": 0.793,
+    "ratio": 0.93,
+    "rel_signal": 0.00875,
+    "jitter_floor": 0.02326,
+    "snr": 0.38
+   }
+  },
+  "ss2_x2|global|mu@incline": {
+   "m1->2|norm5": {
+    "cos": 0.084,
+    "ratio": 0.517,
+    "rel_signal": 0.00543,
+    "jitter_floor": 0.00846,
+    "snr": 0.64
+   },
+   "m1->2|norm11": {
+    "cos": 0.594,
+    "ratio": 0.806,
+    "rel_signal": 0.00462,
+    "jitter_floor": 0.00837,
+    "snr": 0.55
+   },
+   "m1->2|norm17": {
+    "cos": 0.685,
+    "ratio": 0.952,
+    "rel_signal": 0.00349,
+    "jitter_floor": 0.00552,
+    "snr": 0.63
+   },
+   "m1->2|norm23": {
+    "cos": 0.777,
+    "ratio": 0.778,
+    "rel_signal": 0.01125,
+    "jitter_floor": 0.01628,
+    "snr": 0.69
+   },
+   "m2->4|norm5": {
+    "cos": 0.753,
+    "ratio": 0.763,
+    "rel_signal": 0.00561,
+    "jitter_floor": 0.00846,
+    "snr": 0.66
+   },
+   "m2->4|norm11": {
+    "cos": 0.704,
+    "ratio": 0.74,
+    "rel_signal": 0.00745,
+    "jitter_floor": 0.00837,
+    "snr": 0.89
+   },
+   "m2->4|norm17": {
+    "cos": 0.85,
+    "ratio": 0.931,
+    "rel_signal": 0.00665,
+    "jitter_floor": 0.00552,
+    "snr": 1.21
+   },
+   "m2->4|norm23": {
+    "cos": 0.899,
+    "ratio": 0.946,
+    "rel_signal": 0.01751,
+    "jitter_floor": 0.01628,
+    "snr": 1.08
+   }
+  },
+  "ss2_x2|window|g@freefall": {
+   "m1->2|norm5": {
+    "cos": -0.202,
+    "ratio": 0.737,
+    "rel_signal": 0.01187,
+    "jitter_floor": 0.0238,
+    "snr": 0.5
+   },
+   "m1->2|norm11": {
+    "cos": 0.38,
+    "ratio": 0.567,
+    "rel_signal": 0.01361,
+    "jitter_floor": 0.01851,
+    "snr": 0.74
+   },
+   "m1->2|norm17": {
+    "cos": 0.497,
+    "ratio": 0.691,
+    "rel_signal": 0.01026,
+    "jitter_floor": 0.01403,
+    "snr": 0.73
+   },
+   "m1->2|norm23": {
+    "cos": 0.484,
+    "ratio": 0.739,
+    "rel_signal": 0.02108,
+    "jitter_floor": 0.02819,
+    "snr": 0.75
+   },
+   "m2->4|norm5": {
+    "cos": 0.007,
+    "ratio": 0.965,
+    "rel_signal": 0.0175,
+    "jitter_floor": 0.0238,
+    "snr": 0.74
+   },
+   "m2->4|norm11": {
+    "cos": 0.552,
+    "ratio": 0.894,
+    "rel_signal": 0.01545,
+    "jitter_floor": 0.01851,
+    "snr": 0.83
+   },
+   "m2->4|norm17": {
+    "cos": 0.691,
+    "ratio": 0.947,
+    "rel_signal": 0.01417,
+    "jitter_floor": 0.01403,
+    "snr": 1.01
+   },
+   "m2->4|norm23": {
+    "cos": 0.701,
+    "ratio": 0.961,
+    "rel_signal": 0.03116,
+    "jitter_floor": 0.02819,
+    "snr": 1.11
+   }
+  },
+  "ss2_x2|window|g@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.282,
+    "ratio": 0.808,
+    "rel_signal": 0.01091,
+    "jitter_floor": 0.00665,
+    "snr": 1.64
+   },
+   "m1->2|norm11": {
+    "cos": 0.388,
+    "ratio": 0.767,
+    "rel_signal": 0.01058,
+    "jitter_floor": 0.00802,
+    "snr": 1.32
+   },
+   "m1->2|norm17": {
+    "cos": 0.419,
+    "ratio": 0.795,
+    "rel_signal": 0.01054,
+    "jitter_floor": 0.00645,
+    "snr": 1.63
+   },
+   "m1->2|norm23": {
+    "cos": 0.404,
+    "ratio": 0.815,
+    "rel_signal": 0.02658,
+    "jitter_floor": 0.01758,
+    "snr": 1.51
+   },
+   "m2->4|norm5": {
+    "cos": -0.31,
+    "ratio": 0.853,
+    "rel_signal": 0.01763,
+    "jitter_floor": 0.00665,
+    "snr": 2.65
+   },
+   "m2->4|norm11": {
+    "cos": -0.279,
+    "ratio": 0.932,
+    "rel_signal": 0.01622,
+    "jitter_floor": 0.00802,
+    "snr": 2.02
+   },
+   "m2->4|norm17": {
+    "cos": -0.248,
+    "ratio": 0.897,
+    "rel_signal": 0.01676,
+    "jitter_floor": 0.00645,
+    "snr": 2.6
+   },
+   "m2->4|norm23": {
+    "cos": -0.31,
+    "ratio": 0.926,
+    "rel_signal": 0.04335,
+    "jitter_floor": 0.01758,
+    "snr": 2.47
+   }
+  },
+  "ss2_x2|window|g@incline": {
+   "m1->2|norm5": {
+    "cos": 0.766,
+    "ratio": 0.836,
+    "rel_signal": 0.00772,
+    "jitter_floor": 0.00754,
+    "snr": 1.02
+   },
+   "m1->2|norm11": {
+    "cos": 0.827,
+    "ratio": 0.858,
+    "rel_signal": 0.00891,
+    "jitter_floor": 0.00742,
+    "snr": 1.2
+   },
+   "m1->2|norm17": {
+    "cos": 0.877,
+    "ratio": 0.878,
+    "rel_signal": 0.00989,
+    "jitter_floor": 0.00652,
+    "snr": 1.52
+   },
+   "m1->2|norm23": {
+    "cos": 0.874,
+    "ratio": 0.87,
+    "rel_signal": 0.02349,
+    "jitter_floor": 0.01756,
+    "snr": 1.34
+   },
+   "m2->4|norm5": {
+    "cos": 0.953,
+    "ratio": 0.901,
+    "rel_signal": 0.01291,
+    "jitter_floor": 0.00754,
+    "snr": 1.71
+   },
+   "m2->4|norm11": {
+    "cos": 0.95,
+    "ratio": 0.873,
+    "rel_signal": 0.01529,
+    "jitter_floor": 0.00742,
+    "snr": 2.06
+   },
+   "m2->4|norm17": {
+    "cos": 0.956,
+    "ratio": 0.848,
+    "rel_signal": 0.01738,
+    "jitter_floor": 0.00652,
+    "snr": 2.67
+   },
+   "m2->4|norm23": {
+    "cos": 0.947,
+    "ratio": 0.88,
+    "rel_signal": 0.04086,
+    "jitter_floor": 0.01756,
+    "snr": 2.33
+   }
+  },
+  "ss2_x2|window|e@bounce": {
+   "m1->2|norm5": {
+    "cos": 0.917,
+    "ratio": 0.836,
+    "rel_signal": 0.01705,
+    "jitter_floor": 0.00665,
+    "snr": 2.57
+   },
+   "m1->2|norm11": {
+    "cos": 0.92,
+    "ratio": 0.848,
+    "rel_signal": 0.01588,
+    "jitter_floor": 0.00802,
+    "snr": 1.98
+   },
+   "m1->2|norm17": {
+    "cos": 0.919,
+    "ratio": 0.884,
+    "rel_signal": 0.01489,
+    "jitter_floor": 0.00645,
+    "snr": 2.31
+   },
+   "m1->2|norm23": {
+    "cos": 0.92,
+    "ratio": 0.893,
+    "rel_signal": 0.0408,
+    "jitter_floor": 0.01758,
+    "snr": 2.32
+   },
+   "m2->4|norm5": {
+    "cos": 0.949,
+    "ratio": 0.818,
+    "rel_signal": 0.02849,
+    "jitter_floor": 0.00665,
+    "snr": 4.29
+   },
+   "m2->4|norm11": {
+    "cos": 0.942,
+    "ratio": 0.828,
+    "rel_signal": 0.02694,
+    "jitter_floor": 0.00802,
+    "snr": 3.36
+   },
+   "m2->4|norm17": {
+    "cos": 0.941,
+    "ratio": 0.831,
+    "rel_signal": 0.02633,
+    "jitter_floor": 0.00645,
+    "snr": 4.08
+   },
+   "m2->4|norm23": {
+    "cos": 0.951,
+    "ratio": 0.867,
+    "rel_signal": 0.07287,
+    "jitter_floor": 0.01758,
+    "snr": 4.15
+   }
+  },
+  "ss2_x2|window|mu@incline": {
+   "m1->2|norm5": {
+    "cos": 0.895,
+    "ratio": 0.724,
+    "rel_signal": 0.01136,
+    "jitter_floor": 0.00754,
+    "snr": 1.51
+   },
+   "m1->2|norm11": {
+    "cos": 0.874,
+    "ratio": 0.704,
+    "rel_signal": 0.0134,
+    "jitter_floor": 0.00742,
+    "snr": 1.81
+   },
+   "m1->2|norm17": {
+    "cos": 0.92,
+    "ratio": 0.683,
+    "rel_signal": 0.01518,
+    "jitter_floor": 0.00652,
+    "snr": 2.33
+   },
+   "m1->2|norm23": {
+    "cos": 0.898,
+    "ratio": 0.717,
+    "rel_signal": 0.03478,
+    "jitter_floor": 0.01756,
+    "snr": 1.98
+   },
+   "m2->4|norm5": {
+    "cos": 0.964,
+    "ratio": 0.894,
+    "rel_signal": 0.01645,
+    "jitter_floor": 0.00754,
+    "snr": 2.18
+   },
+   "m2->4|norm11": {
+    "cos": 0.95,
+    "ratio": 0.867,
+    "rel_signal": 0.01887,
+    "jitter_floor": 0.00742,
+    "snr": 2.54
+   },
+   "m2->4|norm17": {
+    "cos": 0.958,
+    "ratio": 0.868,
+    "rel_signal": 0.02074,
+    "jitter_floor": 0.00652,
+    "snr": 3.18
+   },
+   "m2->4|norm23": {
+    "cos": 0.954,
+    "ratio": 0.884,
+    "rel_signal": 0.04989,
+    "jitter_floor": 0.01756,
+    "snr": 2.84
+   }
+  }
+ },
+ "candidates": [],
+ "summary": {
+  "ss1_x1|global": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "e@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "mu@incline": {
+     "stable_from_m": null,
+     "passes": false
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss1_x1|window": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": 2,
+     "passes": true
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": 2,
+     "passes": true
+    },
+    "e@bounce": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 2,
+     "passes": true
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss1_x2|global": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "e@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "mu@incline": {
+     "stable_from_m": null,
+     "passes": false
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss1_x2|window": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "e@bounce": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss2_x1|global": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "e@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "mu@incline": {
+     "stable_from_m": null,
+     "passes": false
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss2_x1|window": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": 2,
+     "passes": true
+    },
+    "e@bounce": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss2_x2|global": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "e@bounce": {
+     "stable_from_m": 2,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 2,
+     "passes": true
+    }
+   },
+   "all_five_pass": false
+  },
+  "ss2_x2|window": {
+   "cases": {
+    "g@freefall": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@bounce": {
+     "stable_from_m": null,
+     "passes": false
+    },
+    "g@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "e@bounce": {
+     "stable_from_m": 1,
+     "passes": true
+    },
+    "mu@incline": {
+     "stable_from_m": 1,
+     "passes": true
+    }
+   },
+   "all_five_pass": false
+  }
+ },
+ "seconds_per_clip": {
+  "render": 10.83,
+  "infer": 5.06
+ },
+ "n_clips": 144
+}
