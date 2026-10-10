@@ -23,3 +23,11 @@ def test_artifact_change_detected(tmp_path):
     L.append(p, "implementation", "x", artifacts=["f.txt"], root=str(tmp_path))
     f.write_text("b")
     ok, pr = L.verify(p, str(tmp_path)); assert not ok and "changed" in pr[0]
+
+
+def test_relogged_artifact_supersedes_old_hash(tmp_path):
+    p = str(tmp_path / "l.jsonl"); f = tmp_path / "f.txt"; f.write_text("a")
+    L.append(p, "implementation", "v1", artifacts=["f.txt"], root=str(tmp_path))
+    f.write_text("b"); L.append(p, "implementation", "v2", artifacts=["f.txt"], root=str(tmp_path))
+    assert L.verify(p, str(tmp_path))[0]
+    f.write_text("c"); assert not L.verify(p, str(tmp_path))[0]

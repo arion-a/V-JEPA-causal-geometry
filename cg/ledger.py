@@ -53,14 +53,16 @@ def append(path, kind, summary, details=None, artifacts=(), root=".", backfilled
 
 def verify(path, root=None):
     """Return (ok, problems). If root is given, also re-hash recorded artifacts against the files on disk
-    (reports files that changed *since* they were logged; later legitimate edits are expected to be re-logged)."""
+    (a file edited after its latest logged hash is reported; re-log it to accept the change)."""
     chain, problems, prev = read(path), [], GENESIS
+    latest = {a: i for i, e in enumerate(chain) for a in e["artifacts"]}     # only the newest logged hash of a file must match
     for i, e in enumerate(chain):
         if e["index"] != i: problems.append(f"{i}: index mismatch")
         if e["prev_hash"] != prev: problems.append(f"{i}: prev_hash mismatch")
         if entry_hash(e) != e["hash"]: problems.append(f"{i}: content hash mismatch")
         if root:
             for a, h in e["artifacts"].items():
+                if latest[a] != i: continue                              # superseded by a later logged version
                 p = os.path.join(root, a)
                 if not os.path.exists(p): problems.append(f"{i}: artifact missing {a}")
                 elif sha256_file(p) != h: problems.append(f"{i}: artifact changed since logging {a}")
