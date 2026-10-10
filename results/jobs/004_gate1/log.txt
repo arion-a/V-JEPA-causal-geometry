@@ -1,0 +1,73 @@
+{
+ "checks": {
+  "repo_preprocessor": {
+   "error": "ModuleNotFoundError(\"No module named 'cv2'\")"
+  },
+  "hierarchical_taps_match_model": {
+   "n": 1,
+   "max_abs_diff": 27.774887084960938,
+   "ok": false,
+   "final_equals_norm23": true
+  }
+ },
+ "criteria_snr_ge_5_at_some_hier_tap": {
+  "g@freefall": {
+   "world": "w00_freefall_freefall",
+   "snr_by_hier_tap": {
+    "norm5": 0.38,
+    "norm11": 0.48,
+    "norm17": 0.53,
+    "norm23": 0.55
+   },
+   "passes": false
+  },
+  "g@bounce": {
+   "world": "w10_bounce_bounce",
+   "snr_by_hier_tap": {
+    "norm5": 0.47,
+    "norm11": 0.48,
+    "norm17": 0.35,
+    "norm23": 0.27
+   },
+   "passes": false
+  },
+  "g@incline": {
+   "world": "w20_incline_incline",
+   "snr_by_hier_tap": {
+    "norm5": 0.24,
+    "norm11": 0.49,
+    "norm17": 0.49,
+    "norm23": 0.32
+   },
+   "passes": false
+  },
+  "e@bounce": {
+   "world": "w10_bounce_bounce",
+   "snr_by_hier_tap": {
+    "norm5": 0.31,
+    "norm11": 0.33,
+    "norm17": 0.38,
+    "norm23": 0.26
+   },
+   "passes": false
+  },
+  "mu@incline": {
+   "world": "w20_incline_incline",
+   "snr_by_hier_tap": {
+    "norm5": 0.28,
+    "norm11": 0.48,
+    "norm17": 0.52,
+    "norm23": 0.37
+   },
+   "passes": false
+  }
+ },
+ "gate1_pass": false,
+ "seconds_per_clip_infer_fp32": 5.09,
+ "n_clips_extracted": 32
+}
+pybullet build time: Oct 10 2026 13:43:31
+/usr/local/lib/python3.12/dist-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/usr/lib/python3.12/contextlib.py:105: FutureWarning: `torch.backends.cuda.sdp_kernel()` is deprecated. In the future, this context manager will be removed. Please see `torch.nn.attention.sdpa_kernel()` for the new context manager, with updated signature.
+  self.gen = func(*args, **kwds)
