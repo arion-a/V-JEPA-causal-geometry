@@ -45,9 +45,12 @@ def _camera(kind, shift=0.0):
     return view, proj
 
 
-def simulate(w, theta=None, nuis=None, render=True):
-    """-> dict(frames uint8[64,384,384,3] or None, pos [64,3], impacts [frame idx], slide_m, apex). Deterministic."""
+def simulate(w, theta=None, nuis=None, render=True, ss=1, size_scale=1.0):
+    """ss: supersampling factor (render RES*ss then area-average). size_scale: multiplies object size.
+    -> dict(frames uint8[64,384,384,3] or None, pos [64,3], impacts [frame idx], slide_m, apex). Deterministic."""
     th = {**BASE, **(theta or {})}; nz = nuis or {}
+    if size_scale != 1.0:
+        from dataclasses import replace as _rep; w = _rep(w, size=w.size * size_scale)
     cid = p.connect(p.DIRECT)
     try:
         p.setGravity(0, 0, -th["g"], physicsClientId=cid); p.setTimeStep(DT, physicsClientId=cid)
@@ -85,8 +88,9 @@ def simulate(w, theta=None, nuis=None, render=True):
         pos, frames, impacts, vz_prev = [], [], [], 0.0
         for f in range(N_FRAMES):
             if render:
-                img = p.getCameraImage(RES, RES, view, proj, renderer=p.ER_TINY_RENDERER, physicsClientId=cid)[2]
-                frames.append(np.asarray(img, np.uint8).reshape(RES, RES, 4)[..., :3])
+                img = p.getCameraImage(RES * ss, RES * ss, view, proj, renderer=p.ER_TINY_RENDERER, physicsClientId=cid)[2]
+                im = np.asarray(img, np.uint8).reshape(RES * ss, RES * ss, 4)[..., :3]
+                frames.append(im if ss == 1 else np.rint(im.reshape(RES, ss, RES, ss, 3).astype(np.float32).mean((1, 3))).astype(np.uint8))
             pos.append(p.getBasePositionAndOrientation(bid, physicsClientId=cid)[0])
             for _ in range(SUB):
                 p.stepSimulation(physicsClientId=cid)
@@ -112,3 +116,21 @@ def _in_view(pos, view, proj, margin=0.05):
 
 def frames_sha256(frames):
     return hashlib.sha256(np.ascontiguousarray(frames).tobytes()).hexdigest()
+
+
+def project_pixels(pos, kind, cam_shift=0.0):
+    """World positions [T,3] -> pixel (col,row) in the RES x RES image, same camera as simulate()."""
+    view, proj = _camera(kind, cam_shift)
+    V = np.array(view).reshape(4, 4).T; P = np.array(proj).reshape(4, 4).T
+    h = np.c_[pos, np.ones(len(pos))] @ V.T @ P.T; ndc = h[:, :2] / h[:, 3:4]
+    return np.c_[(ndc[:, 0] + 1) / 2 * RES, (1 - ndc[:, 1]) / 2 * RES]
+
+
+def object_token_mask(pos, kind, dilate=2, patch=16, tubelet=2):
+    """Boolean mask over the encoder's token grid [(T/tubelet)*(RES/patch)^2], (t,h,w) order, covering the object's tracked path
+    (+ `dilate` tokens, Chebyshev). Built from one reference trajectory so all variants of a world share the same window."""
+    g = RES // patch; nt = len(pos) // tubelet; m = np.zeros((nt, g, g), bool); px = project_pixels(pos, kind)
+    for f, (c, r) in enumerate(px):
+        ci, ri = int(np.clip(c // patch, 0, g - 1)), int(np.clip(r // patch, 0, g - 1))
+        m[f // tubelet, max(0, ri - dilate):ri + dilate + 1, max(0, ci - dilate):ci + dilate + 1] = True
+    return m.reshape(-1)

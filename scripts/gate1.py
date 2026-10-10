@@ -33,8 +33,8 @@ cid0 = next(iter(by_id)); x = FT.to_tensor(np.load(f"{CG}/data/clips/{cid0}.npy"
 enc.return_hierarchical = True
 with torch.no_grad(): hier = enc(x)
 enc.return_hierarchical = False
-mine = feats[cid0]["normed"]; theirs = np.stack([h.mean(1)[0].float().cpu().numpy() for h in hier])
-R["checks"]["hierarchical_taps_match_model"] = dict(n=len(hier), max_abs_diff=float(np.abs(mine - theirs).max()), ok=bool(np.abs(mine - theirs).max() < 1e-4),
+mine = feats[cid0]["normed"]; theirs = np.stack([h.mean(1)[0].float().cpu().numpy() for h in hier.chunk(4, dim=2)])   # model concatenates the 4 taps on channels
+R["checks"]["hierarchical_taps_match_model"] = dict(n=len(theirs), max_abs_diff=float(np.abs(mine - theirs).max()), ok=bool(np.abs(mine - theirs).max() < 1e-4),
                                                    final_equals_norm23=bool(np.abs(feats[cid0]["final"] - mine[3]).max() < 1e-4))
 # 3) extra renders: sub-pixel camera jitter (noise floor) and half-delta g (linearity), for freefall/bounce/incline dev worlds
 extra = {}

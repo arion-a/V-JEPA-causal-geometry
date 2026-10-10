@@ -45,3 +45,10 @@ def test_analysis_recovers_known_linear_structure():
     assert abs(t["linearity_cos_g"] - 1) < 1e-9 and abs(t["linearity_norm_ratio_g"] - 1) < 1e-9     # exactly linear -> delta/2 agrees
     assert t["snr_g"] > 100 and t["jitter_floor"] < t["signal_g"]
     assert r["raw3"]["w2c"]["composition_error"] < 1e-20
+
+
+def test_masked_window_taps():
+    enc = StubEnc().eval(); x = torch.rand(1, 3, 2, 4, 4); n = 8   # stub tokens = T*H*W = 2*4*4 = 32 -> use first 8 as window
+    mask = torch.zeros(32, dtype=torch.bool); mask[:n] = True
+    f = FT.extract(enc, x, mask=mask)
+    assert f["raw_win"].shape == (24, 8) and f["normed_win"].shape == (4, 8) and not np.allclose(f["raw_win"], f["raw"])

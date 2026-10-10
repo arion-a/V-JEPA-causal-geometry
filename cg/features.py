@@ -14,14 +14,20 @@ def to_tensor(frames_u8, device="cuda"):
 
 
 @torch.no_grad()
-def extract(enc, x, hier=(5, 11, 17, 23)):
-    raw, normed, hooks = [], {}, []
+def extract(enc, x, hier=(5, 11, 17, 23), mask=None):
+    """mask: optional bool tensor [N_tokens]; adds masked-mean ('window') taps next to the global-mean ones."""
+    raw, normed, hooks, rawm, normm = [], {}, [], [], {}
     for i, b in enumerate(enc.blocks):
         def h(m, inp, out, i=i):
             o = out[0] if isinstance(out, tuple) else out
             raw.append(o.mean(1)[0].float().cpu())
-            if i in hier: normed[i] = enc.norms_block[list(hier).index(i)](o).mean(1)[0].float().cpu()
+            if mask is not None: rawm.append(o[0, mask].mean(0).float().cpu())
+            if i in hier:
+                no = enc.norms_block[list(hier).index(i)](o); normed[i] = no.mean(1)[0].float().cpu()
+                if mask is not None: normm[i] = no[0, mask].mean(0).float().cpu()
         hooks.append(b.register_forward_hook(h))
     out = enc(x)
     for hk in hooks: hk.remove()
-    return dict(raw=torch.stack(raw).numpy(), normed=torch.stack([normed[i] for i in hier]).numpy(), final=out.mean(1)[0].float().cpu().numpy())
+    res = dict(raw=torch.stack(raw).numpy(), normed=torch.stack([normed[i] for i in hier]).numpy(), final=out.mean(1)[0].float().cpu().numpy())
+    if mask is not None: res.update(raw_win=torch.stack(rawm).numpy(), normed_win=torch.stack([normm[i] for i in hier]).numpy())
+    return res

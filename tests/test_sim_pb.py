@@ -71,3 +71,23 @@ def test_validity_gate_can_reject():
     ok, why, _ = bm.check_world(w, "incline", "incline"); assert not ok and why in ("no_slide", "mu_no_effect", "g_no_effect")
     w = S.make_world("freefall", 5); w.x0 = 40.0                                  # starts far off-screen
     ok, why, _ = bm.check_world(w, "freefall", "freefall"); assert not ok and why == "object_out_of_view"
+
+
+def test_projection_matches_rendered_object_centroid_and_token_mask():
+    for kind in ("freefall", "bounce", "incline"):
+        w = S.make_world(kind, 5); out = S.simulate(w, nuis={"color": (1.0, 0.0, 1.0)})      # magenta object: unambiguous to segment
+        px = S.project_pixels(out["pos"], kind); checked = 0
+        for f in (0, 20, 50):
+            fr = out["frames"][f].astype(int); m = (fr[..., 0] > 120) & (fr[..., 2] > 120) & (fr[..., 1] < 0.6 * np.minimum(fr[..., 0], fr[..., 2]))
+            if m.sum() < 15: continue
+            rr, cc = np.nonzero(m); checked += 1
+            assert abs(cc.mean() - px[f, 0]) < 6 and abs(rr.mean() - px[f, 1]) < 6, (kind, f, (cc.mean(), rr.mean()), px[f])
+        assert checked >= 2, kind
+    mk = S.object_token_mask(out["pos"], "incline", dilate=1)
+    assert mk.shape == (32 * 24 * 24,) and 0 < mk.mean() < 0.2
+
+
+def test_supersampling_and_size_scale():
+    w = S.make_world("freefall", 6); a = S.simulate(w, ss=2); b = S.simulate(w, ss=2)
+    assert a["frames"].shape == (64, 384, 384, 3) and S.frames_sha256(a["frames"]) == S.frames_sha256(b["frames"])
+    assert np.array_equal(S.simulate(w, render=False, size_scale=2.0)["pos"][:, :2], S.simulate(w, render=False)["pos"][:, :2])   # lateral motion unchanged
