@@ -1,0 +1,11 @@
+{
+ "job": "008_render_v2.sh",
+ "rc": 0,
+ "started": "2026-10-10T18:35:34Z",
+ "seconds": 2125.5,
+ "timeout": 7000,
+ "job_sha256": "9136c562aed331da4c22cb34c353962a80bbbfad4fd09e6f34ebc3f0d8fecc84",
+ "host": "ecd8920e9883",
+ "gpu": "NVIDIA RTX 4000 Ada Generation, 20475 MiB",
+ "commit": "db967a811d78b0a7fb176f0a7ad2ab940d9414f5"
+}

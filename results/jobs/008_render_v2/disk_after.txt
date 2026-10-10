@@ -1,0 +1,1 @@
+us-ca-2-vast.runpod.net:/runpodfs/networkvolumes/wwxcuueek9   38G   28G   11G  74% /workspace

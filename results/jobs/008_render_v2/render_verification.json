@@ -1,0 +1,15 @@
+{
+ "manifest_clips": 460,
+ "rendered": 460,
+ "missing_or_bad_shape": [],
+ "out_of_view": [],
+ "reference_hash_match": {
+  "freefall_freefall_000__base": true,
+  "bounce_bounce_000__base": true,
+  "incline_incline_000__base": true
+ },
+ "build_host": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
+ "mean_render_s": 4.43,
+ "ok": true,
+ "cross_machine_bit_identical": true
+}
