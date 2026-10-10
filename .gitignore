@@ -3,3 +3,4 @@ __pycache__/
 results/*
 !results/jobs/
 .pytest_cache/
+secrets/

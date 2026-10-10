@@ -84,3 +84,16 @@ def test_token_whitespace_and_carriage_return_stripped():
     spec = importlib.util.spec_from_file_location("pw", f"{ROOT}/scripts/pod_worker.py"); m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
     assert m.clean_token("github_pat_abc\r\n") == "github_pat_abc"
     assert m.clean_token("  ab c\td\x00") == "abcd" and m.clean_token(None) == ""
+
+
+def test_token_file_diagnosis_and_stop_exit_code(tmp_path):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("pw2", f"{ROOT}/scripts/pod_worker.py"); m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    f = tmp_path / "secrets" / "gh_token"; f.parent.mkdir(); f.write_text("github_pat_" + "a" * 82 + "\r\n")
+    m.TOKEN_FILE = str(f); import os as _os; _os.environ.pop("GH_TOKEN", None)
+    tk = m.load_token(); assert tk == "github_pat_" + "a" * 82 and m.describe_token(tk)["hint"] == "looks like a GitHub token" and tk not in str(m.describe_token(tk))
+    assert "EMPTY" in m.describe_token("")["hint"] and "wrong string" in m.describe_token("abcdef")["hint"]
+    pod, me = setup(str(tmp_path / "w")); open(f"{me}/jobs/STOP", "w").write("")
+    g(me, "add", "-A"); g(me, "commit", "-qm", "stop"); g(me, "push", "-q", "origin", "main")
+    r = subprocess.run([sys.executable, f"{pod}/scripts/pod_worker.py", "--interval", "1"], capture_output=True, text=True, env={**os.environ, "CG_ROOT": f"{pod}/vol"}, timeout=60)
+    assert r.returncode == 3 and "GitHub auth check" in r.stdout

@@ -22,6 +22,31 @@ def clean_token(t):
     return "".join(ch for ch in (t or "") if ch.isprintable() and not ch.isspace())
 
 
+TOKEN_FILE = os.environ.get("CG_TOKEN_FILE", os.path.join(os.environ.get("CG_ROOT", "/workspace/vjepa-causal-geometry"), "secrets", "gh_token"))
+
+
+def describe_token(t):
+    """Safe diagnosis (never returns the token): length, prefix class, hint."""
+    t = t or ""; ok_prefix = t.startswith(("github_pat_", "ghp_"))
+    hint = ("EMPTY - the hidden paste went in empty; paste again (Ctrl+Shift+V) and press Enter" if not t else
+            "does not start with github_pat_/ghp_ - the wrong string was copied" if not ok_prefix else
+            "unusual length (expect ~93 for github_pat_, 40 for ghp_) - re-copy with GitHub's copy button" if (t.startswith("github_pat_") and not 80 <= len(t) <= 110) else "looks like a GitHub token")
+    return dict(length=len(t), prefix=t[:11] if ok_prefix else "(not github_pat_/ghp_)", hint=hint)
+
+
+def load_token():
+    """GH_TOKEN env > token file (chmod 600 on the persistent volume) > hidden prompt. Always whitespace-cleaned."""
+    t = clean_token(os.environ.get("GH_TOKEN", ""))
+    if not t and os.path.exists(TOKEN_FILE): t = clean_token(open(TOKEN_FILE).read())
+    return t
+
+
+def auth_check():
+    """Read access check with the current token (ls-remote). Returns (ok, message). Push rights are only proven by a real push."""
+    p = git("ls-remote", "origin", "HEAD", check=False)
+    return p.returncode == 0, (p.stderr.strip()[-200:] if p.returncode else "ok")
+
+
 def git(*a, check=True, token=True):
     cmd = ["git", "-C", REPO] + (["-c", f"credential.helper={CRED}"] if token and os.environ.get("GH_TOKEN") else []) + list(a)
     p = subprocess.run(cmd, capture_output=True, text=True)
@@ -112,14 +137,18 @@ def cycle():
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--once", action="store_true"); ap.add_argument("--interval", type=int, default=30)
     a = ap.parse_args()
-    if os.environ.get("GH_TOKEN"): os.environ["GH_TOKEN"] = clean_token(os.environ["GH_TOKEN"])
+    tk = load_token()
+    if tk: os.environ["GH_TOKEN"] = tk
     if not os.environ.get("GH_TOKEN") and not a.once and sys.stdin.isatty():
         os.environ["GH_TOKEN"] = clean_token(getpass.getpass("GitHub fine-grained token (this repo only, Contents RW; input hidden): "))
-    print(f"[worker] repo={REPO} interval={a.interval}s token={'yes' if os.environ.get('GH_TOKEN') else 'no'}", flush=True)
+    d = describe_token(os.environ.get("GH_TOKEN", ""))
+    print(f"[worker] repo={REPO} interval={a.interval}s token: len={d['length']} prefix={d['prefix']} -> {d['hint']}", flush=True)
+    ok, msg = auth_check(); print(f"[worker] GitHub auth check: {'OK' if ok else 'REJECTED: ' + msg}", flush=True)
     while True:
         try:
             r = cycle()
-            if r is None or a.once: break
+            if r is None: sys.exit(3)                      # STOP file: tell the supervisor not to restart
+            if a.once: break
         except KeyboardInterrupt: break
         except Exception as e: print("[worker] error:", e, flush=True)
         time.sleep(a.interval)
