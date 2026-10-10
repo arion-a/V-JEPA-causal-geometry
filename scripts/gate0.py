@@ -53,12 +53,16 @@ def _():
 
 @step("discover_entrypoints")
 def _():
-    src = open(f"{VENDOR}/hubconf.py").read()
-    fns = re.findall(r"^def\s+(\w+)\(", src, re.M)
+    """hubconf usually re-exports entry points by import, so list what the imported module exposes."""
+    import importlib
+    sys.path.insert(0, VENDOR)
+    hub = importlib.import_module("hubconf")
+    fns = sorted(n for n in dir(hub) if not n.startswith("_") and callable(getattr(hub, n)) and getattr(getattr(hub, n), "__module__", "") != "torch")
     R["entrypoints"] = fns
-    urls = sorted(set(re.findall(r"https?://[^\s\"']+\.pt[h]?", open(f"{VENDOR}/src/hub/backbones.py").read()))) if os.path.exists(f"{VENDOR}/src/hub/backbones.py") else []
-    return dict(entrypoints=fns, has_2_1=[f for f in fns if "2_1" in f or "21" in f], checkpoint_urls=urls[:40],
-                readme_mentions_2_1=bool(re.search(r"2\.1", open(f"{VENDOR}/README.md").read())))
+    rc, hits = sh(f"cd {VENDOR} && grep -rn --include=*.py -i -E 'vjepa2_1|vjepa2\\.1|vit_.*_384' . | head -40")
+    rc, urls = sh(f"cd {VENDOR} && grep -rhoE --include=*.py 'https?://[^ \"\\']+' . | sort -u | head -60")
+    rc, readme = sh(f"cd {VENDOR} && grep -n -i -E '2\\.1|2_1' README.md | head -25")
+    return dict(entrypoints=fns, has_2_1=[f for f in fns if "2_1" in f or "21" in f], grep_2_1=hits, urls=urls.split("\n"), readme_2_1=readme)
 
 
 MODEL = {}
@@ -68,8 +72,10 @@ MODEL = {}
 def _():
     import torch
     sys.path.insert(0, VENDOR)
-    cands = [f for f in R.get("entrypoints", []) if "2_1" in f and "large" in f.lower()] or \
-            [f for f in R.get("entrypoints", []) if "2_1" in f] or [f for f in R.get("entrypoints", []) if "large" in f.lower() and "vjepa" in f]
+    E = R.get("entrypoints", [])
+    cands = [f for f in E if "2_1" in f and "large" in f.lower()] or [f for f in E if "2_1" in f] or \
+            [f for f in E if "large" in f.lower() and "vjepa" in f]
+    R["note_loaded_is_2_1"] = bool(cands) and "2_1" in cands[0]
     R["load_candidates"] = cands; tried = []
     for name in cands:
         try:
