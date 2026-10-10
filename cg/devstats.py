@@ -23,3 +23,14 @@ def mean_cos(VA, VB):
 def alignment_with_control(VgA, VgB, VotherB):
     """cos(g in A, g in B) vs cos(g in A, other parameter in B): gravity-specific alignment gap."""
     return dict(g_g=mean_cos(VgA, VgB), g_other=mean_cos(VgA, VotherB), gap=mean_cos(VgA, VgB) - mean_cos(VgA, VotherB))
+
+
+def within_scene(Vg, Vp):
+    """Per-world cosine between the g-derivative and the second parameter's derivative, and the effective rank (1..2) of the unit-column pair.
+    cos near +-1 -> one shared axis (rank ~1, 'amount of motion change'); cos near 0 -> two distinguishable directions (rank ~2)."""
+    cos, er = [], []
+    for a, b in zip(Vg, Vp):
+        ua, ub = _unit(a), _unit(b); c = float(ua @ ub); cos.append(c)
+        sv = np.linalg.svd(np.stack([ua, ub], 1), compute_uv=False); p = sv / sv.sum(); p = p[p > 1e-12]
+        er.append(float(np.exp(-(p * np.log(p)).sum())))
+    return dict(cos_mean=float(np.mean(cos)), cos_per_world=[round(c, 3) for c in cos], eff_rank_mean=float(np.mean(er)))

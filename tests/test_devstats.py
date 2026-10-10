@@ -12,3 +12,9 @@ def test_alignment_gap_detects_specific_direction():
     rng = np.random.default_rng(1); d = 256; u = rng.normal(size=d); w = rng.normal(size=d)
     mk = lambda base: np.stack([base + rng.normal(size=d) * 0.2 for _ in range(5)])
     r = DS.alignment_with_control(mk(u), mk(u), mk(w)); assert r["g_g"] > 0.9 and abs(r["g_other"]) < 0.3 and r["gap"] > 0.6
+
+
+def test_within_scene_rank():
+    rng = np.random.default_rng(2); u = rng.normal(size=128); w = rng.normal(size=128)
+    same = DS.within_scene(np.stack([u, u]), np.stack([-u, -2 * u])); assert same["cos_mean"] < -0.99 and same["eff_rank_mean"] < 1.01
+    diff = DS.within_scene(np.stack([u]), np.stack([w])); assert abs(diff["cos_mean"]) < 0.4 and diff["eff_rank_mean"] > 1.7
