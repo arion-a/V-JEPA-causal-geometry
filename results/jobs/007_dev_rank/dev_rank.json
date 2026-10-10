@@ -1,0 +1,200 @@
+{
+ "bounce|g~e|global|norm5": {
+  "cos_mean": -0.009564520418643951,
+  "cos_per_world": [
+   -0.071,
+   0.18,
+   -0.301,
+   0.077,
+   0.067
+  ],
+  "eff_rank_mean": 1.99283709526062
+ },
+ "bounce|g~e|global|norm11": {
+  "cos_mean": -0.05567797422409058,
+  "cos_per_world": [
+   0.131,
+   0.323,
+   -0.742,
+   -0.103,
+   0.114
+  ],
+  "eff_rank_mean": 1.953534984588623
+ },
+ "bounce|g~e|global|norm17": {
+  "cos_mean": -0.12238604500889778,
+  "cos_per_world": [
+   0.043,
+   0.17,
+   -0.715,
+   -0.084,
+   -0.026
+  ],
+  "eff_rank_mean": 1.9630823850631713
+ },
+ "bounce|g~e|global|norm23": {
+  "cos_mean": -0.11518793702125549,
+  "cos_per_world": [
+   0.068,
+   0.083,
+   -0.749,
+   -0.025,
+   0.048
+  ],
+  "eff_rank_mean": 1.9592567920684814
+ },
+ "bounce|g~e|window|norm5": {
+  "cos_mean": 0.14858561158180236,
+  "cos_per_world": [
+   0.398,
+   0.586,
+   -0.526,
+   0.266,
+   0.019
+  ],
+  "eff_rank_mean": 1.950853157043457
+ },
+ "bounce|g~e|window|norm11": {
+  "cos_mean": 0.18257578015327453,
+  "cos_per_world": [
+   0.33,
+   0.709,
+   -0.691,
+   0.356,
+   0.209
+  ],
+  "eff_rank_mean": 1.919342041015625
+ },
+ "bounce|g~e|window|norm17": {
+  "cos_mean": 0.2672450304031372,
+  "cos_per_world": [
+   0.521,
+   0.715,
+   -0.652,
+   0.492,
+   0.26
+  ],
+  "eff_rank_mean": 1.9049650192260743
+ },
+ "bounce|g~e|window|norm23": {
+  "cos_mean": 0.22338799834251405,
+  "cos_per_world": [
+   0.502,
+   0.634,
+   -0.689,
+   0.366,
+   0.304
+  ],
+  "eff_rank_mean": 1.9168015480041505
+ },
+ "bounce|g~e|tracked_trajectory": {
+  "cos_mean": 0.25671684631985475,
+  "cos_per_world": [
+   0.484,
+   0.915,
+   -0.256,
+   0.487,
+   -0.346
+  ],
+  "eff_rank_mean": 1.8811616457358062
+ },
+ "incline|g~mu|global|norm5": {
+  "cos_mean": -0.6652371466159821,
+  "cos_per_world": [
+   -0.227,
+   -0.898,
+   -0.839,
+   -0.59,
+   -0.772
+  ],
+  "eff_rank_mean": 1.7990015268325805
+ },
+ "incline|g~mu|global|norm11": {
+  "cos_mean": -0.535863709449768,
+  "cos_per_world": [
+   0.272,
+   -0.941,
+   -0.92,
+   -0.583,
+   -0.507
+  ],
+  "eff_rank_mean": 1.7804846048355103
+ },
+ "incline|g~mu|global|norm17": {
+  "cos_mean": -0.6405134201049805,
+  "cos_per_world": [
+   -0.197,
+   -0.915,
+   -0.903,
+   -0.618,
+   -0.57
+  ],
+  "eff_rank_mean": 1.7949337482452392
+ },
+ "incline|g~mu|global|norm23": {
+  "cos_mean": -0.640024083852768,
+  "cos_per_world": [
+   -0.137,
+   -0.903,
+   -0.919,
+   -0.62,
+   -0.622
+  ],
+  "eff_rank_mean": 1.7892704010009766
+ },
+ "incline|g~mu|window|norm5": {
+  "cos_mean": -0.7355577349662781,
+  "cos_per_world": [
+   -0.449,
+   -0.897,
+   -0.843,
+   -0.691,
+   -0.798
+  ],
+  "eff_rank_mean": 1.774487566947937
+ },
+ "incline|g~mu|window|norm11": {
+  "cos_mean": -0.7195798397064209,
+  "cos_per_world": [
+   -0.364,
+   -0.926,
+   -0.889,
+   -0.742,
+   -0.676
+  ],
+  "eff_rank_mean": 1.7640121698379516
+ },
+ "incline|g~mu|window|norm17": {
+  "cos_mean": -0.7934732079505921,
+  "cos_per_world": [
+   -0.48,
+   -0.912,
+   -0.916,
+   -0.837,
+   -0.821
+  ],
+  "eff_rank_mean": 1.7117777109146117
+ },
+ "incline|g~mu|window|norm23": {
+  "cos_mean": -0.8159442901611328,
+  "cos_per_world": [
+   -0.55,
+   -0.912,
+   -0.94,
+   -0.865,
+   -0.813
+  ],
+  "eff_rank_mean": 1.6894348382949829
+ },
+ "incline|g~mu|tracked_trajectory": {
+  "cos_mean": -0.9999983022307808,
+  "cos_per_world": [
+   -1.0,
+   -1.0,
+   -1.0,
+   -1.0,
+   -1.0
+  ],
+  "eff_rank_mean": 1.005155829001055
+ }
+}
