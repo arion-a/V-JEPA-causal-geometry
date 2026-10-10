@@ -77,3 +77,10 @@ def test_failed_push_is_retried_next_cycle(tmp_path):
     os.remove(hook)                                                                           # remote recovers
     worker(pod); g(me, "pull", "-q", "origin", "main")
     assert os.path.exists(f"{me}/results/jobs/001_a/a.txt")
+
+
+def test_token_whitespace_and_carriage_return_stripped():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("pw", f"{ROOT}/scripts/pod_worker.py"); m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    assert m.clean_token("github_pat_abc\r\n") == "github_pat_abc"
+    assert m.clean_token("  ab c\td\x00") == "abcd" and m.clean_token(None) == ""

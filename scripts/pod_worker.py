@@ -17,6 +17,11 @@ MAX_TIMEOUT, DEFAULT_TIMEOUT, MAX_FILE = 7200, 1800, 1_000_000
 CRED = '!f(){ echo username=x-access-token; echo "password=$GH_TOKEN"; }; f'
 
 
+def clean_token(t):
+    """Terminal pastes can carry CR/LF/spaces; git refuses a credential containing them. Strip all whitespace/control chars."""
+    return "".join(ch for ch in (t or "") if ch.isprintable() and not ch.isspace())
+
+
 def git(*a, check=True, token=True):
     cmd = ["git", "-C", REPO] + (["-c", f"credential.helper={CRED}"] if token and os.environ.get("GH_TOKEN") else []) + list(a)
     p = subprocess.run(cmd, capture_output=True, text=True)
@@ -107,8 +112,9 @@ def cycle():
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--once", action="store_true"); ap.add_argument("--interval", type=int, default=30)
     a = ap.parse_args()
+    if os.environ.get("GH_TOKEN"): os.environ["GH_TOKEN"] = clean_token(os.environ["GH_TOKEN"])
     if not os.environ.get("GH_TOKEN") and not a.once and sys.stdin.isatty():
-        os.environ["GH_TOKEN"] = getpass.getpass("GitHub fine-grained token (this repo only, Contents RW; input hidden): ")
+        os.environ["GH_TOKEN"] = clean_token(getpass.getpass("GitHub fine-grained token (this repo only, Contents RW; input hidden): "))
     print(f"[worker] repo={REPO} interval={a.interval}s token={'yes' if os.environ.get('GH_TOKEN') else 'no'}", flush=True)
     while True:
         try:
