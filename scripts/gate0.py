@@ -68,10 +68,26 @@ def _():
 MODEL = {}
 
 
+@step("weights_host")
+def _():
+    """The pinned repo commit ships VJEPA_BASE_URL='http://localhost:8300' (placeholder). Patch to the official host and test it."""
+    import urllib.request, importlib
+    sys.path.insert(0, VENDOR)
+    bb = importlib.import_module("src.hub.backbones")
+    before = bb.VJEPA_BASE_URL; bb.VJEPA_BASE_URL = "https://dl.fbaipublicfiles.com/vjepa2"
+    res = dict(repo_default=before, patched_to=bb.VJEPA_BASE_URL)
+    try:
+        r = urllib.request.urlopen(urllib.request.Request(bb.VJEPA_BASE_URL + "/vjepa2_vitl.pt", method="HEAD"), timeout=30)
+        res["head_status"] = r.status
+    except Exception as e: res["head_error"] = repr(e)[:200]
+    return res
+
+
 @step("load_model")
 def _():
     import torch
     sys.path.insert(0, VENDOR)
+    import importlib; importlib.import_module("src.hub.backbones").VJEPA_BASE_URL = "https://dl.fbaipublicfiles.com/vjepa2"
     E = R.get("entrypoints", [])
     cands = [f for f in E if "2_1" in f and "large" in f.lower()] or [f for f in E if "2_1" in f] or \
             [f for f in E if "large" in f.lower() and "vjepa" in f]
