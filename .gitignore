@@ -4,3 +4,4 @@ results/*
 !results/jobs/
 .pytest_cache/
 secrets/
+.claude/settings.local.json
