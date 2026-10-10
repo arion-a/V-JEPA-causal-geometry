@@ -24,3 +24,13 @@ No experiment on V-JEPA 2.1 has been run. What exists and is tested (`pytest tes
    (gravity vs initial-velocity matched-trajectory) extension.
 
 Run: `PYTHONPATH=. python scripts/run_smoke.py`
+
+## Pod worker (git-based, no open ports)
+`scripts/pod_worker.py` runs inside the GPU pod: it `git pull`s, runs new `jobs/NNN_name.sh` scripts in order, and
+commits `results/jobs/<name>/{status.json,log.txt,...}` back. Heavy artifacts live on the persistent volume
+(`$CG_ROOT`, default `/workspace/vjepa-causal-geometry`). Kill switch: commit `jobs/STOP`.
+Security: use a fine-grained GitHub token limited to this repo (Contents read/write); the worker keeps it out of
+git config, logs and job environments. Anyone with push access can run code on the pod.
+```
+cd /workspace/vjepa-causal-geometry/repo && git pull && python3 scripts/pod_worker.py   # prompts for token (hidden)
+```
