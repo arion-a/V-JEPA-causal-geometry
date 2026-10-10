@@ -32,6 +32,7 @@ for (kind, wid), vs in worlds.items():
             cid = vs[f"{par}{sg}"]; assert cid.startswith(wid)
             feats[cid] = FT.extract(enc, FT.to_tensor(np.load(f"{CG}/data/clips_v2/{cid}.npy")), mask=mt)
     print("done", wid, f"{time.time() - t0:.0f}s", flush=True)
+    open(f"{OUT}/progress.txt", "w").write(f"{time.strftime('%H:%M:%S')} done {wid} ({len(feats)} clips, {time.time() - t0:.0f}s)\n")      # visible to the diag job if this ever hangs
 # hierarchical consistency check (model concatenates the 4 taps on channels -> chunk)
 cid0 = next(iter(feats)); enc.return_hierarchical = True
 with torch.no_grad(): hier = enc(FT.to_tensor(np.load(f"{CG}/data/clips_v2/{cid0}.npy")))

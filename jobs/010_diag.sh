@@ -6,7 +6,7 @@
   echo "== gpu"; nvidia-smi --query-gpu=memory.used,utilization.gpu --format=csv,noheader
   echo "== disk"; df -h "$CG_ROOT" | tail -1
   echo "== worker.log tail (token never logged)"; tail -25 "$CG_ROOT/logs/worker.log" 2>&1
-  echo "== gate1_v2 volume outputs"; ls -la "$CG_ROOT/results/gate1_v2" "$CG_ROOT/features/pooled" 2>&1 | tail -12
+  echo "== gate1_v2 progress"; cat "$CG_ROOT/results/gate1_v2/progress.txt" 2>&1; echo "== gate1_v2 volume outputs"; ls -la "$CG_ROOT/results/gate1_v2" "$CG_ROOT/features/pooled" 2>&1 | tail -12
   echo "== local job dirs"; ls -la "$(dirname "$0")/../results/jobs/009_gate1_v2" 2>&1 | tail -6
   echo "== recent python errors"; grep -rhE "Traceback|Error|OOM|out of memory|Killed" "$CG_ROOT/logs" 2>/dev/null | tail -8
 } > "$JOB_OUT/diag.txt" 2>&1
