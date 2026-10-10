@@ -1,0 +1,11 @@
+{
+ "job": "000_setup.sh",
+ "rc": 0,
+ "started": "2026-10-10T13:01:03Z",
+ "seconds": 17.0,
+ "timeout": 900,
+ "job_sha256": "2fb4643bfc4fd5e451e0563356914628d09f69b5b432d969cc36f0f23af418ab",
+ "host": "ecd8920e9883",
+ "gpu": "NVIDIA RTX 4000 Ada Generation, 20475 MiB",
+ "commit": "50a0aa048410a1890dca0f72348a50e9a810d3be"
+}

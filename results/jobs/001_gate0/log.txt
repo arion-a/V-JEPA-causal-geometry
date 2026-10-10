@@ -1,0 +1,33 @@
+
+=== env
+{"ok": true, "result": {"torch": "2.8.0+cu128", "cuda": true, "gpu": "NVIDIA RTX 4000 Ada Generation", "vram_gb": 21.0, "nvidia_smi": "580.126.20, NVIDIA RTX 4000 Ada Generation"}, "seconds": 1.7}
+
+=== clone_repo
+{"ok": true, "result": {"rc": 0, "commit": "204698b45b3712590f06245fbfba32d3be539812\nMon Mar 23 11:13:05 2026 +0100", "license_head": "MIT License\n\nCopyright (c) Meta Platforms, Inc. and affiliates.\n\nPermission is hereby granted, free of charge, to any pe"}, "seconds": 4.2}
+
+=== discover_entrypoints
+{"ok": true, "result": {"entrypoints": ["vjepa2_1_vit_base_384", "vjepa2_1_vit_giant_384", "vjepa2_1_vit_gigantic_384", "vjepa2_1_vit_large_384", "vjepa2_ac_vit_giant", "vjepa2_preprocessor", "vjepa2_vit_giant", "vjepa2_vit_giant_384", "vjepa2_vit_huge", "vjepa2_vit_large"], "has_2_1": ["vjepa2_1_vit_base_384", "vjepa2_1_vit_giant_384", "vjepa2_1_vit_gigantic_384", "vjepa2_1_vit_large_384"], "grep_2_1": "./hubconf.py:10:    vjepa2_vit_giant_384,\n./hubconf.py:13:    vjepa2_1_vit_base_384,\n./hubconf.py:14:    vjepa2_1_vit_large_384,\n./hubconf.py:15:    vjepa2_1_vit_giant_384,\n./hubconf.py:16:    vjepa2_1_vit_gigantic_384,\n./src/hub/backbones.py:19:    \"vit_giant_384\": (\"vit_giant_xformers\", \"vitg-384\"),\n./src/hub/backbones.py:21:    \"vjepa2_1_vit_base_384\": (\"vit_base\", \"vjepa2_1_vitb_dist_vitG_384\"),\n./src/hub/backbones.py:22:    \"vjepa2_1_vit_large_384\": (\"vit_large\", \"vjepa2_1_vitl_dist_vitG_384\"),\n./src/hub/backbones.py:23:    \"vjepa2_1_vit_giant_384\": (\"vit_giant_xformers\", \"vjepa2_1_vitg_384\"),\n./src/hub/backbones.py:24:    \"vjepa2_1_vit_gigantic_384\": (\"vit_gigantic_xformers\", \"vjepa2_1_vitG_384\"),\n./src/hub/backbones.py:187:def vjepa2_vit_giant_384(*, pretrained: bool = True, **kwargs):\n./src/hub/backbones.py:192:        model_name=\"vit_giant_384\", img_size=384, pretrained=pretrained, **kwargs\n./src/hub/backbones.py:208:vjepa2_1_teacher_embed_dim = 1664\n./src/hub/backbones.py:211:def _make_vjepa2_1_model(\n./src/hub/backbones.py:212:    model_name: str = \"vjepa2_1_vit_large_384\",\n./src/hub/backbones.py:288:def vjepa2_1_vit_base_384(*, pretrained: bool = True, **kwargs):\n./src/hub/backbones.py:289:    return _make_vjepa2_1_model(\n./src/hub/backbones.py:290:        model_name=\"vjepa2_1_vit_base_384\",\n./src/hub/bac
+
+=== weights_host
+{"ok": true, "result": {"repo_default": "http://localhost:8300", "patched_to": "https://dl.fbaipublicfiles.com/vjepa2", "head_error": "<HTTPError 403: 'Forbidden'>"}, "seconds": 0.2}
+
+=== load_model
+{"ok": true, "result": {"entry": "vjepa2_1_vit_large_384", "tried": [["vjepa2_1_vit_large_384", "ok"]], "params_M": 304.7, "checkpoints": [], "cls": "VisionTransformer"}, "seconds": 12.2}
+
+=== module_tree_and_input_spec
+{"ok": true, "result": {"attrs": {"img_height": 384, "img_width": 384, "num_frames": 64, "tubelet_size": 2, "patch_size": 16, "embed_dim": 1024, "num_heads": 16}, "n_blocks": 24, "block_type": "Block", "patch_embed": [["patch_embed", "PatchEmbed3D", ""], ["patch_embed.proj", "Conv3d", "(2, 16, 16)"], ["patch_embed_img", "PatchEmbed3D", ""], ["patch_embed_img.proj", "Conv3d", "(1, 16, 16)"], ["blocks.0.attn.proj", "Linear", ""], ["blocks.1.attn.proj", "Linear", ""]], "top_level": ["patch_embed", "patch_embed_img", "blocks", "norms_block"]}, "seconds": 0.0}
+
+=== hooks_shapes_determinism
+{"ok": true, "result": {"out_shape": [1, 4608, 1024], "n_hooked": 24, "block_shape": [1, 4608, 1024], "repeat_max_abs_diff": 0.0, "bf16_rel_err_per_block_last": 0.017500147223472595, "bf16_rel_err_per_block_mid": 0.011484308168292046, "input_used": [1, 3, 16, 384, 384], "peak_mem_gb": 2.3}, "seconds": 3.5}
+
+=== token_to_space_map
+{"ok": true, "result": {"grid": [8, 16, 16], "strong_rows": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "strong_cols": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "expected_rows": [4, 5], "expected_cols": [10, 11], "order_consistent": false}, "seconds": 0.4}
+
+=== throughput
+{"ok": true, "result": {"clips_per_s_16frames": 19.17, "peak_mem_gb": 2.57}, "seconds": 1.7}
+
+GATE0 DONE
+/usr/local/lib/python3.12/dist-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/usr/lib/python3.12/contextlib.py:105: FutureWarning: `torch.backends.cuda.sdp_kernel()` is deprecated. In the future, this context manager will be removed. Please see `torch.nn.attention.sdpa_kernel()` for the new context manager, with updated signature.
+  self.gen = func(*args, **kwds)

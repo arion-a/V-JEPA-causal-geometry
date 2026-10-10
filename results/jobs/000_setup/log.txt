@@ -1,0 +1,7 @@
+us-ca-2-vast.runpod.net:/runpodfs/networkvolumes/wwxcuueek9   38G  4.9G   33G  13% /workspace
+us-ca-2-vast.runpod.net:/runpodfs/networkvolumes/wwxcuueek9 on /workspace type nfs4 (rw,relatime,vers=4.1,rsize=1048576,wsize=1048576,namlen=255,hard,rdirplus=force,forcerdirplus,proto=tcp,nconnect=8,timeo=900,retrans=5,sec=sys,clientaddr=10.100.232.86,local_lock=none,localports_failover,addr=10.100.232.10)
+NVIDIA RTX 4000 Ada Generation, 20475 MiB, 580.126.20
+Python 3.12.3
+torch 2.8.0+cu128 True
+.............                                                            [100%]
+13 passed in 13.43s
