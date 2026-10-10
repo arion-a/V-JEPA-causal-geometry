@@ -154,5 +154,22 @@
    "why": "the 0.05 m threshold was set for the v1 incline; the v2 incline g effect is ~0.04 m (~4 px) so it rejected 11/12 worlds and the builder looped. Scene-scale fix, made without looking at any held-out data.",
    "approved_by_user": "within approved amendment A3 (incline redesign); flagged to user"
   }
- ]
+ ],
+ "gate1c": {
+  "purpose": "does a larger gravity step make the g-derivative reliable? dev worlds only",
+  "steps_m": [
+   1,
+   2,
+   4
+  ],
+  "delta_g": [
+   0.5,
+   1.0,
+   2.0
+  ],
+  "criterion": "per m and case (g@freefall, g@bounce, g@incline): split-half reliability >=0.5 at >=2 of 4 hierarchical taps for at least one pooling; candidate = smallest m where all three pass",
+  "declared_before_run": true,
+  "status": "pending",
+  "any_adoption_is_an_amendment": true
+ }
 }
