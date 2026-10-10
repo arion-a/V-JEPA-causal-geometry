@@ -1,0 +1,385 @@
+{
+ "n_dev_worlds": {
+  "freefall": 5,
+  "bounce": 5,
+  "incline": 5
+ },
+ "taps": "hierarchical post-norm blocks 5,11,17,23",
+ "out": {
+  "global|norm5": {
+   "g@freefall": {
+    "split_half_cos": -0.016,
+    "worst_split": -0.215,
+    "mean_rel_signal": 0.01526
+   },
+   "g@bounce": {
+    "split_half_cos": 0.058,
+    "worst_split": -0.101,
+    "mean_rel_signal": 0.00456
+   },
+   "g@incline": {
+    "split_half_cos": 0.185,
+    "worst_split": -0.039,
+    "mean_rel_signal": 0.00363
+   },
+   "e@bounce": {
+    "split_half_cos": 0.334,
+    "worst_split": 0.152,
+    "mean_rel_signal": 0.00218
+   },
+   "mu@incline": {
+    "split_half_cos": 0.435,
+    "worst_split": 0.224,
+    "mean_rel_signal": 0.00422
+   },
+   "cross_context": {
+    "freefall~bounce": {
+     "g_g": -0.03085341490805149,
+     "g_other": -0.09760557115077972,
+     "gap": 0.06675215624272823
+    },
+    "freefall~incline": {
+     "g_g": 0.24299252033233643,
+     "g_other": -0.2570109963417053,
+     "gap": 0.5000035166740417
+    },
+    "bounce~incline": {
+     "g_g": 0.05296488478779793,
+     "g_other": -0.09477369487285614,
+     "gap": 0.14773857966065407
+    }
+   }
+  },
+  "global|norm11": {
+   "g@freefall": {
+    "split_half_cos": 0.335,
+    "worst_split": 0.225,
+    "mean_rel_signal": 0.01156
+   },
+   "g@bounce": {
+    "split_half_cos": -0.016,
+    "worst_split": -0.214,
+    "mean_rel_signal": 0.00429
+   },
+   "g@incline": {
+    "split_half_cos": 0.324,
+    "worst_split": 0.103,
+    "mean_rel_signal": 0.00517
+   },
+   "e@bounce": {
+    "split_half_cos": 0.285,
+    "worst_split": -0.03,
+    "mean_rel_signal": 0.00261
+   },
+   "mu@incline": {
+    "split_half_cos": 0.313,
+    "worst_split": 0.112,
+    "mean_rel_signal": 0.0048
+   },
+   "cross_context": {
+    "freefall~bounce": {
+     "g_g": 0.24390889704227448,
+     "g_other": -0.08173593878746033,
+     "gap": 0.3256448358297348
+    },
+    "freefall~incline": {
+     "g_g": 0.30739712715148926,
+     "g_other": -0.3908483386039734,
+     "gap": 0.6982454657554626
+    },
+    "bounce~incline": {
+     "g_g": 0.2606211304664612,
+     "g_other": -0.36072075366973877,
+     "gap": 0.6213418841362
+    }
+   }
+  },
+  "global|norm17": {
+   "g@freefall": {
+    "split_half_cos": 0.33,
+    "worst_split": 0.191,
+    "mean_rel_signal": 0.00855
+   },
+   "g@bounce": {
+    "split_half_cos": 0.057,
+    "worst_split": -0.157,
+    "mean_rel_signal": 0.00344
+   },
+   "g@incline": {
+    "split_half_cos": 0.438,
+    "worst_split": 0.288,
+    "mean_rel_signal": 0.00374
+   },
+   "e@bounce": {
+    "split_half_cos": 0.312,
+    "worst_split": -0.098,
+    "mean_rel_signal": 0.00257
+   },
+   "mu@incline": {
+    "split_half_cos": 0.447,
+    "worst_split": 0.22,
+    "mean_rel_signal": 0.00366
+   },
+   "cross_context": {
+    "freefall~bounce": {
+     "g_g": 0.2152620106935501,
+     "g_other": -0.20576521754264832,
+     "gap": 0.4210272282361984
+    },
+    "freefall~incline": {
+     "g_g": 0.27146589756011963,
+     "g_other": -0.41041579842567444,
+     "gap": 0.6818816959857941
+    },
+    "bounce~incline": {
+     "g_g": 0.19235627353191376,
+     "g_other": -0.2844465970993042,
+     "gap": 0.47680287063121796
+    }
+   }
+  },
+  "global|norm23": {
+   "g@freefall": {
+    "split_half_cos": 0.281,
+    "worst_split": 0.058,
+    "mean_rel_signal": 0.01834
+   },
+   "g@bounce": {
+    "split_half_cos": -0.059,
+    "worst_split": -0.295,
+    "mean_rel_signal": 0.00872
+   },
+   "g@incline": {
+    "split_half_cos": 0.475,
+    "worst_split": 0.344,
+    "mean_rel_signal": 0.00791
+   },
+   "e@bounce": {
+    "split_half_cos": 0.332,
+    "worst_split": 0.014,
+    "mean_rel_signal": 0.00646
+   },
+   "mu@incline": {
+    "split_half_cos": 0.574,
+    "worst_split": 0.318,
+    "mean_rel_signal": 0.00792
+   },
+   "cross_context": {
+    "freefall~bounce": {
+     "g_g": 0.1628706306219101,
+     "g_other": -0.20805461704730988,
+     "gap": 0.37092524766921997
+    },
+    "freefall~incline": {
+     "g_g": 0.19654498994350433,
+     "g_other": -0.28617095947265625,
+     "gap": 0.4827159494161606
+    },
+    "bounce~incline": {
+     "g_g": 0.17668253183364868,
+     "g_other": -0.17424482107162476,
+     "gap": 0.35092735290527344
+    }
+   }
+  },
+  "window|norm5": {
+   "g@freefall": {
+    "split_half_cos": 0.03,
+    "worst_split": -0.171,
+    "mean_rel_signal": 0.01569
+   },
+   "g@bounce": {
+    "split_half_cos": 0.276,
+    "worst_split": -0.071,
+    "mean_rel_signal": 0.00734
+   },
+   "g@incline": {
+    "split_half_cos": 0.402,
+    "worst_split": 0.186,
+    "mean_rel_signal": 0.00449
+   },
+   "e@bounce": {
+    "split_half_cos": 0.758,
+    "worst_split": 0.618,
+    "mean_rel_signal": 0.00843
+   },
+   "mu@incline": {
+    "split_half_cos": 0.55,
+    "worst_split": 0.467,
+    "mean_rel_signal": 0.00488
+   },
+   "cross_context": {
+    "freefall~bounce": {
+     "g_g": 0.05688017979264259,
+     "g_other": -0.07660359144210815,
+     "gap": 0.13348377123475075
+    },
+    "freefall~incline": {
+     "g_g": 0.2622789144515991,
+     "g_other": -0.3077106773853302,
+     "gap": 0.5699895918369293
+    },
+    "bounce~incline": {
+     "g_g": 0.0807456225156784,
+     "g_other": -0.08460500836372375,
+     "gap": 0.16535063087940216
+    }
+   }
+  },
+  "window|norm11": {
+   "g@freefall": {
+    "split_half_cos": 0.344,
+    "worst_split": 0.255,
+    "mean_rel_signal": 0.0126
+   },
+   "g@bounce": {
+    "split_half_cos": 0.25,
+    "worst_split": -0.146,
+    "mean_rel_signal": 0.00858
+   },
+   "g@incline": {
+    "split_half_cos": 0.458,
+    "worst_split": 0.275,
+    "mean_rel_signal": 0.0056
+   },
+   "e@bounce": {
+    "split_half_cos": 0.799,
+    "worst_split": 0.645,
+    "mean_rel_signal": 0.01001
+   },
+   "mu@incline": {
+    "split_half_cos": 0.509,
+    "worst_split": 0.408,
+    "mean_rel_signal": 0.00547
+   },
+   "cross_context": {
+    "freefall~bounce": {
+     "g_g": 0.11635744571685791,
+     "g_other": -0.019842395558953285,
+     "gap": 0.1361998412758112
+    },
+    "freefall~incline": {
+     "g_g": 0.1922772377729416,
+     "g_other": -0.2295573651790619,
+     "gap": 0.4218346029520035
+    },
+    "bounce~incline": {
+     "g_g": -0.08680269122123718,
+     "g_other": 0.048351943492889404,
+     "gap": -0.1351546347141266
+    }
+   }
+  },
+  "window|norm17": {
+   "g@freefall": {
+    "split_half_cos": 0.403,
+    "worst_split": 0.304,
+    "mean_rel_signal": 0.00996
+   },
+   "g@bounce": {
+    "split_half_cos": 0.348,
+    "worst_split": -0.162,
+    "mean_rel_signal": 0.00857
+   },
+   "g@incline": {
+    "split_half_cos": 0.561,
+    "worst_split": 0.421,
+    "mean_rel_signal": 0.00522
+   },
+   "e@bounce": {
+    "split_half_cos": 0.831,
+    "worst_split": 0.682,
+    "mean_rel_signal": 0.0104
+   },
+   "mu@incline": {
+    "split_half_cos": 0.632,
+    "worst_split": 0.553,
+    "mean_rel_signal": 0.00519
+   },
+   "cross_context": {
+    "freefall~bounce": {
+     "g_g": 0.138713538646698,
+     "g_other": -0.009543970227241516,
+     "gap": 0.14825750887393951
+    },
+    "freefall~incline": {
+     "g_g": 0.23784589767456055,
+     "g_other": -0.2783716917037964,
+     "gap": 0.5162175893783569
+    },
+    "bounce~incline": {
+     "g_g": -0.18282465636730194,
+     "g_other": 0.13358928263187408,
+     "gap": -0.316413938999176
+    }
+   }
+  },
+  "window|norm23": {
+   "g@freefall": {
+    "split_half_cos": 0.402,
+    "worst_split": 0.187,
+    "mean_rel_signal": 0.02187
+   },
+   "g@bounce": {
+    "split_half_cos": 0.355,
+    "worst_split": -0.107,
+    "mean_rel_signal": 0.0204
+   },
+   "g@incline": {
+    "split_half_cos": 0.585,
+    "worst_split": 0.429,
+    "mean_rel_signal": 0.0129
+   },
+   "e@bounce": {
+    "split_half_cos": 0.789,
+    "worst_split": 0.604,
+    "mean_rel_signal": 0.02579
+   },
+   "mu@incline": {
+    "split_half_cos": 0.663,
+    "worst_split": 0.557,
+    "mean_rel_signal": 0.0132
+   },
+   "cross_context": {
+    "freefall~bounce": {
+     "g_g": 0.017871132120490074,
+     "g_other": -0.09693118929862976,
+     "gap": 0.11480232141911983
+    },
+    "freefall~incline": {
+     "g_g": 0.22274541854858398,
+     "g_other": -0.22791583836078644,
+     "gap": 0.4506612569093704
+    },
+    "bounce~incline": {
+     "g_g": -0.11615262180566788,
+     "g_other": 0.07955344021320343,
+     "gap": -0.1957060620188713
+    }
+   }
+  }
+ },
+ "tracked_trajectory_baseline": {
+  "split_half_g": {
+   "freefall": 1.0,
+   "bounce": 0.619,
+   "incline": 1.0
+  },
+  "freefall~bounce": {
+   "g_g": -0.5834821736908273,
+   "g_other": -0.9778656159189297,
+   "gap": 0.3943834422281024
+  },
+  "freefall~incline": {
+   "g_g": 0.5188120148771103,
+   "g_other": -0.514804703666923,
+   "gap": 1.0336167185440333
+  },
+  "bounce~incline": {
+   "g_g": -0.3027668940849349,
+   "g_other": 0.3002241803186016,
+   "gap": -0.6029910744035365
+  }
+ },
+ "note": "dev worlds only; 5 worlds/scene; descriptive preview. Cosines between world-mean derivative vectors (same standardised step units)."
+}

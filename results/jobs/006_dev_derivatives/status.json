@@ -1,0 +1,11 @@
+{
+ "job": "006_dev_derivatives.sh",
+ "rc": 0,
+ "started": "2026-10-10T16:53:05Z",
+ "seconds": 356.4,
+ "timeout": 3600,
+ "job_sha256": "7fb64b2dce2af551cf75bf02f6b1b7918fffad38cc403632890c4de6163eb484",
+ "host": "ecd8920e9883",
+ "gpu": "NVIDIA RTX 4000 Ada Generation, 20475 MiB",
+ "commit": "84230de1053072addbc07731ca6631624324554e"
+}

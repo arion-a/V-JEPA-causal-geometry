@@ -1,0 +1,42 @@
+done w00_freefall_freefall 15s window_frac=0.049
+done w02_freefall_freefall 31s window_frac=0.050
+done w04_freefall_freefall 46s window_frac=0.049
+done w06_freefall_freefall 62s window_frac=0.049
+done w08_freefall_freefall 77s window_frac=0.049
+done w10_bounce_bounce 103s window_frac=0.050
+done w12_bounce_bounce 129s window_frac=0.053
+done w14_bounce_bounce 155s window_frac=0.049
+done w16_bounce_bounce 182s window_frac=0.049
+done w18_bounce_bounce 208s window_frac=0.049
+done w20_incline_incline 234s window_frac=0.047
+done w22_incline_incline 261s window_frac=0.047
+done w24_incline_incline 288s window_frac=0.048
+done w26_incline_incline 315s window_frac=0.048
+done w28_incline_incline 342s window_frac=0.047
+{
+ "split_half_g": {
+  "freefall": 1.0,
+  "bounce": 0.619,
+  "incline": 1.0
+ },
+ "freefall~bounce": {
+  "g_g": -0.5834821736908273,
+  "g_other": -0.9778656159189297,
+  "gap": 0.3943834422281024
+ },
+ "freefall~incline": {
+  "g_g": 0.5188120148771103,
+  "g_other": -0.514804703666923,
+  "gap": 1.0336167185440333
+ },
+ "bounce~incline": {
+  "g_g": -0.3027668940849349,
+  "g_other": 0.3002241803186016,
+  "gap": -0.6029910744035365
+ }
+}
+pybullet build time: Oct 10 2026 13:43:31
+/usr/local/lib/python3.12/dist-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/usr/lib/python3.12/contextlib.py:105: FutureWarning: `torch.backends.cuda.sdp_kernel()` is deprecated. In the future, this context manager will be removed. Please see `torch.nn.attention.sdpa_kernel()` for the new context manager, with updated signature.
+  self.gen = func(*args, **kwds)
