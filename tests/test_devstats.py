@@ -18,3 +18,9 @@ def test_within_scene_rank():
     rng = np.random.default_rng(2); u = rng.normal(size=128); w = rng.normal(size=128)
     same = DS.within_scene(np.stack([u, u]), np.stack([-u, -2 * u])); assert same["cos_mean"] < -0.99 and same["eff_rank_mean"] < 1.01
     diff = DS.within_scene(np.stack([u]), np.stack([w])); assert abs(diff["cos_mean"]) < 0.4 and diff["eff_rank_mean"] > 1.7
+
+
+def test_reliability_samples_splits_for_large_n_and_is_seed_stable():
+    rng = np.random.default_rng(3); d = 256; u = rng.normal(size=d); V = np.stack([u + rng.normal(size=d) * 0.5 for _ in range(15)])
+    a, b = DS.split_half_reliability(V), DS.split_half_reliability(V)
+    assert a == b and 0.8 < a[0] <= 1.0                    # 15 worlds -> sampled splits, deterministic

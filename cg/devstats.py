@@ -7,12 +7,17 @@ def _unit(v):
     return v / max(np.linalg.norm(v), 1e-12)
 
 
-def split_half_reliability(V):
-    """Mean over all (floor(n/2), rest) splits of cos(mean of half A, mean of half B). 1 = every world agrees; ~0 = noise."""
-    n = len(V); idx = range(n); k = n // 2; out = []
-    for A in itertools.combinations(idx, k):
-        B = [i for i in idx if i not in A]
-        out.append(float(_unit(V[list(A)].mean(0)) @ _unit(V[B].mean(0))))
+def split_half_reliability(V, max_splits=2000, seed=0):
+    """Mean over (floor(n/2), rest) splits of cos(mean of half A, mean of half B). 1 = every world agrees; ~0 = noise.
+    Exhaustive when C(n, n//2) <= max_splits, otherwise `max_splits` random splits (fixed seed)."""
+    from math import comb
+    n = len(V); k = n // 2; out = []
+    if comb(n, k) <= max_splits: splits = [list(A) for A in itertools.combinations(range(n), k)]
+    else:
+        rng = np.random.default_rng(seed); splits = [list(rng.permutation(n)[:k]) for _ in range(max_splits)]
+    for A in splits:
+        B = [i for i in range(n) if i not in A]
+        out.append(float(_unit(V[A].mean(0)) @ _unit(V[B].mean(0))))
     return float(np.mean(out)), float(np.min(out))
 
 

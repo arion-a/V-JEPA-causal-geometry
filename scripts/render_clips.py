@@ -12,8 +12,8 @@ ap.add_argument("--out", default=os.environ.get("CG_ROOT", f"{ROOT}/_local")); a
 rows = list(csv.DictReader(open(f"{ROOT}/data/manifests/pilot_manifest.csv")))
 if a.only == "gate1": rows = [r for r in rows if r["gate1"] == "1"]
 if a.limit: rows = rows[:a.limit]
-cdir = f"{a.out}/data/clips"; os.makedirs(cdir, exist_ok=True)
-hp = f"{a.out}/data/clip_hashes.csv"
+cdir = f"{a.out}/data/clips_v2"; os.makedirs(cdir, exist_ok=True)
+hp = f"{a.out}/data/clip_hashes_v2.csv"
 done = {r["clip_id"]: r for r in csv.DictReader(open(hp))} if os.path.exists(hp) else {}
 for i, r in enumerate(rows):
     path = f"{cdir}/{r['clip_id']}.npy"
