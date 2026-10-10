@@ -15,12 +15,18 @@ def test_free_fall_matches_closed_form_and_has_no_contact():
     assert a["impacts"] == [] and a["in_view"]
 
 
-def test_incline_acceleration_matches_coulomb_formula():
+def test_incline_slope_and_flat_phases_follow_coulomb_physics():
+    """Slope phase: a1 = g(sin a - mu cos a). Flat run-out: deceleration ~ mu*g (corner transition adds bias, tolerance documented)."""
     for mu in (0.15, 0.25, 0.35):
-        w = S.make_world("incline", 13); r = S.simulate(w, {"mu": mu}, render=False)
-        d = np.linalg.norm(r["pos"] - r["pos"][0], axis=1); acc = 2 * d[-1] / T[-1] ** 2
-        exp = 9.8 * (np.sin(w.angle) - mu * np.cos(w.angle))
-        assert abs(acc - exp) / exp < CFG["engine_tolerances"]["incline_accel_rel"]
+        w = S.make_world("incline", S.derive_seed("t", "inc", 7)); r = S.simulate(w, {"mu": mu}, render=False)
+        x, z, tr = r["pos"][:, 0], r["pos"][:, 2], r["transition_frame"]
+        assert tr is not None and 12 < tr < 50
+        e_ = tr - 10                                   # stop before the box's front edge reaches the flat (that biases the fit by ~7%)
+        s = np.hypot(x[:e_ + 1] - x[0], z[:e_ + 1] - z[0]); a1 = 2 * s[e_] / T[e_] ** 2
+        exp1 = 9.8 * (np.sin(w.angle) - mu * np.cos(w.angle)); assert abs(a1 - exp1) / exp1 < CFG["engine_tolerances"]["incline_slope_accel_rel"], (mu, a1, exp1)
+        v = np.diff(x) * S.FPS; idx = np.arange(tr + 4, len(v)); mv = idx[v[idx] > 0.15]       # fit only frames where the box is still moving
+        assert len(mv) >= 10, (mu, len(mv)); dec = -np.polyfit(mv / S.FPS, v[mv], 1)[0]
+        assert abs(dec - mu * 9.8) / (mu * 9.8) < CFG["engine_tolerances"]["incline_flat_decel_rel"], (mu, dec)
 
 
 def test_restitution_is_monotonic_and_near_e_squared():
@@ -33,11 +39,11 @@ def test_restitution_is_monotonic_and_near_e_squared():
 
 
 def test_interventions_change_the_relevant_physics():
-    d = CFG["delta"]; thr = CFG["validity"]["min_peak_displacement_m"]
+    d = CFG["delta"]; thr = CFG["validity"]["min_peak_displacement_px"]
     for kind, par in (("freefall", "g"), ("bounce", "g"), ("bounce", "e"), ("incline", "g"), ("incline", "mu")):
         w = S.make_world(kind, S.derive_seed("t", kind, 3))
         hi = S.simulate(w, {par: S.BASE[par] + d[par]}, render=False)["pos"]; lo = S.simulate(w, {par: S.BASE[par] - d[par]}, render=False)["pos"]
-        assert np.linalg.norm(hi - lo, axis=1).max() > thr, (kind, par)
+        assert np.linalg.norm(S.project_pixels(hi, kind) - S.project_pixels(lo, kind), axis=1).max() >= thr, (kind, par)
 
 
 def test_render_deterministic_and_matched_pairs_share_first_frame():
@@ -68,7 +74,7 @@ def test_validity_gate_can_reject():
     w = S.make_world("bounce", 5); w.h0 = 6.0                                   # drops too high: no impact inside the 1 s clip
     ok, why, _ = bm.check_world(w, "bounce", "bounce"); assert not ok and why in ("no_impact", "object_out_of_view")
     w = S.make_world("incline", 5); w.angle = np.radians(5)                       # shallow slope: object barely slides
-    ok, why, _ = bm.check_world(w, "incline", "incline"); assert not ok and why in ("no_slide", "mu_no_effect", "g_no_effect")
+    ok, why, _ = bm.check_world(w, "incline", "incline"); assert not ok and why in ("no_slide", "mu_no_effect", "g_no_effect", "bad_transition")
     w = S.make_world("freefall", 5); w.x0 = 40.0                                  # starts far off-screen
     ok, why, _ = bm.check_world(w, "freefall", "freefall"); assert not ok and why == "object_out_of_view"
 
@@ -91,3 +97,15 @@ def test_supersampling_and_size_scale():
     w = S.make_world("freefall", 6); a = S.simulate(w, ss=2); b = S.simulate(w, ss=2)
     assert a["frames"].shape == (64, 384, 384, 3) and S.frames_sha256(a["frames"]) == S.frames_sha256(b["frames"])
     assert np.array_equal(S.simulate(w, render=False, size_scale=2.0)["pos"][:, :2], S.simulate(w, render=False)["pos"][:, :2])   # lateral motion unchanged
+
+
+def test_incline_g_and_mu_are_distinguishable_in_trajectory_space():
+    """v2 design goal: slope+flat gives two observables (a1, mu*g). The unit-column effective rank of (dg, dmu) must be well above the old slope-only value 1.0."""
+    d = CFG["delta"]; ranks = []
+    for k in range(5):
+        w = S.make_world("incline", S.derive_seed("t", "rank", k))
+        dg = S.simulate(w, {"g": 9.8 + d["g"]}, render=False)["pos"] - S.simulate(w, {"g": 9.8 - d["g"]}, render=False)["pos"]
+        dm = S.simulate(w, {"mu": CFG["base_theta"]["mu"] + d["mu"]}, render=False)["pos"] - S.simulate(w, {"mu": CFG["base_theta"]["mu"] - d["mu"]}, render=False)["pos"]
+        U = np.stack([dg.ravel() / np.linalg.norm(dg), dm.ravel() / np.linalg.norm(dm)], 1); sv = np.linalg.svd(U, compute_uv=False); p_ = sv / sv.sum()
+        ranks.append(float(np.exp(-(p_ * np.log(p_)).sum())))
+    assert min(ranks) >= CFG["validity"]["incline_min_effective_rank"], ranks

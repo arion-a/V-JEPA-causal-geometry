@@ -37,14 +37,23 @@ def check_world(w, family, kind):
     sims = {n: run(w, o, z) for n, (o, z) in variants(family, kind).items()}
     if not all(s["in_view"] for s in sims.values()): return False, "object_out_of_view", sims
     if kind == "bounce" and any(len(s["impacts"]) < V["bounce_min_impacts_all_variants"] for s in sims.values()): return False, "no_impact", sims
-    if kind == "incline" and any((s["slide_m"] or 0) < V["incline_min_slide_m"] for s in sims.values()): return False, "no_slide", sims
+    if kind == "incline":
+        if any((s["slide_m"] or 0) < V["incline_min_slide_m"] for s in sims.values()): return False, "no_slide", sims
+        lo_t, hi_t = V["incline_transition_frame_range"]
+        if any(s["transition_frame"] is None or not (lo_t <= s["transition_frame"] <= hi_t) for s in sims.values()): return False, "bad_transition", sims
+        if family == "incline":                                       # g and mu must be separable in trajectory space (unit-column effective rank)
+            dg = (sims["g+"]["pos"] - sims["g-"]["pos"]).ravel(); dm = (sims["mu+"]["pos"] - sims["mu-"]["pos"]).ravel()
+            if min(np.linalg.norm(dg), np.linalg.norm(dm)) < 1e-9: return False, "no_effect", sims
+            sv = np.linalg.svd(np.stack([dg / np.linalg.norm(dg), dm / np.linalg.norm(dm)], 1), compute_uv=False); p_ = sv / sv.sum()
+            if float(np.exp(-(p_ * np.log(p_)).sum())) < V["incline_min_effective_rank"]: return False, "g_mu_collinear", sims
     if kind == "freefall" and float(sims["base"]["pos"][:, 2].min()) < -50: return False, "diverged", sims
-    for p in ("g", "e", "mu"):                                    # each intervened pair must move the object
+    px = lambda a, b: float(np.linalg.norm(S.project_pixels(a["pos"], kind) - S.project_pixels(b["pos"], kind), axis=1).max())   # peak pixel displacement
+    for p in ("g", "e", "mu"):                                    # each intervened pair must move the object by >= min_peak_displacement_px
         lo, hi = sims.get(f"{p}-"), sims.get(f"{p}+")
-        if lo and hi and np.linalg.norm(hi["pos"] - lo["pos"], axis=1).max() < V["min_peak_displacement_m"]: return False, f"{p}_no_effect", sims
+        if lo and hi and px(hi, lo) < V["min_peak_displacement_px"]: return False, f"{p}_no_effect", sims
     if family == "composition":
-        if np.linalg.norm(sims["g+"]["pos"] - sims["base"]["pos"], axis=1).max() < V["min_peak_displacement_m"]: return False, "g_no_effect", sims
-        if np.linalg.norm(sims["second+"]["pos"] - sims["base"]["pos"], axis=1).max() < V["min_peak_displacement_m"] / 2: return False, "second_no_effect", sims
+        if px(sims["g+"], sims["base"]) < V["min_peak_displacement_px"] / 2: return False, "g_no_effect", sims
+        if px(sims["second+"], sims["base"]) < V["min_peak_displacement_px"] / 4: return False, "second_no_effect", sims
     return True, "ok", sims
 
 
@@ -62,13 +71,15 @@ def main():
             w = S.make_world(kind, seed); ok, why, sims = check_world(w, fam, kind)
             if ok: break
             rej.append(dict(family=fam, kind=kind, index=idx, seed=seed, reason=why))
+            if sum(1 for r in rej if r["family"] == fam and r["kind"] == kind) > V["max_rejections_per_family"]:
+                raise RuntimeError(f"{key}: >{V['max_rejections_per_family']} rejections (last reason {why}); fix the design or the gate, do not loop")
         rows.append((fam, kind, w, sims))
     # splits: per (family,kind) alternate dev / heldout in generation order (first half dev)
     seen, out = {}, []
     for wi, (fam, kind, w, sims) in enumerate(rows):
-        seen[fam] = seen.get(fam, -1) + 1
-        split = "dev" if seen[fam] % 2 == 0 else "heldout"
-        wid = f"w{wi:02d}_{fam}_{kind}"
+        seen[(fam, kind)] = seen.get((fam, kind), -1) + 1; seen[fam] = seen.get(fam, -1) + 1
+        split = "dev" if seen[fam] % 2 == 0 else "heldout"            # parity of the within-family ordinal (v1 dev worlds stay dev)
+        wid = f"{fam}_{kind}_{seen[(fam, kind)]:03d}"
         for var, (over, nz) in variants(fam, kind).items():
             th = {**B, **over}; s = sims[var]
             out.append(dict(clip_id=f"{wid}__{var}", world_id=wid, family=fam, kind=kind, split=split, variant=var, world_seed=w.seed,
@@ -86,9 +97,12 @@ def main():
         wr = csv.DictWriter(f, fieldnames=list(out[0])); wr.writeheader(); wr.writerows(out)
     with open(f"{OUT}/rejected_worlds.csv", "w", newline="") as f:
         wr = csv.DictWriter(f, fieldnames=["family", "kind", "index", "seed", "reason"]); wr.writeheader(); wr.writerows(rej)
-    traj = {}
+    traj = {r["clip_id"]: None for r in out}
+    sims_by_world = {}
+    seen2 = {}
     for wi, (fam, kind, w, sims) in enumerate(rows):
-        for var in sims: traj[f"w{wi:02d}_{fam}_{kind}__{var}"] = sims[var]["pos"].astype(np.float64)
+        seen2[(fam, kind)] = seen2.get((fam, kind), -1) + 1
+        for var in sims: traj[f"{fam}_{kind}_{seen2[(fam, kind)]:03d}__{var}"] = sims[var]["pos"].astype(np.float64)
     np.savez_compressed(f"{OUT}/trajectories.npz", **traj)          # tracked-state baseline inputs (step 1.7)
     h = hashlib.sha256(open(f"{OUT}/pilot_manifest.csv", "rb").read()).hexdigest()
     by_fam = {}

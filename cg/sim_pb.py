@@ -32,14 +32,14 @@ def derive_seed(root, role, index):
 def make_world(kind, seed):
     r = np.random.default_rng(seed)
     return World(kind, int(seed),
-                 h0=float(r.uniform(3.0, 4.0) if kind == "freefall" else r.uniform(0.9, 1.2) if kind == "bounce" else r.uniform(0.3, 0.6)),
-                 x0=float(r.uniform(-0.3, 0.3)), vx=float(r.uniform(-0.3, 0.3)), angle=float(np.radians(r.uniform(28, 34))),
-                 size=float(r.uniform(0.12, 0.18)), color=tuple(float(c) for c in r.uniform(0.2, 0.95, 3)))
+                 h0=float(r.uniform(3.0, 4.0) if kind == "freefall" else r.uniform(0.9, 1.2) if kind == "bounce" else r.uniform(0.45, 0.55)),
+                 x0=float(r.uniform(-0.3, 0.3)), vx=float(r.uniform(-0.3, 0.3)), angle=float(np.radians(r.uniform(38, 42))),
+                 size=float(r.uniform(0.12, 0.18) if kind != "incline" else r.uniform(0.10, 0.14)), color=tuple(float(c) for c in r.uniform(0.2, 0.95, 3)))
 
 
 def _camera(kind, shift=0.0):
-    tgt = {"freefall": (0, 0, 2.0), "bounce": (0, 0, 0.9), "incline": (0.4, 0, 0.1)}[kind]
-    dist = {"freefall": 9.0, "bounce": 4.4, "incline": 6.0}[kind]
+    tgt = {"freefall": (0, 0, 2.0), "bounce": (0, 0, 0.9), "incline": (0.25, 0, 0.25)}[kind]
+    dist = {"freefall": 9.0, "bounce": 4.4, "incline": 3.5}[kind]
     view = p.computeViewMatrixFromYawPitchRoll([tgt[0] + shift, tgt[1], tgt[2]], dist, 0, 0, 0, 2)
     proj = p.computeProjectionMatrixFOV(50, 1.0, 0.1, 50)
     return view, proj
@@ -57,16 +57,16 @@ def simulate(w, theta=None, nuis=None, render=True, ss=1, size_scale=1.0):
         p.setPhysicsEngineParameter(numSolverIterations=50, deterministicOverlappingPairs=1, physicsClientId=cid)
         col = nz.get("color", w.color)
         if w.kind == "incline":
-            ang = w.angle                                   # slab pitched so +x runs DOWNHILL: x-axis -> (cos a, 0, -sin a)
-            q = p.getQuaternionFromEuler([0, ang, 0])
-            plane = p.createCollisionShape(p.GEOM_BOX, halfExtents=[6, 2, 0.05], physicsClientId=cid)
-            pid = p.createMultiBody(0, plane, basePosition=[0, 0, 0], baseOrientation=q, physicsClientId=cid)
-            body_col = p.createCollisionShape(p.GEOM_BOX, halfExtents=[w.size] * 3, physicsClientId=cid)
-            nrm = np.array([np.sin(ang), 0, np.cos(ang)])   # surface normal (up and slightly +x)
-            s0 = -(1.0 + w.h0)                              # start uphill of the origin (metres along the slope)
-            start = np.array([s0 * np.cos(ang), 0, -s0 * np.sin(ang)]) + nrm * (0.05 + w.size)
-            bid = p.createMultiBody(0.5, body_col, basePosition=start.tolist(), baseOrientation=q, physicsClientId=cid)
-            p.changeDynamics(pid, -1, lateralFriction=1.0, restitution=0.0, physicsClientId=cid)
+            ang = w.angle                                   # slab descends toward +x, meets a flat run-out at x=0 (v2 design: g and mu separable)
+            q = p.getQuaternionFromEuler([0, ang, 0]); nrm = np.array([np.sin(ang), 0, np.cos(ang)]); up = np.array([-np.cos(ang), 0, np.sin(ang)])
+            L = 3.0
+            flat = p.createCollisionShape(p.GEOM_BOX, halfExtents=[4, 2, 0.05], physicsClientId=cid)
+            fid = p.createMultiBody(0, flat, basePosition=[4, 0, -0.05], physicsClientId=cid)
+            slab = p.createCollisionShape(p.GEOM_BOX, halfExtents=[L / 2, 2, 0.05], physicsClientId=cid)
+            sid = p.createMultiBody(0, slab, basePosition=(up * L / 2 - nrm * 0.05).tolist(), baseOrientation=q, physicsClientId=cid)
+            for b_ in (fid, sid): p.changeDynamics(b_, -1, lateralFriction=1.0, restitution=0.0, physicsClientId=cid)
+            body_col = p.createCollisionShape(p.GEOM_BOX, halfExtents=[w.size, w.size, 0.05], physicsClientId=cid)
+            bid = p.createMultiBody(0.5, body_col, basePosition=(up * w.h0 + nrm * 0.05).tolist(), baseOrientation=q, physicsClientId=cid)
             p.changeDynamics(bid, -1, lateralFriction=th["mu"], restitution=0.0, linearDamping=0, angularDamping=0,
                              rollingFriction=0, spinningFriction=0, physicsClientId=cid)
         else:
@@ -81,8 +81,6 @@ def simulate(w, theta=None, nuis=None, render=True, ss=1, size_scale=1.0):
         for px in (-1.2, 1.2):
             pv = p.createVisualShape(p.GEOM_CYLINDER, radius=0.03, length=8.0, rgbaColor=[.35, .35, .4, 1], physicsClientId=cid)
             p.createMultiBody(0, -1, pv, basePosition=[px, 0.8, 3.0 if w.kind == "freefall" else 1.0], physicsClientId=cid)
-        vis = p.createVisualShape(p.GEOM_BOX if w.kind == "incline" else p.GEOM_SPHERE, **({"halfExtents": [w.size] * 3} if w.kind == "incline" else {"radius": w.size}),
-                                  rgbaColor=list(col) + [1], physicsClientId=cid)
         p.changeVisualShape(bid, -1, rgbaColor=list(col) + [1], physicsClientId=cid)
         view, proj = _camera(w.kind, nz.get("cam", 0.0))
         pos, frames, impacts, vz_prev = [], [], [], 0.0
@@ -100,6 +98,7 @@ def simulate(w, theta=None, nuis=None, render=True, ss=1, size_scale=1.0):
         pos = np.array(pos)
         out = dict(frames=np.stack(frames) if render else None, pos=pos, impacts=impacts)
         out["slide_m"] = float(np.linalg.norm(pos[-1] - pos[0])) if w.kind == "incline" else None
+        out["transition_frame"] = (int(np.argmax(pos[:, 0] > 0)) if (pos[:, 0] > 0).any() else None) if w.kind == "incline" else None
         out["apex_after_first_impact"] = float(pos[impacts[0]:, 2].max()) if impacts else None
         out["in_view"] = bool(_in_view(pos, view, proj))
         return out

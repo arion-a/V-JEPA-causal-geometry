@@ -1,19 +1,21 @@
 {
- "clips": 200,
- "worlds": 50,
+ "clips": 460,
+ "worlds": 110,
  "clips_by_family": {
-  "freefall": 30,
-  "bounce": 50,
-  "incline": 50,
+  "freefall": 90,
+  "bounce": 150,
+  "incline": 150,
   "nuisance": 30,
   "composition": 40
  },
- "rejected": 0,
- "rejected_by_reason": {},
+ "rejected": 1,
+ "rejected_by_reason": {
+  "g_mu_collinear": 1
+ },
  "gate1_clips": 20,
- "manifest_sha256": "a02b0ff5211536047cbf1d031419b4fec5065ceee3f53bff73f799648b6d9a49",
+ "manifest_sha256": "90381bba48486d5e9b655ea6fb1a06534287ab042194e6d98451d8ac51b48256",
  "splits": {
-  "dev": 25,
-  "heldout": 25
+  "dev": 55,
+  "heldout": 55
  }
 }

@@ -1,27 +1,158 @@
 {
- "protocol": "A-pilot-v1",
- "frozen_utc": "2026-10-10",
+ "protocol": "A-pilot-v2",
+ "frozen_utc": "2026-10-10 (v2 amendments)",
  "decisions": {
-  "frames_per_clip": 64, "fps": 64, "clip_seconds": 1.0, "resolution": 384, "physics_dt": "1/256",
+  "frames_per_clip": 64,
+  "fps": 64,
+  "clip_seconds": 1.0,
+  "resolution": 384,
+  "physics_dt": "1/256",
   "engine": "pybullet 3.2.7 DIRECT + TinyRenderer (headless, deterministic)",
-  "primary_representation": "global mean over all tokens (object-window pooling = secondary)",
+  "primary_representation": "CO-PRIMARY (Holm-corrected over the 2): (a) global mean over all tokens, (b) union object-window mean (window = union over all variants of a world of the object's token path +2 tokens, so every variant shares one window)",
   "precision": "fp32 (bf16 rejected: 1.0-1.75% rel. error per block, see reports/gate0.md)",
   "primary_layers": "hierarchical taps blocks {5,11,17,23} after their own norms_block; all 24 raw block outputs exploratory",
   "primary_hypothesis": "H2 cross-context gravity alignment, compared against the tracked-trajectory baseline",
   "unit_of_resampling": "base world"
  },
- "base_theta": {"g": 9.8, "e": 0.6, "mu": 0.25},
- "delta": {"g": 0.5, "e": 0.04, "mu": 0.02},
- "delta_rule": "delta_g fixed across scenarios (same intervention in every context); delta_e and delta_mu chosen so peak trajectory displacement between +/- variants matches that of delta_g inside the same scenario (dev worlds, medians: bounce g 0.175 m, e(0.05)=0.224 m -> 0.04; incline g 0.148 m, mu(0.025)=0.204 m -> 0.02)",
- "nuisance": {"cam_shift_m": 0.3, "color": "complement of base colour"},
- "validity": {"min_peak_displacement_m": 0.05, "bounce_min_impacts_all_variants": 1, "incline_min_slide_m": 0.3, "object_in_view_all_variants": true, "freefall_no_contact": true},
- "allocation": {"freefall": {"worlds": 10, "variants": ["base","g-","g+"]},
-                "bounce": {"worlds": 10, "variants": ["base","g-","g+","e-","e+"]},
-                "incline": {"worlds": 10, "variants": ["base","g-","g+","mu-","mu+"]},
-                "nuisance": {"worlds": 10, "split_across": {"freefall": 4, "bounce": 3, "incline": 3}, "variants": ["base","cam","color"]},
-                "composition": {"worlds": 10, "split_across": {"bounce": 5, "incline": 5}, "variants": ["base","g+","second+","both+"], "second": {"bounce": "e", "incline": "mu"}}},
- "split": "per primary scenario 5 development + 5 held-out worlds; nuisance and composition worlds split 5/5 as well",
- "engine_tolerances": {"freefall_vs_closed_form_m": 0.03, "incline_accel_rel": 0.03, "restitution_apex_ratio_abs_vs_e2": 0.08},
+ "base_theta": {
+  "g": 9.8,
+  "e": 0.6,
+  "mu": 0.25
+ },
+ "delta": {
+  "g": 0.5,
+  "e": 0.05,
+  "mu": 0.009
+ },
+ "delta_rule": "delta_g=0.5 fixed in every scene; delta_e and delta_mu give the same peak trajectory displacement as delta_g inside the same scene (calibrated on 8 dedicated 'calib' seeds, NOT manifest worlds: bounce g(0.5) 0.222 m -> e 0.049; incline(v2) g(0.5) 0.040 m -> mu 0.0087; rounded to 0.05 / 0.009)",
+ "nuisance": {
+  "cam_shift_m": 0.3,
+  "color": "complement of base colour"
+ },
+ "validity": {
+  "bounce_min_impacts_all_variants": 1,
+  "incline_min_slide_m": 0.3,
+  "object_in_view_all_variants": true,
+  "freefall_no_contact": true,
+  "incline_transition_frame_range": [
+   12,
+   50
+  ],
+  "incline_min_effective_rank": 1.5,
+  "min_peak_displacement_px": 2.0,
+  "max_rejections_per_family": 400
+ },
+ "allocation": {
+  "freefall": {
+   "worlds": 30,
+   "variants": [
+    "base",
+    "g-",
+    "g+"
+   ]
+  },
+  "bounce": {
+   "worlds": 30,
+   "variants": [
+    "base",
+    "g-",
+    "g+",
+    "e-",
+    "e+"
+   ]
+  },
+  "incline": {
+   "worlds": 30,
+   "variants": [
+    "base",
+    "g-",
+    "g+",
+    "mu-",
+    "mu+"
+   ],
+   "design_v2": "slope (38-42 deg, start 0.45-0.55 m up-slope) + flat run-out: slope accel g(sin a - mu cos a), flat decel mu*g => g and mu separable (v1 slope-only made them collinear, trajectory cos = -1.00)"
+  },
+  "nuisance": {
+   "worlds": 10,
+   "split_across": {
+    "freefall": 4,
+    "bounce": 3,
+    "incline": 3
+   },
+   "variants": [
+    "base",
+    "cam",
+    "color"
+   ]
+  },
+  "composition": {
+   "worlds": 10,
+   "split_across": {
+    "bounce": 5,
+    "incline": 5
+   },
+   "variants": [
+    "base",
+    "g+",
+    "second+",
+    "both+"
+   ],
+   "second": {
+    "bounce": "e",
+    "incline": "mu"
+   }
+  }
+ },
+ "split": "per primary scenario 15 development + 15 held-out worlds by index parity (even index = dev) so every v1 dev world stays dev and no v1 held-out world was ever inspected; nuisance and composition split 5/5",
+ "engine_tolerances": {
+  "freefall_vs_closed_form_m": 0.03,
+  "incline_slope_accel_rel": 0.03,
+  "incline_flat_decel_rel": 0.08,
+  "restitution_apex_ratio_abs_vs_e2": 0.08
+ },
  "root_seed": "vjepa21-causal-geometry-pilot-v1",
- "gate1_clip_count": 20
+ "gate1_clip_count": 20,
+ "gate1_v2": {
+  "data": "the 15 dev worlds per primary scene (held-out untouched), manifest settings (ss1, x1, delta as above), fp32, 64 frames",
+  "criterion": "for EACH of g@freefall, g@bounce, g@incline, e@bounce, mu@incline: split-half reliability of world-level derivatives >= 0.5 at >=2 of the 4 hierarchical post-norm taps, for at least one of the two poolings; AND hierarchical-tap consistency check passes. Reliability = mean cos between the mean derivative of two random halves of the 15 dev worlds (2000 random splits).",
+  "declared_before_run": true
+ },
+ "amendments": [
+  {
+   "id": "A1",
+   "date": "2026-10-10",
+   "what": "object-window pooling added as co-primary next to global mean",
+   "why": "dev-world Gate 1b/1 preview: global-mean derivatives have split-half reliability 0.0-0.57 vs window 0.03-0.83",
+   "made_after_seeing": "dev worlds only; held-out never touched",
+   "approved_by_user": true
+  },
+  {
+   "id": "A2",
+   "date": "2026-10-10",
+   "what": "primary scenes grow from 10 to 30 worlds each (200 -> 460 clips); nuisance/composition unchanged",
+   "why": "gravity derivative reliability only 0.3-0.6 with 5 dev worlds; more worlds is the direct fix",
+   "approved_by_user": true
+  },
+  {
+   "id": "A3",
+   "date": "2026-10-10",
+   "what": "incline redesigned: slope + flat run-out; delta_e 0.04->0.05, delta_mu 0.02->0.009 recalibrated",
+   "why": "v1 incline made g and mu collinear in trajectory space (cos -1.00, rank 1.01): not separable by construction",
+   "approved_by_user": true
+  },
+  {
+   "id": "A4",
+   "date": "2026-10-10",
+   "what": "Gate 1 criterion replaced by gate1_v2 (split-half reliability across 15 dev worlds) declared before the new run; v1 Gate 1 and Gate 1b remain recorded FAIL",
+   "why": "protocol compares world-averaged directions; per-world rule stricter than the analysis needs",
+   "approved_by_user": true
+  },
+  {
+   "id": "A5",
+   "date": "2026-10-10",
+   "what": "validity threshold for 'intervention moves the object' changed from 0.05 m to 2 pixels of peak projected displacement between +/- variants (comparable across scenes); builder aborts after 400 rejections per family",
+   "why": "the 0.05 m threshold was set for the v1 incline; the v2 incline g effect is ~0.04 m (~4 px) so it rejected 11/12 worlds and the builder looped. Scene-scale fix, made without looking at any held-out data.",
+   "approved_by_user": "within approved amendment A3 (incline redesign); flagged to user"
+  }
+ ]
 }

@@ -2,8 +2,8 @@
  "note": "local (build host) SHA256 of rendered frames; pod compares to test cross-machine determinism",
  "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39",
  "hashes": {
-  "w00_freefall_freefall__base": "4b6978c070cfec2a668b8702af0388f4f39999a3c83e5b5cdbdf938f816f4f13",
-  "w10_bounce_bounce__base": "94be48a336bb0316db42e5f71db623467cfb7c683156d41641e7bebbc9e42bf4",
-  "w20_incline_incline__base": "496af137a7e44746e06b3eca572487db3e015da5f5d314bc30de8584f658f03e"
+  "freefall_freefall_000__base": "4b6978c070cfec2a668b8702af0388f4f39999a3c83e5b5cdbdf938f816f4f13",
+  "bounce_bounce_000__base": "94be48a336bb0316db42e5f71db623467cfb7c683156d41641e7bebbc9e42bf4",
+  "incline_incline_000__base": "59cefcda5046242603e68d43527930625d219c4a557bf8631b7b72e868639b36"
  }
 }
