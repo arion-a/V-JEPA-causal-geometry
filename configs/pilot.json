@@ -1,0 +1,5 @@
+{"protocol": "A-pilot-v0", "n_worlds": {"freefall": 10, "bounce": 10, "incline": 10, "nuisance": 10, "composition": 10},
+ "clips_total": 200, "frames": 16, "fps": 16, "res": 64,
+ "base_theta": {"g": 9.8, "e": 0.6, "mu": 0.2}, "delta": {"g": 1.0, "e": 0.1, "mu": 0.05},
+ "model": {"name": "vjepa2_1_vit_large", "checkpoint_sha256": null, "commit": null},
+ "budget_usd_ceiling": 25, "primary_layer_summary": "TO_BE_PREDECLARED_BEFORE_ANALYSIS"}
