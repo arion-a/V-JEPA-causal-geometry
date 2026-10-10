@@ -60,7 +60,7 @@ def run_job(name):
 
 
 def publish(stem):
-    git("add", f"results/jobs/{stem}")
+    git("add", "-f", f"results/jobs/{stem}")
     git("-c", "user.name=pod-worker", "-c", "user.email=pod-worker@users.noreply.github.com", "commit", "-m", f"pod-worker: results for {stem}")
     for _ in range(4):
         if git("push", "origin", "HEAD", check=False).returncode == 0: return True
@@ -68,10 +68,19 @@ def publish(stem):
     return False
 
 
+def publish_orphans():
+    """Jobs that ran but whose results were never committed (e.g. an earlier publish failed): publish, do not rerun."""
+    jd = os.path.join(REPO, "results", "jobs")
+    for stem in sorted(os.listdir(jd)) if os.path.isdir(jd) else []:
+        if os.path.exists(os.path.join(jd, stem, "status.json")) and not git("ls-files", f"results/jobs/{stem}/status.json").stdout.strip():
+            print(f"[worker] publishing unpublished results for {stem}", flush=True); publish(stem)
+
+
 def cycle():
     p = git("pull", "--ff-only", check=False)
     if p.returncode: git("pull", "--rebase", "origin", "main", check=False)
     if os.path.exists(os.path.join(REPO, "jobs", "STOP")): print("STOP file present: exiting"); return None
+    publish_orphans()
     done = []
     for n in pending():
         print(f"[worker] running {n}", flush=True)

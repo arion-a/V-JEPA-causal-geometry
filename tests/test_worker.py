@@ -13,7 +13,7 @@ def setup(tmp):
     for d in (pod, me): subprocess.run(["git", "clone", "-q", bare, d], check=True, capture_output=True)
     os.makedirs(f"{me}/scripts"); os.makedirs(f"{me}/jobs")
     open(f"{me}/scripts/pod_worker.py", "w").write(open(f"{ROOT}/scripts/pod_worker.py").read())
-    open(f"{me}/.gitignore", "w").write("__pycache__/\n")
+    open(f"{me}/.gitignore", "w").write(open(f"{ROOT}/.gitignore").read())     # use the REAL ignore rules
     g(me, "checkout", "-q", "-b", "main"); g(me, "add", "-A"); g(me, "commit", "-qm", "init"); g(me, "push", "-q", "origin", "main")
     g(pod, "pull", "-q", "origin", "main"); g(pod, "branch", "-q", "--set-upstream-to=origin/main", "main")
     return pod, me
@@ -52,3 +52,16 @@ def test_failure_timeout_large_file_and_stop(tmp_path):
     g(me, "add", "-A"); g(me, "commit", "-qm", "stop"); g(me, "push", "-q", "origin", "main")
     assert "STOP" in worker(pod).stdout
     g(me, "pull", "-q", "origin", "main"); assert not os.path.exists(f"{me}/results/jobs/004_after_stop")
+
+
+def test_unpublished_results_are_published_not_rerun(tmp_path):
+    pod, me = setup(str(tmp_path))
+    open(f"{me}/jobs/001_once.sh", "w").write('echo run >> "$CG_ROOT/count.txt"; echo ok > "$JOB_OUT/o.txt"\n')
+    g(me, "add", "-A"); g(me, "commit", "-qm", "job"); g(me, "push", "-q", "origin", "main")
+    g(pod, "pull", "-q", "origin", "main")
+    os.makedirs(f"{pod}/vol")
+    os.makedirs(f"{pod}/results/jobs/001_once"); open(f"{pod}/results/jobs/001_once/status.json", "w").write(json.dumps(dict(rc=0)))
+    open(f"{pod}/results/jobs/001_once/o.txt", "w").write("ok\n")      # ran earlier, never committed
+    r = worker(pod); assert "publishing unpublished" in r.stdout, r.stdout + r.stderr
+    g(me, "pull", "-q", "origin", "main"); assert os.path.exists(f"{me}/results/jobs/001_once/o.txt")
+    assert not os.path.exists(f"{pod}/vol/count.txt")                  # job was not re-run

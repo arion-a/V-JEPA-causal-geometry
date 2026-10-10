@@ -1,4 +1,5 @@
 __pycache__/
 *.pyc
-results/
+results/*
+!results/jobs/
 .pytest_cache/
