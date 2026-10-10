@@ -65,3 +65,15 @@ def test_unpublished_results_are_published_not_rerun(tmp_path):
     r = worker(pod); assert "publishing unpublished" in r.stdout, r.stdout + r.stderr
     g(me, "pull", "-q", "origin", "main"); assert os.path.exists(f"{me}/results/jobs/001_once/o.txt")
     assert not os.path.exists(f"{pod}/vol/count.txt")                  # job was not re-run
+
+
+def test_failed_push_is_retried_next_cycle(tmp_path):
+    pod, me = setup(str(tmp_path))
+    open(f"{me}/jobs/001_a.sh", "w").write('echo a > "$JOB_OUT/a.txt"\n')
+    g(me, "add", "-A"); g(me, "commit", "-qm", "job"); g(me, "push", "-q", "origin", "main")
+    bare = f"{tmp_path}/remote.git"; hook = f"{bare}/hooks/pre-receive"
+    open(hook, "w").write("#!/bin/sh\nexit 1\n"); os.chmod(hook, 0o755)                    # remote rejects pushes
+    r = worker(pod); assert "PUSH FAILED" in r.stdout and "1 commit" in r.stdout, r.stdout + r.stderr
+    os.remove(hook)                                                                           # remote recovers
+    worker(pod); g(me, "pull", "-q", "origin", "main")
+    assert os.path.exists(f"{me}/results/jobs/001_a/a.txt")

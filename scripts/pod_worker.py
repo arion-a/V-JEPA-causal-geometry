@@ -62,9 +62,24 @@ def run_job(name):
 def publish(stem):
     git("add", "-f", f"results/jobs/{stem}")
     git("-c", "user.name=pod-worker", "-c", "user.email=pod-worker@users.noreply.github.com", "commit", "-m", f"pod-worker: results for {stem}")
+    return push_pending()
+
+
+def unpushed():
+    p = git("rev-list", "--count", "origin/main..HEAD", check=False)
+    return int(p.stdout.strip() or 0) if p.returncode == 0 else 0
+
+
+def push_pending():
+    """Push local commits, retrying with rebase; prints git's error (stderr never contains the token)."""
+    if not unpushed(): return True
+    err = ""
     for _ in range(4):
-        if git("push", "origin", "HEAD", check=False).returncode == 0: return True
+        p = git("push", "origin", "HEAD:main", check=False)
+        if p.returncode == 0: return True
+        err = p.stderr.strip()[-300:]
         git("pull", "--rebase", "origin", "main", check=False); time.sleep(2)
+    print(f"[worker] PUSH FAILED ({unpushed()} commit(s) waiting): {err}", flush=True)
     return False
 
 
@@ -81,6 +96,7 @@ def cycle():
     if p.returncode: git("pull", "--rebase", "origin", "main", check=False)
     if os.path.exists(os.path.join(REPO, "jobs", "STOP")): print("STOP file present: exiting"); return None
     publish_orphans()
+    push_pending()                      # retry commits whose earlier push failed
     done = []
     for n in pending():
         print(f"[worker] running {n}", flush=True)
