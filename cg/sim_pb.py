@@ -11,7 +11,7 @@ import pybullet as p
 
 FPS, N_FRAMES, SUB, RES = 64, 64, 4, 384
 DT = 1.0 / (FPS * SUB)
-BASE = dict(g=9.8, e=0.6, mu=0.25)
+BASE = dict(g=9.8, e=0.6, mu=0.25, vz=0.0)      # vz: initial vertical speed (m/s), used only by Stage 7 (freefall/bounce); 0 for every earlier clip
 KINDS = ("freefall", "bounce", "incline")
 OBSERVABLE = {"freefall": ("g",), "bounce": ("g", "e"), "incline": ("g", "mu")}
 
@@ -76,7 +76,7 @@ def simulate(w, theta=None, nuis=None, render=True, ss=1, size_scale=1.0):
             body_col = p.createCollisionShape(p.GEOM_SPHERE, radius=w.size, physicsClientId=cid)
             bid = p.createMultiBody(0.5, body_col, basePosition=[w.x0, 0, w.h0 + w.size], physicsClientId=cid)
             p.changeDynamics(bid, -1, restitution=th["e"] if w.kind == "bounce" else 0.0, lateralFriction=0.0, linearDamping=0, angularDamping=0, physicsClientId=cid)
-            p.resetBaseVelocity(bid, [w.vx, 0, 0], physicsClientId=cid)
+            p.resetBaseVelocity(bid, [w.vx, 0, th["vz"]], physicsClientId=cid)
         # static, collision-free reference poles give motion cues (same in every variant of a world)
         for px in (-1.2, 1.2):
             pv = p.createVisualShape(p.GEOM_CYLINDER, radius=0.03, length=8.0, rgbaColor=[.35, .35, .4, 1], physicsClientId=cid)

@@ -213,5 +213,15 @@
       "e and mu analyses"
     ],
     "held_out_status": "locked; analysis script must be committed and logged before first held-out use; held-out is analysed once"
+  },
+  "stage7": {
+    "status": "declared 2026-10-11 BEFORE running; user: 'do the stage 7'",
+    "descriptive_only": true,
+    "worlds": "15 dev free-fall worlds (held-out already consumed by Stage 6, not reused)",
+    "design": "gravity pair g=9.8 -/+ 1.0 (existing) vs initial-vertical-velocity pair v-/v+ with vz fitted per world and sign by least squares so the visible vertical trajectory matches the gravity pair; analytic residual ~25% of the effect rms (a linear change cannot reproduce a t^2 change)",
+    "match_check": "mean rms residual / rms effect reported; matched if mean <= 0.30",
+    "statistic": "cosine between world-mean V_g = z(g+)-z(g-) and V_v = z(v+)-z(v-) at block 23 (global, window), random-weight, pixel, trajectory; paired world bootstrap 95% CI; noise ceiling sqrt(rg*rv) with Spearman-Brown; cos/ceiling",
+    "reading_declared_in_advance": "cos/ceiling upper CI bound < 0.8 -> V-JEPA separates the two causes beyond the visible trajectory (cause-sensitive OR reads other cues such as initial speed in early frames; cannot tell which); lower CI bound >= 0.9 -> V-JEPA treats matched effects alike (effect-based); otherwise inconclusive",
+    "caveats": "15 worlds; one scene; trajectory match is approximate; no held-out confirmation"
   }
 }
