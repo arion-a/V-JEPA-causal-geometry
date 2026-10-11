@@ -1,0 +1,93 @@
+<title>Experiment Ledger</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* layout: a status header, filter row, then a vertical chain of nodes; each node links visually to the one before it */
+:root{--bg:#f6f7f6;--panel:#ffffff;--fg:#17201d;--muted:#5d6b66;--line:#d9dfdc;--accent:#0b6e5c;--ok:#1a7f4b;--bad:#b3261e;
+--k-genesis:#6b5fb5;--k-decision:#b4540a;--k-implementation:#1c5fa8;--k-run:#7a6a00;--k-result:#0b6e5c;--k-gate:#a4256a;--k-amendment:#a3321e;--k-note:#5d6b66;--k-test:#3d7a2a;--k-cost:#7a5a2a;
+--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1513;--panel:#161d1a;--fg:#e4ebe8;--muted:#92a39c;--line:#27312d;--accent:#4fd1b0;--ok:#5bd68f;--bad:#ff8a80;
+--k-genesis:#a99cf0;--k-decision:#f0a060;--k-implementation:#78b4f0;--k-run:#e0cc5a;--k-result:#4fd1b0;--k-gate:#f08ac0;--k-amendment:#f08a78;--k-note:#92a39c;--k-test:#8ad06a;--k-cost:#d6b07a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1513;--panel:#161d1a;--fg:#e4ebe8;--muted:#92a39c;--line:#27312d;--accent:#4fd1b0;--ok:#5bd68f;--bad:#ff8a80;
+--k-genesis:#a99cf0;--k-decision:#f0a060;--k-implementation:#78b4f0;--k-run:#e0cc5a;--k-result:#4fd1b0;--k-gate:#f08ac0;--k-amendment:#f08a78;--k-note:#92a39c;--k-test:#8ad06a;--k-cost:#d6b07a;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:14px;line-height:1.5;padding-inline:16px;padding-block:20px}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:22px;font-weight:600;margin:0 0 2px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 16px}
+.status{display:flex;flex-wrap:wrap;gap:8px 20px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.status div{min-width:0}.status b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.status span{font-family:var(--mono);font-size:13px;overflow-wrap:anywhere}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+.tools{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;align-items:center}
+.chip{font:500 12px var(--mono);border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:4px;padding:3px 8px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--accent);outline:1px solid var(--accent)}
+.chip:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input{font:13px var(--sans);flex:1 1 180px;min-width:0;padding:5px 8px;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--fg)}
+.chain{display:flex;flex-direction:column;gap:0}
+.node{display:grid;grid-template-columns:44px 1fr;gap:0 10px;min-width:0}
+.rail{position:relative;display:flex;justify-content:center}
+.rail:before{content:"";position:absolute;top:0;bottom:0;width:2px;background:var(--line)}
+.dot{position:relative;z-index:1;margin-top:14px;width:12px;height:12px;border-radius:50%;background:var(--kc);border:2px solid var(--bg)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px;margin-block:5px;min-width:0}
+.top{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.kind{color:var(--kc);font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.idx{color:var(--fg);font-weight:500}
+.sum{margin:6px 0 4px;overflow-wrap:anywhere}
+details summary{cursor:pointer;color:var(--muted);font-size:12px}
+.mono{font-family:var(--mono);font-size:11.5px;overflow-wrap:anywhere;color:var(--muted)}
+pre{margin:6px 0 0;padding:8px;background:var(--bg);border:1px solid var(--line);border-radius:4px;overflow-x:auto;font:11.5px var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}
+.v{font-family:var(--mono);font-size:11px}
+.empty{color:var(--muted);padding:20px 0}
+@media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}.card:hover{border-color:var(--kc)}}
+</style>
+<div class="wrap">
+<h1>Experiment Ledger</h1>
+<p class="sub">V-JEPA 2.1 causal geometry, Protocol A. Every action, decision and result is a hash-linked node. Newest first.</p>
+<div class="status" id="status"></div>
+<div class="tools" id="tools"><input id="q" type="search" placeholder="Search nodes" aria-label="Search nodes"></div>
+<div class="chain" id="chain"></div>
+</div>
+<script>
+const DATA=/*__DATA__*/null;
+const chain=DATA.chain, KINDS=[...new Set(chain.map(e=>e.kind))];
+const canon=o=>Array.isArray(o)?"["+o.map(canon).join(",")+"]":(o&&typeof o==="object")?"{"+Object.keys(o).sort().map(k=>JSON.stringify(k)+":"+canon(o[k])).join(",")+"}":JSON.stringify(o);
+const hex=async s=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,"0")).join("");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let sel=new Set(), q="", verdict={};
+async function verify(){
+  let prev="0".repeat(64), bad=[];
+  for(const e of chain){const {hash,...rest}=e; let h=null; try{h=await hex(canon(rest))}catch(x){}
+    const linkOK=e.prev_hash===prev; const hashOK=h===null?null:h===hash;
+    verdict[e.index]={linkOK,hashOK}; if(!linkOK||hashOK===false)bad.push(e.index); prev=e.hash;}
+  return bad;}
+function header(bad){
+  const last=chain[chain.length-1], counts={}; chain.forEach(e=>counts[e.kind]=(counts[e.kind]||0)+1);
+  const unk=Object.values(verdict).some(v=>v.hashOK===null);
+  const br=bad.length?`<span class="bad">BROKEN at node ${bad[0]}</span>`:`<span class="ok">intact, ${chain.length} nodes re-hashed here</span>`;
+  document.getElementById("status").innerHTML=
+   `<div><b>Chain (checked in your browser)</b>${br}</div>
+    <div><b>Chain (checked on build, incl. files)</b><span class="${DATA.server_ok?"ok":"bad"}">${DATA.server_ok?"OK":"PROBLEMS: "+esc(DATA.server_problems.join("; "))}</span></div>
+    <div><b>Latest node</b><span>#${last.index} ${esc(last.kind)} · ${esc(last.utc)}</span></div>
+    <div><b>Head hash</b><span>${last.hash.slice(0,16)}…</span></div>
+    <div><b>Page built</b><span>${esc(DATA.built)}</span></div>
+    <div><b>Nodes by kind</b><span>${Object.entries(counts).map(([k,v])=>k+" "+v).join(" · ")}</span></div>`;}
+function render(){
+  const root=document.getElementById("chain"); const t=q.toLowerCase();
+  const rows=chain.filter(e=>(!sel.size||sel.has(e.kind))&&(!t||JSON.stringify(e).toLowerCase().includes(t))).reverse();
+  if(!rows.length){root.innerHTML='<div class="empty">No nodes match.</div>';return;}
+  root.innerHTML=rows.map(e=>{const v=verdict[e.index]||{};const arts=Object.entries(e.artifacts||{});
+   const mark=v.hashOK===false||v.linkOK===false?'<span class="bad v">hash mismatch</span>':'<span class="ok v">verified</span>';
+   return `<div class="node" style="--kc:var(--k-${e.kind})"><div class="rail"><span class="dot"></span></div><div class="card">
+    <div class="top"><span class="idx">#${e.index}</span><span class="kind">${esc(e.kind)}</span><span>${esc(e.utc)}</span>${mark}</div>
+    <div class="sum">${esc(e.summary)}</div>
+    <details><summary>Hash, parent, files${arts.length?" ("+arts.length+")":""}</summary>
+     <div class="mono">hash ${e.hash}<br>prev ${e.prev_hash}<br>git ${esc(e.git_commit||"none")}${e.backfilled?"<br>back-filled from earlier session":""}</div>
+     ${arts.length?'<pre>'+arts.map(([a,h])=>esc(a)+"  "+h.slice(0,16)+"…").join("\n")+'</pre>':""}
+     ${Object.keys(e.details||{}).length?'<pre>'+esc(JSON.stringify(e.details,null,1))+'</pre>':""}
+    </details></div></div>`}).join("");}
+function tools(){
+  const box=document.getElementById("tools");
+  KINDS.forEach(k=>{const b=document.createElement("button");b.className="chip";b.textContent=k;b.setAttribute("aria-pressed","false");b.style.color=`var(--k-${k})`;
+    b.onclick=()=>{sel.has(k)?sel.delete(k):sel.add(k);b.setAttribute("aria-pressed",sel.has(k));render();};box.appendChild(b);});
+  document.getElementById("q").oninput=e=>{q=e.target.value;render();};}
+tools(); render(); verify().then(bad=>{header(bad);render();});
+</script>
