@@ -1,0 +1,854 @@
+{
+ "pretrained|global|norm5": {
+  "r_full": {
+   "g@freefall": 0.641,
+   "g@bounce": 0.322,
+   "g@incline": 0.471,
+   "e@bounce": 0.578,
+   "mu@incline": 0.708
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.198,
+    "ceiling": 0.455,
+    "corrected": 0.436,
+    "corrected_ci": [
+     -0.106,
+     0.693
+    ]
+   },
+   "freefall~incline": {
+    "obs": 0.18,
+    "ceiling": 0.55,
+    "corrected": 0.328,
+    "corrected_ci": [
+     -0.149,
+     0.579
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.078,
+    "ceiling": 0.39,
+    "corrected": 0.2,
+    "corrected_ci": [
+     -0.28,
+     0.608
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.045,
+    "ceiling": 0.431,
+    "corrected": -0.104
+   },
+   "incline g~mu": {
+    "obs": 0.014,
+    "ceiling": 0.577,
+    "corrected": 0.024
+   }
+  }
+ },
+ "pretrained|global|norm11": {
+  "r_full": {
+   "g@freefall": 0.883,
+   "g@bounce": 0.606,
+   "g@incline": 0.533,
+   "e@bounce": 0.72,
+   "mu@incline": 0.677
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.252,
+    "ceiling": 0.732,
+    "corrected": 0.344,
+    "corrected_ci": [
+     0.048,
+     0.495
+    ]
+   },
+   "freefall~incline": {
+    "obs": 0.088,
+    "ceiling": 0.686,
+    "corrected": 0.128,
+    "corrected_ci": [
+     -0.104,
+     0.299
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.101,
+    "ceiling": 0.568,
+    "corrected": 0.178,
+    "corrected_ci": [
+     -0.28,
+     0.528
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.092,
+    "ceiling": 0.661,
+    "corrected": -0.139
+   },
+   "incline g~mu": {
+    "obs": -0.01,
+    "ceiling": 0.601,
+    "corrected": -0.017
+   }
+  }
+ },
+ "pretrained|global|norm17": {
+  "r_full": {
+   "g@freefall": 0.916,
+   "g@bounce": 0.761,
+   "g@incline": 0.472,
+   "e@bounce": 0.762,
+   "mu@incline": 0.635
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.326,
+    "ceiling": 0.835,
+    "corrected": 0.391,
+    "corrected_ci": [
+     0.141,
+     0.5
+    ]
+   },
+   "freefall~incline": {
+    "obs": 0.067,
+    "ceiling": 0.658,
+    "corrected": 0.102,
+    "corrected_ci": [
+     -0.135,
+     0.284
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.032,
+    "ceiling": 0.599,
+    "corrected": 0.053,
+    "corrected_ci": [
+     -0.489,
+     0.522
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.095,
+    "ceiling": 0.762,
+    "corrected": -0.125
+   },
+   "incline g~mu": {
+    "obs": -0.068,
+    "ceiling": 0.547,
+    "corrected": -0.124
+   }
+  }
+ },
+ "pretrained|global|norm23": {
+  "r_full": {
+   "g@freefall": 0.931,
+   "g@bounce": 0.768,
+   "g@incline": 0.56,
+   "e@bounce": 0.756,
+   "mu@incline": 0.563
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.35,
+    "ceiling": 0.845,
+    "corrected": 0.414,
+    "corrected_ci": [
+     0.153,
+     0.546
+    ]
+   },
+   "freefall~incline": {
+    "obs": 0.169,
+    "ceiling": 0.722,
+    "corrected": 0.234,
+    "corrected_ci": [
+     -0.064,
+     0.403
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.206,
+    "ceiling": 0.656,
+    "corrected": 0.314,
+    "corrected_ci": [
+     -0.322,
+     0.677
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.082,
+    "ceiling": 0.762,
+    "corrected": -0.108
+   },
+   "incline g~mu": {
+    "obs": -0.096,
+    "ceiling": 0.562,
+    "corrected": -0.171
+   }
+  }
+ },
+ "pretrained|window|norm5": {
+  "r_full": {
+   "g@freefall": 0.697,
+   "g@bounce": 0.7,
+   "g@incline": 0.792,
+   "e@bounce": 0.956,
+   "mu@incline": 0.672
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.185,
+    "ceiling": 0.699,
+    "corrected": 0.265,
+    "corrected_ci": [
+     0.063,
+     0.384
+    ]
+   },
+   "freefall~incline": {
+    "obs": 0.006,
+    "ceiling": 0.743,
+    "corrected": 0.008,
+    "corrected_ci": [
+     -0.174,
+     0.199
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.006,
+    "ceiling": 0.745,
+    "corrected": 0.008,
+    "corrected_ci": [
+     -0.154,
+     0.179
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.23,
+    "ceiling": 0.818,
+    "corrected": -0.281
+   },
+   "incline g~mu": {
+    "obs": -0.016,
+    "ceiling": 0.729,
+    "corrected": -0.022
+   }
+  }
+ },
+ "pretrained|window|norm11": {
+  "r_full": {
+   "g@freefall": 0.886,
+   "g@bounce": 0.768,
+   "g@incline": 0.799,
+   "e@bounce": 0.966,
+   "mu@incline": 0.623
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.164,
+    "ceiling": 0.825,
+    "corrected": 0.199,
+    "corrected_ci": [
+     0.085,
+     0.291
+    ]
+   },
+   "freefall~incline": {
+    "obs": 0.025,
+    "ceiling": 0.841,
+    "corrected": 0.03,
+    "corrected_ci": [
+     -0.081,
+     0.15
+    ]
+   },
+   "bounce~incline": {
+    "obs": -0.075,
+    "ceiling": 0.783,
+    "corrected": -0.096,
+    "corrected_ci": [
+     -0.243,
+     0.14
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.25,
+    "ceiling": 0.862,
+    "corrected": -0.29
+   },
+   "incline g~mu": {
+    "obs": -0.026,
+    "ceiling": 0.705,
+    "corrected": -0.037
+   }
+  }
+ },
+ "pretrained|window|norm17": {
+  "r_full": {
+   "g@freefall": 0.934,
+   "g@bounce": 0.798,
+   "g@incline": 0.812,
+   "e@bounce": 0.973,
+   "mu@incline": 0.537
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.152,
+    "ceiling": 0.863,
+    "corrected": 0.176,
+    "corrected_ci": [
+     0.068,
+     0.309
+    ]
+   },
+   "freefall~incline": {
+    "obs": 0.054,
+    "ceiling": 0.871,
+    "corrected": 0.062,
+    "corrected_ci": [
+     -0.055,
+     0.16
+    ]
+   },
+   "bounce~incline": {
+    "obs": -0.107,
+    "ceiling": 0.805,
+    "corrected": -0.133,
+    "corrected_ci": [
+     -0.27,
+     0.065
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.252,
+    "ceiling": 0.881,
+    "corrected": -0.286
+   },
+   "incline g~mu": {
+    "obs": -0.06,
+    "ceiling": 0.66,
+    "corrected": -0.091
+   }
+  }
+ },
+ "pretrained|window|norm23": {
+  "r_full": {
+   "g@freefall": 0.941,
+   "g@bounce": 0.791,
+   "g@incline": 0.799,
+   "e@bounce": 0.963,
+   "mu@incline": 0.538
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.205,
+    "ceiling": 0.863,
+    "corrected": 0.238,
+    "corrected_ci": [
+     0.111,
+     0.401
+    ]
+   },
+   "freefall~incline": {
+    "obs": 0.102,
+    "ceiling": 0.867,
+    "corrected": 0.118,
+    "corrected_ci": [
+     0.009,
+     0.202
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.057,
+    "ceiling": 0.795,
+    "corrected": 0.072,
+    "corrected_ci": [
+     -0.063,
+     0.201
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.263,
+    "ceiling": 0.873,
+    "corrected": -0.301
+   },
+   "incline g~mu": {
+    "obs": -0.09,
+    "ceiling": 0.656,
+    "corrected": -0.137
+   }
+  }
+ },
+ "random|global|norm5": {
+  "r_full": {
+   "g@freefall": 0.224,
+   "g@bounce": NaN,
+   "g@incline": 0.888,
+   "e@bounce": 0.61,
+   "mu@incline": 0.571
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.033,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   },
+   "freefall~incline": {
+    "obs": 0.015,
+    "ceiling": 0.446,
+    "corrected": 0.034,
+    "corrected_ci": [
+     -0.184,
+     0.215
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.033,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.124,
+    "ceiling": NaN,
+    "corrected": null
+   },
+   "incline g~mu": {
+    "obs": -0.271,
+    "ceiling": 0.712,
+    "corrected": -0.38
+   }
+  }
+ },
+ "random|global|norm11": {
+  "r_full": {
+   "g@freefall": 0.241,
+   "g@bounce": NaN,
+   "g@incline": 0.888,
+   "e@bounce": 0.618,
+   "mu@incline": 0.571
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.023,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   },
+   "freefall~incline": {
+    "obs": 0.037,
+    "ceiling": 0.463,
+    "corrected": 0.08,
+    "corrected_ci": [
+     -0.136,
+     0.223
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.022,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.126,
+    "ceiling": NaN,
+    "corrected": null
+   },
+   "incline g~mu": {
+    "obs": -0.268,
+    "ceiling": 0.712,
+    "corrected": -0.376
+   }
+  }
+ },
+ "random|global|norm17": {
+  "r_full": {
+   "g@freefall": 0.243,
+   "g@bounce": NaN,
+   "g@incline": 0.886,
+   "e@bounce": 0.625,
+   "mu@incline": 0.565
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.003,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   },
+   "freefall~incline": {
+    "obs": 0.036,
+    "ceiling": 0.464,
+    "corrected": 0.078,
+    "corrected_ci": [
+     -0.142,
+     0.226
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.019,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.123,
+    "ceiling": NaN,
+    "corrected": null
+   },
+   "incline g~mu": {
+    "obs": -0.268,
+    "ceiling": 0.708,
+    "corrected": -0.379
+   }
+  }
+ },
+ "random|global|norm23": {
+  "r_full": {
+   "g@freefall": 0.233,
+   "g@bounce": NaN,
+   "g@incline": 0.886,
+   "e@bounce": 0.625,
+   "mu@incline": 0.573
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": -0.004,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   },
+   "freefall~incline": {
+    "obs": 0.038,
+    "ceiling": 0.455,
+    "corrected": 0.084,
+    "corrected_ci": [
+     -0.147,
+     0.238
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.005,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.123,
+    "ceiling": NaN,
+    "corrected": null
+   },
+   "incline g~mu": {
+    "obs": -0.271,
+    "ceiling": 0.713,
+    "corrected": -0.38
+   }
+  }
+ },
+ "random|window|norm5": {
+  "r_full": {
+   "g@freefall": 0.198,
+   "g@bounce": NaN,
+   "g@incline": 0.891,
+   "e@bounce": 0.629,
+   "mu@incline": 0.584
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.029,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   },
+   "freefall~incline": {
+    "obs": 0.004,
+    "ceiling": 0.42,
+    "corrected": 0.01,
+    "corrected_ci": [
+     -0.205,
+     0.202
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.042,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.128,
+    "ceiling": NaN,
+    "corrected": null
+   },
+   "incline g~mu": {
+    "obs": -0.272,
+    "ceiling": 0.721,
+    "corrected": -0.377
+   }
+  }
+ },
+ "random|window|norm11": {
+  "r_full": {
+   "g@freefall": 0.206,
+   "g@bounce": NaN,
+   "g@incline": 0.89,
+   "e@bounce": 0.632,
+   "mu@incline": 0.58
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.029,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   },
+   "freefall~incline": {
+    "obs": 0.011,
+    "ceiling": 0.428,
+    "corrected": 0.026,
+    "corrected_ci": [
+     -0.182,
+     0.201
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.043,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.129,
+    "ceiling": NaN,
+    "corrected": null
+   },
+   "incline g~mu": {
+    "obs": -0.273,
+    "ceiling": 0.718,
+    "corrected": -0.38
+   }
+  }
+ },
+ "random|window|norm17": {
+  "r_full": {
+   "g@freefall": 0.213,
+   "g@bounce": NaN,
+   "g@incline": 0.89,
+   "e@bounce": 0.639,
+   "mu@incline": 0.574
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.019,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   },
+   "freefall~incline": {
+    "obs": 0.011,
+    "ceiling": 0.435,
+    "corrected": 0.025,
+    "corrected_ci": [
+     -0.195,
+     0.205
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.041,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.129,
+    "ceiling": NaN,
+    "corrected": null
+   },
+   "incline g~mu": {
+    "obs": -0.271,
+    "ceiling": 0.715,
+    "corrected": -0.379
+   }
+  }
+ },
+ "random|window|norm23": {
+  "r_full": {
+   "g@freefall": 0.201,
+   "g@bounce": NaN,
+   "g@incline": 0.889,
+   "e@bounce": 0.637,
+   "mu@incline": 0.579
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.008,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   },
+   "freefall~incline": {
+    "obs": 0.011,
+    "ceiling": 0.423,
+    "corrected": 0.026,
+    "corrected_ci": [
+     -0.201,
+     0.215
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.027,
+    "ceiling": NaN,
+    "corrected": null,
+    "corrected_ci": null
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.13,
+    "ceiling": NaN,
+    "corrected": null
+   },
+   "incline g~mu": {
+    "obs": -0.272,
+    "ceiling": 0.717,
+    "corrected": -0.379
+   }
+  }
+ },
+ "pixel": {
+  "r_full": {
+   "g@freefall": 0.759,
+   "g@bounce": 0.727,
+   "g@incline": 0.981,
+   "e@bounce": 0.76,
+   "mu@incline": 0.965
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": -0.038,
+    "ceiling": 0.743,
+    "corrected": -0.051,
+    "corrected_ci": [
+     -0.101,
+     0.013
+    ]
+   },
+   "freefall~incline": {
+    "obs": -0.006,
+    "ceiling": 0.862,
+    "corrected": -0.007,
+    "corrected_ci": [
+     -0.046,
+     0.057
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.06,
+    "ceiling": 0.844,
+    "corrected": 0.071,
+    "corrected_ci": [
+     -0.073,
+     0.195
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.111,
+    "ceiling": 0.743,
+    "corrected": -0.149
+   },
+   "incline g~mu": {
+    "obs": -0.708,
+    "ceiling": 0.973,
+    "corrected": -0.728
+   }
+  }
+ },
+ "trajectory": {
+  "r_full": {
+   "g@freefall": 1.0,
+   "g@bounce": 0.94,
+   "g@incline": 0.991,
+   "e@bounce": 0.995,
+   "mu@incline": 0.98
+  },
+  "cross_scene": {
+   "freefall~bounce": {
+    "obs": 0.678,
+    "ceiling": 0.97,
+    "corrected": 0.699,
+    "corrected_ci": [
+     0.309,
+     0.884
+    ]
+   },
+   "freefall~incline": {
+    "obs": 0.086,
+    "ceiling": 0.996,
+    "corrected": 0.086,
+    "corrected_ci": [
+     0.082,
+     0.088
+    ]
+   },
+   "bounce~incline": {
+    "obs": 0.135,
+    "ceiling": 0.965,
+    "corrected": 0.14,
+    "corrected_ci": [
+     0.108,
+     0.17
+    ]
+   }
+  },
+  "within_scene": {
+   "bounce g~e": {
+    "obs": -0.295,
+    "ceiling": 0.967,
+    "corrected": -0.305
+   },
+   "incline g~mu": {
+    "obs": -0.665,
+    "ceiling": 0.986,
+    "corrected": -0.675
+   }
+  }
+ }
+}
