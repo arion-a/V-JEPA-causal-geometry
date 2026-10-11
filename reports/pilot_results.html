@@ -1,0 +1,267 @@
+<title>V-JEPA Causal Geometry Pilot Report</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* layout: one reading column; numbered equations (E1..) are referenced from the results tables */
+:root{--bg:#f7f8f7;--panel:#ffffff;--fg:#17201d;--muted:#58675f;--line:#d8dfdb;--accent:#0b6e5c;--ok:#1a7f4b;--no:#b3261e;--mid:#8a6100;--eqbg:#eef3f1;
+--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1513;--panel:#161d1a;--fg:#e4ebe8;--muted:#93a49d;--line:#27312d;--accent:#4fd1b0;--ok:#5bd68f;--no:#ff8a80;--mid:#e0b45a;--eqbg:#1b2420;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1513;--panel:#161d1a;--fg:#e4ebe8;--muted:#93a49d;--line:#27312d;--accent:#4fd1b0;--ok:#5bd68f;--no:#ff8a80;--mid:#e0b45a;--eqbg:#1b2420;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);padding-inline:16px;padding-block:24px}
+.wrap{max-width:820px;margin:0 auto}
+h1{font-size:26px;line-height:1.25;margin:0 0 4px;text-wrap:balance}
+h2{font-size:19px;margin:34px 0 8px;padding-top:14px;border-top:1px solid var(--line);text-wrap:balance}
+h3{font-size:15.5px;margin:20px 0 4px}
+p{margin:8px 0}.sub{color:var(--muted);margin:0 0 14px}
+ul,ol{padding-left:22px;margin:6px 0}li{margin:3px 0}
+code,.m{font-family:var(--mono);font-size:13px}
+.eq{display:grid;grid-template-columns:44px 1fr;gap:8px;align-items:start;background:var(--eqbg);border:1px solid var(--line);border-radius:6px;padding:9px 12px;margin:9px 0;min-width:0}
+.eq .lab{font:500 12px var(--mono);color:var(--accent);padding-top:2px}
+.eq .body{font-family:var(--mono);font-size:13px;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.eq .why{display:block;font:13px var(--sans);color:var(--muted);margin-top:4px;white-space:normal}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:12px 0}
+.tbl{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{font:500 11.5px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:13px}
+.ok{color:var(--ok);font-weight:500}.no{color:var(--no);font-weight:500}.mid{color:var(--mid);font-weight:500}
+dt{font-weight:600;margin-top:10px}dd{margin:2px 0 0 0;color:var(--fg)}dd .m{color:var(--accent)}
+.k{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+</style>
+<div class="wrap">
+<div class="k">Protocol A pilot · frozen V-JEPA 2.1 ViT-L 384 · 2026-10-11</div>
+<h1>Does V-JEPA 2.1 encode gravity, bounce and friction as shared mechanisms?</h1>
+<p class="sub">Final pilot report. Every number comes from a file in the repository and a hash-chained ledger node (section 9). Equation labels (E1, E2, …) are used in the results tables.</p>
+
+<div class="box"><b>Bottom line.</b>
+<ul>
+<li><b>Confirmatory test (H2, held-out worlds, run once): not supported.</b> V-JEPA's gravity direction is more alike across scenes than for raw pixels or an untrained network, but it is <i>not distinguished</i> from the tracked-trajectory baseline. Whole-frame pooling: +0.148 (97.5% interval −0.157 to 0.315). Object-window pooling: −0.031 (−0.218 to 0.133).</li>
+<li><b>H1 (local sensitivity): supported for reliability, with a pooling caveat.</b> Each parameter's feature change is repeatable across worlds; incline gravity is repeatable only with object-window pooling.</li>
+<li><b>H3 (nuisance separation) and H4 (composition) were not analysed.</b> The clips exist; the analysis was not run.</li>
+<li><b>Exploratory Stage 7 (dev only):</b> for a gravity change and an initial-speed change that look 75% alike on screen, V-JEPA's feature changes are noticeably less alike (cosine 0.60 whole-frame) than pixels (0.96) or trajectory (0.97). This hints at sensitivity to the cause, but early-frame speed cues and a residual mismatch are alternative explanations.</li>
+</ul></div>
+
+<h2>1. Question and hypotheses</h2>
+<p>Question: does a pretrained video encoder represent the physical <i>generating mechanisms</i> of a scene in a way that transfers across scenes, or only the trajectories and appearances they produce?</p>
+<div class="tbl"><table>
+<tr><th>ID</th><th>Hypothesis (from protocol, section 1)</th><th>Status</th></tr>
+<tr><td>H1</td><td>Changing gravity g, restitution e or friction μ gives a reliable, distinguishable change in the representation, where the parameter is observable.</td><td><span class="ok">Reliability supported</span>; distinguishability checked only as within-scene cosine (E12). Rank, metric and principal angles not computed.</td></tr>
+<tr><td>H2</td><td>Gravity-change directions align more across different scenes than matched baselines do. <b>Primary, confirmatory.</b></td><td><span class="no">Not supported</span> (section 6.5)</td></tr>
+<tr><td>H3</td><td>Physical-change and visual-nuisance (camera, colour) subspaces become more separable at some layers.</td><td><span class="mid">Not tested</span></td></tr>
+<tr><td>H4</td><td>Latent change under simultaneous interventions equals the sum of the individual changes better than baselines predict.</td><td><span class="mid">Not tested</span></td></tr>
+<tr><td>Null</td><td>Apparent structure is explained by trajectory differences, image statistics, object identity or pooling choice.</td><td>Not rejected</td></tr>
+</table></div>
+
+<h2>2. Definitions of key terms</h2>
+<dl>
+<dt>V-JEPA 2.1 ViT-L 384</dt><dd>Frozen video encoder (official <code>facebookresearch/vjepa2</code> commit 204698b), 304.7M parameters, 24 transformer blocks, width 1024. Input: 64 frames at 384×384, split into 16×16-pixel patches and 2-frame tubelets, giving 32×24×24 = 18,432 tokens. No weights were trained or changed.</dd>
+<dt>World</dt><dd>One random draw of a scene's nuisance settings (object size, colour, start height, horizontal start offset and speed, slope angle), fixed by a seed. The world is the independent unit for all resampling.</dd>
+<dt>Scene</dt><dd>One of three: <b>freefall</b> (no floor; g only), <b>bounce</b> (floor; g and restitution e), <b>incline</b> (slope then flat run-out; g and friction μ). Base values g = 9.8, e = 0.6, μ = 0.25.</dd>
+<dt>Intervention step δ</dt><dd>Size of the parameter change on each side of the base: δ<sub>g</sub> = 1.0, δ<sub>e</sub> = 0.05, δ<sub>μ</sub> = 0.009. Everything else about the world stays the same, so the pair differs only in that parameter.</dd>
+<dt>Block-23 tap</dt><dd>The final transformer block's output after its own layer-norm. The analysis layer for the confirmatory test. Taps 5, 11, 17, 23 are the four hierarchical layers.</dd>
+<dt>Global pooling</dt><dd>Mean over all 18,432 token vectors: one 1024-vector per clip.</dd>
+<dt>Object-window pooling</dt><dd>Mean over only the tokens near the moving object. The window is the union, over all clips of a world, of the object's token path dilated by 2 tokens, so every clip of a world shares one window.</dd>
+<dt>Derivative vector V</dt><dd>The difference in pooled features between the plus and minus clip of one world (E2). It is a <i>secant</i> over a step, not a tangent; directions can depend on step size.</dd>
+<dt>Cosine</dt><dd>Angle-based similarity of two vectors, from −1 (opposite) through 0 (unrelated) to +1 (same direction). Magnitudes are ignored (E3).</dd>
+<dt>Split-half reliability</dt><dd>How much the world-averaged derivative from one random half of the worlds agrees with the other half (E5). Near 0 means noise.</dd>
+<dt>Noise ceiling</dt><dd>The highest agreement two noisy directions could show even if they were the same underlying direction (E7).</dd>
+<dt>Cross-scene alignment G</dt><dd>Mean cosine of the gravity direction between pairs of scenes (E8). The primary statistic.</dd>
+<dt>Trajectory baseline</dt><dd>The same calculation run on the simulator's tracked object positions (64×3 numbers per clip) instead of V-JEPA features. It answers: is the alignment just "things fall differently"?</dd>
+<dt>Pixel baseline</dt><dd>The same calculation on 16 frames downsampled to 16×16 RGB.</dd>
+<dt>Random-weight baseline</dt><dd>The same V-JEPA architecture with untrained random weights (seed 0), same clips and windows.</dd>
+<dt>Wrong-parameter control</dt><dd>Compare gravity in one scene with a <i>different</i> parameter (e or μ) in the other. Gravity-specific alignment should beat it (E9).</dd>
+<dt>Paired world bootstrap</dt><dd>Resample worlds with replacement within each scene, recompute a statistic, repeat 2,000 times, and read an interval off the percentiles. "Paired" means the same resampled worlds feed V-JEPA and every baseline (E10).</dd>
+</dl>
+
+<h2>3. Design and conditions applied</h2>
+<h3>3.1 Data</h3>
+<ul>
+<li><b>Simulator:</b> PyBullet 3.2.7, DIRECT mode, TinyRenderer, deterministic and bit-identical across machines. 64 frames at 64 fps (1.0 s), physics step 1/256 s, 384 px.</li>
+<li><b>Worlds:</b> 30 per scene, split by index parity into <b>15 development (dev)</b> and <b>15 held-out</b>; the split was frozen before any analysis. Plus 10 nuisance and 10 composition worlds (not analysed).</li>
+<li><b>Clips per world:</b> base, g−, g+; bounce adds e−, e+; incline adds μ−, μ+.</li>
+<li><b>Precision:</b> fp32 only. bf16 was rejected after Gate 0 because it gave 1.0–1.75% relative error per block.</li>
+</ul>
+<h3>3.2 Validity conditions (a world is kept only if all hold, for every variant)</h3>
+<ul>
+<li>Object stays in view; freefall has no contact; bounce has ≥ 1 impact; incline slides ≥ 0.3 m and reaches the flat run-out between frame 12 and 50.</li>
+<li>Peak pixel displacement between the plus and minus clip ≥ 2 px (amendment A5).</li>
+<li>Rejected worlds are replaced by new worlds that keep the split; at most 400 rejections per scene.</li>
+</ul>
+<h3>3.3 Amendments made along the way (all logged, none after seeing held-out data)</h3>
+<ul>
+<li>A1–A5 (A1–A4 approved by the user; A5 applied within that approval and flagged to the user): object-window pooling as co-primary; 30 worlds per scene; incline redesigned to slope plus flat run-out so g and μ are separable (the first version made them exactly opposite, trajectory cosine −1.00); the 2 px validity threshold in place of 0.05 m.</li>
+<li>A6 (user-approved): δ<sub>g</sub> raised from 0.5 to 1.0 after the declared Gate 1c test (section 5.3).</li>
+<li>Pixel baseline coarsened from 32×32 to 16×16 RGB to make the statistics fast.</li>
+</ul>
+
+<h2>4. The mathematics</h2>
+<p>Notation: <i>c</i> = a clip; <i>w</i> = a world; <i>s</i> = a scene; <i>θ</i> = (g, e, μ); <i>E</i><sub>23</sub> = the block-23 encoder output; <i>n</i> = number of worlds in a scene (15).</p>
+
+<h3>4.1 Features and derivatives</h3>
+<div class="eq"><span class="lab">E1</span><span class="body">z(c) = pool( E₂₃( render(θ, w) ) )  ∈ ℝ¹⁰²⁴<span class="why">pool = mean over all tokens (global) or over the world's object window.</span></span></div>
+<div class="eq"><span class="lab">E2</span><span class="body">V<sub>j</sub>(w) = z(θ + δ<sub>j</sub>·e<sub>j</sub>, w) − z(θ − δ<sub>j</sub>·e<sub>j</sub>, w),  j ∈ {g, e, μ}<span class="why">A central difference without dividing by 2δ. The protocol divides by 2δ; division changes lengths only, so every cosine below is unaffected.</span></span></div>
+<div class="eq"><span class="lab">E3</span><span class="body">cos(a, b) = a·b / (‖a‖ ‖b‖)      ũ = u / ‖u‖</span></div>
+<div class="eq"><span class="lab">E4</span><span class="body">V̄<sub>j,s</sub> = (1/n) Σ<sub>w∈s</sub> V<sub>j</sub>(w)       (world-mean direction of parameter j in scene s)</span></div>
+
+<h3>4.2 Reliability and noise ceiling</h3>
+<div class="eq"><span class="lab">E5</span><span class="body">r = mean over 2000 random splits (A, B), |A| = ⌊n/2⌋ of cos( V̄<sub>A</sub>, V̄<sub>B</sub> )<span class="why">Half sizes are 7 and 8 worlds. Fixed seed 0.</span></span></div>
+<div class="eq"><span class="lab">E6</span><span class="body">r<sub>full</sub> = 2r / (1 + r)<span class="why">Spearman–Brown: converts half-sample reliability to the reliability of all 15 worlds. Undefined (shown as nan) when r ≤ 0.</span></span></div>
+<div class="eq"><span class="lab">E7</span><span class="body">ceiling(A, B) = √( r<sub>full,A</sub> · r<sub>full,B</sub> )      corrected score = observed / ceiling<span class="why">Two directions measured with noise cannot show a cosine above this even if the true directions were identical. The ceiling is treated as a fixed number (its own uncertainty is not propagated).</span></span></div>
+
+<h3>4.3 The primary statistic</h3>
+<div class="eq"><span class="lab">E8</span><span class="body">G = (1/3) Σ<sub>(A,B)</sub> cos( V̄<sub>g,A</sub>, V̄<sub>g,B</sub> ),   pairs: freefall~bounce, freefall~incline, bounce~incline</span></div>
+<div class="eq"><span class="lab">E9</span><span class="body">W = (1/3) Σ<sub>(A,B)</sub> cos( V̄<sub>g,A</sub>, V̄<sub>p(B),B</sub> ),   p(bounce) = e,  p(incline) = μ<span class="why">Wrong-parameter version of E8. For the freefall~bounce pair the second scene's e replaces its g, and so on.</span></span></div>
+<div class="eq"><span class="lab">E10</span><span class="body">for b = 1..2000: draw world indices with replacement within each scene (same indices for every representation); compute G<sup>(b)</sup>, W<sup>(b)</sup> for each representation;
+interval = [1.25th, 98.75th] percentile (97.5% two-sided)<span class="why">97.5% rather than 95% because there are two co-primary endpoints (global and window pooling): a Bonferroni split of 5%. The configuration text said "Holm"; the code uses this Bonferroni form, and the stricter version is what was run.</span></span></div>
+
+<h3>4.4 Hypothesis test and claim rule (frozen before held-out was opened)</h3>
+<div class="eq"><span class="lab">E11</span><span class="body">Primary endpoint, for each pooling P ∈ {global, window}:   Δ<sub>P</sub> = G(V-JEPA, P) − G(trajectory)
+SUCCESS(P)  ⇔  lower 97.5% bound of Δ<sub>P</sub><sup>(b)</sup> &gt; 0
+Controls:
+  wrong_param_ok(P) ⇔ lower bound of ( G − W )(V-JEPA, P) &gt; 0
+  baselines_ok(P)   ⇔ lower bounds of ( G(pixel) − G(V-JEPA) ) ≤ 0 and ( G(random) − G(V-JEPA) ) ≤ 0
+CLAIM "mechanism-like geometry" ⇔ SUCCESS(global) ∧ SUCCESS(window) ∧ wrong_param_ok ∧ baselines_ok (both poolings)
+One pooling succeeds → "pooling-dependent, not supported".  Interval spans 0 → "not distinguished from kinematics".  Upper bound &lt; 0 → "trajectory baseline stronger".</span></div>
+<div class="eq"><span class="lab">E12</span><span class="body">Within-scene distinctness:  cos( V<sub>g</sub>(w), V<sub>p</sub>(w) ) averaged over worlds, p = e (bounce) or μ (incline); 95% bootstrap interval.<span class="why">Near 0 → the two parameters move the representation in different directions.</span></span></div>
+
+<h3>4.5 Gate rule used to accept a parameter as measurable (Gate 1)</h3>
+<div class="eq"><span class="lab">E13</span><span class="body">PASS(case) ⇔ r ≥ 0.5 at ≥ 2 of the 4 taps (5, 11, 17, 23), for at least one pooling;  cases: g@freefall, g@bounce, g@incline, e@bounce, μ@incline<span class="why">r from E5, dev worlds only.</span></span></div>
+
+<h3>4.6 Stage 7: matching a gravity change with an initial-speed change</h3>
+<div class="eq"><span class="lab">E14</span><span class="body">Free fall: z(t) = z₀ + v₀t − ½gt².   A gravity change Δg gives Δz<sub>g</sub>(t) = −½Δg·t².
+Initial vertical speed v changes it by Δz<sub>v</sub>(t) = v·t.
+Least-squares match over the 64 frame times t:   v* = Σ<sub>t</sub> Δz<sub>g</sub>(t)·t / Σ<sub>t</sub> t²<span class="why">For Δg = ±1 and a 1 s clip, v* = ∓(3/8)Δg·T = ∓0.375 m/s (simulated: 0.374).</span></span></div>
+<div class="eq"><span class="lab">E15</span><span class="body">Unmatched share = 1 − (∫t³)² / (∫t²·∫t⁴) = 1 − 15/16 = 1/16 of the energy → rms residual / rms effect = √(1/16) = 0.25<span class="why">A straight-line-in-time change can never copy a t² change. Measured: 0.249 in all 30 gravity/speed pairs. Declared acceptance limit: ≤ 0.30.</span></span></div>
+<div class="eq"><span class="lab">E16</span><span class="body">Cause-vs-effect cosine:  C = cos( V̄<sub>g</sub>, V̄<sub>v</sub> ),   V<sub>g</sub> = z(g+) − z(g−),  V<sub>v</sub> = z(v+) − z(v−);  corrected C = C / ceiling (E7);  95% paired world bootstrap.
+Reading fixed in advance: upper bound of corrected C &lt; 0.8 → V-JEPA separates the causes beyond the visible trajectory; lower bound ≥ 0.9 → treats them alike; otherwise inconclusive.</span></div>
+
+<h2>5. Results before the confirmatory test (all on dev worlds)</h2>
+<h3>5.1 Gate 0: the model loads and behaves (pass)</h3>
+<p>Model <code>vjepa2_1_vit_large_384</code> loaded; checkpoint hash recorded; token order (time, height, width) verified with a bright-square test; repeat inference identical; fp32 required (above). A weights-URL bug in the official repo (points at localhost) was found and patched at runtime.</p>
+<h3>5.2 Gate 1: parameters leave a repeatable mark (pass under amendments A1–A6)</h3>
+<p>Split-half reliability r (E5), block 23, 15 dev worlds. The case passes by E13.</p>
+<div class="tbl"><table>
+<tr><th>Case</th><th class="n">r global</th><th class="n">r window</th><th>E13</th></tr>
+<tr><td>g @ freefall</td><td class="n">0.871</td><td class="n">0.889</td><td class="ok">pass (both)</td></tr>
+<tr><td>g @ bounce</td><td class="n">0.623</td><td class="n">0.654</td><td class="ok">pass (both)</td></tr>
+<tr><td>g @ incline</td><td class="n">0.389</td><td class="n">0.665</td><td class="mid">pass <b>only</b> with window pooling</td></tr>
+<tr><td>e @ bounce</td><td class="n">0.608</td><td class="n">0.928</td><td class="ok">pass (both)</td></tr>
+<tr><td>μ @ incline</td><td class="n">0.392</td><td class="n">0.368</td><td class="mid">pass only at earlier taps (global: 0.548, 0.512 at taps 5, 11)</td></tr>
+</table></div>
+<h3>5.3 Gate 1c: choosing the gravity step</h3>
+<p>Declared before running: test δ<sub>g</sub> ∈ {0.5, 1.0, 2.0} by E13 on gravity cases. δ<sub>g</sub> = 0.5 failed in bounce and incline; 1.0 is the smallest passing step; 2.0 pushed 9 of 30 free-fall variants out of frame. Adopted: 1.0 (A6, user approved).</p>
+<h3>5.4 Stage 5: controls (descriptive)</h3>
+<p>Block 23 cross-scene gravity cosine per pair (E8's terms) with 95% bootstrap interval, global pooling:</p>
+<div class="tbl"><table>
+<tr><th>Representation</th><th class="n">free~bounce</th><th class="n">free~incline</th><th class="n">bounce~incline</th></tr>
+<tr><td>V-JEPA, global</td><td class="n">0.35 [0.13, 0.46]</td><td class="n">0.17 [−0.05, 0.29]</td><td class="n">0.21 [−0.21, 0.44]</td></tr>
+<tr><td>V-JEPA, window</td><td class="n">0.21 [0.10, 0.35]</td><td class="n">0.10 [0.01, 0.18]</td><td class="n">0.06 [−0.05, 0.16]</td></tr>
+<tr><td>Trajectory</td><td class="n">0.68 [0.30, 0.86]</td><td class="n">0.09</td><td class="n">0.14</td></tr>
+<tr><td>Pixels</td><td class="n">−0.04</td><td class="n">−0.01</td><td class="n">0.06</td></tr>
+<tr><td>Random weights (window)</td><td class="n">0.01</td><td class="n">0.01</td><td class="n">0.03</td></tr>
+</table></div>
+<p>Negative controls behaved: the sign-flip null reliability was near 0 (within ±0.1 at block 23; the largest value across all taps and poolings was 0.21, g@bounce with window pooling), and shuffled pairing pushed reliability negative.</p>
+<h3>5.5 Noise-ceiling correction (E6, E7)</h3>
+<p>Worked example, V-JEPA global, block 23: r<sub>g,freefall</sub> = 0.871 → r<sub>full</sub> = 2(0.871)/(1.871) = 0.931; r<sub>g,bounce</sub> = 0.623 → 0.768; ceiling = √(0.931 × 0.768) = 0.845; corrected = 0.35 / 0.845 = <b>0.41</b>.</p>
+<div class="tbl"><table>
+<tr><th>Pair (V-JEPA global)</th><th class="n">Observed</th><th class="n">Ceiling</th><th class="n">Corrected [95%]</th></tr>
+<tr><td>freefall~bounce</td><td class="n">0.35</td><td class="n">0.845</td><td class="n">0.41 [0.15, 0.55]</td></tr>
+<tr><td>freefall~incline</td><td class="n">0.17</td><td class="n">0.722</td><td class="n">0.23 [−0.06, 0.40]</td></tr>
+<tr><td>bounce~incline</td><td class="n">0.21</td><td class="n">0.656</td><td class="n">0.31 [−0.32, 0.68]</td></tr>
+</table></div>
+<p>Reading: noise explains part of the low scores, but the corrected values are still well below 1.</p>
+<h3>5.6 Within-scene distinctness (E12, block 23, global)</h3>
+<p>Bounce g vs e: −0.08 [−0.23, 0.07]. Incline g vs μ: −0.10 [−0.25, 0.06]. Both include 0: gravity and the other parameter move the representation in unrelated directions. In pixel and trajectory space, incline g vs μ is strongly negative (−0.71, −0.67) because more gravity speeds the object up and more friction slows it down. V-JEPA shows far less of that coupling.</p>
+<h3>5.7 Dry run of the primary test on dev (E11)</h3>
+<p>Global: V-JEPA 0.241 vs trajectory 0.300, Δ = −0.058 (−0.319, 0.093). Window: 0.121 vs 0.300, Δ = −0.178 (−0.293, 0.004). Not a success. Freshly extracted features matched the Gate 1 features exactly (max difference 0.0). This confirmed the pipeline and was declared in advance as the likely outcome.</p>
+
+<h2>6. The confirmatory result (held-out, run once)</h2>
+<p>Run under a ledger-logged unlock that fixed the script, analysis code and configuration by file hash. The run was refused twice before starting because result files that earlier ledger nodes listed were missing from the pod's repository copy; I added the files and changed no code or setting. Fifteen held-out worlds per scene, block 23.</p>
+<h3>6.1 Per-pair gravity cosines</h3>
+<div class="tbl"><table>
+<tr><th>Representation</th><th class="n">free~bounce</th><th class="n">free~incline</th><th class="n">bounce~incline</th><th class="n">G (E8)</th><th class="n">W (E9)</th></tr>
+<tr><td>V-JEPA, global</td><td class="n">0.506</td><td class="n">0.086</td><td class="n">0.287</td><td class="n"><b>0.293</b></td><td class="n">−0.021</td></tr>
+<tr><td>V-JEPA, window</td><td class="n">0.197</td><td class="n">0.007</td><td class="n">0.139</td><td class="n"><b>0.114</b></td><td class="n">−0.033</td></tr>
+<tr><td>Trajectory</td><td class="n">0.161</td><td class="n">0.082</td><td class="n">0.192</td><td class="n"><b>0.145</b></td><td class="n">−0.358</td></tr>
+<tr><td>Random weights, global</td><td class="n">−0.084</td><td class="n">−0.120</td><td class="n">0.264</td><td class="n">0.020</td><td class="n">0.002</td></tr>
+<tr><td>Random weights, window</td><td class="n">−0.104</td><td class="n">−0.154</td><td class="n">0.271</td><td class="n">0.004</td><td class="n">0.010</td></tr>
+<tr><td>Pixels</td><td class="n">−0.037</td><td class="n">0.004</td><td class="n">0.030</td><td class="n">−0.001</td><td class="n">0.036</td></tr>
+</table></div>
+<p>Check of E8 by hand: global V-JEPA (0.506 + 0.086 + 0.287)/3 = 0.879/3 = 0.293. Trajectory (0.161 + 0.082 + 0.192)/3 = 0.145. Window V-JEPA (0.197 + 0.007 + 0.139)/3 = 0.114.</p>
+<h3>6.2 Applying E11</h3>
+<div class="tbl"><table>
+<tr><th>Condition (97.5% interval)</th><th class="n">Global</th><th class="n">Window</th></tr>
+<tr><td>Δ = G(V-JEPA) − G(trajectory)</td><td class="n">+0.148 [−0.157, 0.315]</td><td class="n">−0.031 [−0.218, 0.133]</td></tr>
+<tr><td>SUCCESS: lower bound &gt; 0</td><td class="no">no</td><td class="no">no</td></tr>
+<tr><td>G − W (gravity specificity)</td><td class="n">+0.314 [0.054, 0.449]</td><td class="n">+0.148 [−0.079, 0.302]</td></tr>
+<tr><td>wrong_param_ok</td><td class="ok">yes</td><td class="no">no</td></tr>
+<tr><td>Pixels − V-JEPA</td><td class="n">−0.294 [−0.384, −0.071]</td><td class="n">−0.115 [−0.221, 0.060]</td></tr>
+<tr><td>Random weights − V-JEPA</td><td class="n">−0.273 [−0.391, −0.035]</td><td class="n">−0.110 [−0.251, 0.078]</td></tr>
+<tr><td>baselines_ok</td><td class="ok">yes</td><td class="ok">yes</td></tr>
+</table></div>
+<h3>6.3 Claim</h3>
+<p><b>"Not distinguished from kinematics."</b> Neither interval clears zero, so the frozen rule gives no mechanism-like claim. The global-pooling estimate favours V-JEPA, the opposite sign from dev, which shows how unstable a 15-world comparison is.</p>
+<h3>6.4 Interpretation limits</h3>
+<ul>
+<li>The result neither shows V-JEPA equals the trajectory baseline nor that it beats it. The intervals are wide (about ±0.25).</li>
+<li>The trajectory baseline's G depends on the scene geometry (gravity acts vertically in two scenes and along a slope in the third); it dropped from 0.30 on dev to 0.145 on held-out.</li>
+<li>Held-out is now used up. The script refuses a second run.</li>
+</ul>
+
+<h2>7. Exploratory Stage 7: gravity versus initial speed (dev free-fall, 15 worlds)</h2>
+<p>Design: E14, E15. Measured match: rms residual / rms effect 0.249 for both signs (limit 0.30 met); peak residual 0.118 m against a mean peak effect of 0.486 m.</p>
+<div class="tbl"><table>
+<tr><th>Representation</th><th class="n">C (E16)</th><th class="n">95% interval</th><th class="n">Ceiling</th><th class="n">Corrected</th></tr>
+<tr><td>V-JEPA, global</td><td class="n">0.604</td><td class="n">0.415 – 0.704</td><td class="n">0.945</td><td class="n">0.64 (0.44 – 0.75)</td></tr>
+<tr><td>V-JEPA, window</td><td class="n">0.696</td><td class="n">0.521 – 0.768</td><td class="n">0.950</td><td class="n">0.73 (0.55 – 0.81)</td></tr>
+<tr><td>Random weights</td><td class="n">−0.08 / −0.10</td><td class="n">spans 0</td><td class="n">0.17 – 0.19</td><td class="n">not meaningful</td></tr>
+<tr><td>Pixels</td><td class="n">0.959</td><td class="n">0.940 – 0.966</td><td class="n">0.752</td><td class="n">1.28</td></tr>
+<tr><td>Trajectory</td><td class="n">0.969</td><td class="n">0.969 – 0.969</td><td class="n">1.0</td><td class="n">0.97</td></tr>
+</table></div>
+<p>Declared reading (E16): global upper bound 0.75 &lt; 0.8 → V-JEPA separates the two causes beyond the visible trajectory; window upper bound 0.81 → inconclusive. Pixels and the trajectory say the two clips differ by a cosine of 0.96–0.97, so V-JEPA is picking up something that those two do not.</p>
+<p><b>Why this is not a mechanism result:</b></p>
+<ul>
+<li>A speed change is visible from the first frame; a gravity change accumulates. A feature that reads early speed would also give a low C.</li>
+<li>The 25% unmatched trajectory could be amplified by the network.</li>
+<li>Per-world cosines (0.38) were barely above cosines taken against another world (0.34), so only the world-mean statistic is interpretable.</li>
+<li>One scene, 15 worlds, no held-out confirmation.</li>
+</ul>
+
+<h2>8. What is observed, unsupported and untested</h2>
+<div class="tbl"><table>
+<tr><th>Claim</th><th>Status</th><th>Evidence</th></tr>
+<tr><td>The encoder runs reproducibly in fp32 and the simulator is deterministic</td><td class="ok">Observed</td><td>Gate 0, Stage 1</td></tr>
+<tr><td>Changes in g, e and μ leave repeatable marks in block-23 features</td><td class="ok">Observed (dev)</td><td>5.2; incline g needs window pooling; incline μ is the weakest</td></tr>
+<tr><td>V-JEPA's gravity direction is more alike across scenes than raw pixels or an untrained network</td><td class="ok">Observed (held-out)</td><td>6.2 (global pooling; intervals exclude 0)</td></tr>
+<tr><td>Gravity alignment is specific to gravity (beats the wrong parameter)</td><td class="mid">Global yes, window no</td><td>6.2</td></tr>
+<tr><td>V-JEPA's gravity alignment exceeds the trajectory baseline</td><td class="no">Unsupported</td><td>6.2: both intervals include 0</td></tr>
+<tr><td>V-JEPA encodes gravity as a mechanism, separate from how it looks</td><td class="no">Unsupported</td><td>E11 claim rule not met</td></tr>
+<tr><td>V-JEPA distinguishes a gravity change from an initial-speed change that looks alike</td><td class="mid">Exploratory hint only</td><td>7: dev only, alternative explanations open</td></tr>
+<tr><td>Nuisance (camera, colour) separation (H3)</td><td class="mid">Not tested</td><td>Clips rendered; analysis not run</td></tr>
+<tr><td>Additive composition of interventions (H4)</td><td class="mid">Not tested</td><td>Clips rendered; analysis not run</td></tr>
+<tr><td>Effective rank, induced metric, principal angles</td><td class="mid">Not tested</td><td>Not computed on final data</td></tr>
+<tr><td>Other layers, other models, step sizes δ/2 and 2δ, other scenes</td><td class="mid">Not tested</td><td>Out of pilot scope</td></tr>
+</table></div>
+
+<h2>9. Limitations and deviations</h2>
+<ul>
+<li><b>Small samples.</b> 15 worlds per scene per split. Intervals are wide and the dev and held-out point estimates disagreed in sign.</li>
+<li><b>Secant, not tangent.</b> A change of step size changes the measured direction. The gravity step was chosen by the repeatability gate on dev worlds, so it is tuned to make directions measurable.</li>
+<li><b>Incline gravity</b> is repeatable only with object-window pooling, and the window's own validity rests on the object-tracking positions from the simulator.</li>
+<li><b>Bootstrap bias.</b> Percentile intervals are biased low when the statistic is near 1. A sign-flip null showed reliability near 0 under no signal.</li>
+<li><b>Ceiling treated as a point value;</b> not propagated.</li>
+<li><b>Process.</b> Much of the early effort went into pod access (a git-based job worker, then a Jupyter terminal). A launch refusal on the held-out run came from a ledger check that listed files not in the pod's copy; no analysis choice changed.</li>
+</ul>
+
+<h2>10. Provenance</h2>
+<ul>
+<li><b>Ledger:</b> a SHA-256 hash chain, one node per action or decision (80 nodes at writing, plus the report node). Live view and in-browser re-check: the ledger page. File: <code>log/ledger.jsonl</code>; verify with <code>python3 scripts/ledger.py verify --files</code>.</li>
+<li><b>Repository:</b> <code>arion-a/V-JEPA-causal-geometry</code>, branch <code>main</code>. Frozen decisions: <code>configs/pilot.json</code> (protocol A-pilot-v3, blocks <code>confirmatory</code> and <code>stage7</code>).</li>
+<li><b>Key result files:</b> <code>results/gate1_v3/</code>, <code>results/gate1c/</code>, <code>results/stage5/stage5.json</code>, <code>results/ceiling/ceiling.json</code>, <code>results/primary_dev/primary.json</code>, <code>results/primary_heldout/primary.json</code>, <code>results/stage7/stage7.json</code>.</li>
+<li><b>Code:</b> <code>cg/devstats.py</code> (E5, bootstrap), <code>cg/primary.py</code> (E8–E11), <code>scripts/ceiling_check.py</code> (E6, E7), <code>scripts/stage7_cause_effect.py</code> (E14–E16), <code>cg/sim_pb.py</code> (simulator). 40 automated tests pass.</li>
+<li><b>Compute:</b> one RunPod RTX 4000 Ada pod at $0.28/h from 2026-10-10 11:20 UTC to 2026-10-11 09:58 UTC (about 22.6 h, roughly $6.3 plus any volume storage); stopped, the volume kept.</li>
+</ul>
+
+<h2>11. Recommendation</h2>
+<p>Do not claim mechanism-level encoding of gravity from this pilot. The evidence supports "some shared gravity structure that pixels and an untrained network lack, not separable from trajectory information at this sample size". If the question is worth pursuing, the next study should (a) use at least 60 new worlds per scene with a fresh held-out set and a preregistered primary of cause-versus-effect matching (Stage 7 design, with matching that includes early-frame speed), and (b) analyse H3 and H4 on clips that already exist.</p>
+</div>
