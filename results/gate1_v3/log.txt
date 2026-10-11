@@ -1,0 +1,120 @@
+pybullet build time: Oct 10 2026 13:43:31
+/usr/local/lib/python3.12/dist-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/usr/lib/python3.12/contextlib.py:105: FutureWarning: `torch.backends.cuda.sdp_kernel()` is deprecated. In the future, this context manager will be removed. Please see `torch.nn.attention.sdpa_kernel()` for the new context manager, with updated signature.
+  self.gen = func(*args, **kwds)
+done freefall_freefall_000 10s
+done freefall_freefall_002 21s
+done freefall_freefall_004 31s
+done freefall_freefall_006 41s
+done freefall_freefall_008 51s
+done freefall_freefall_010 62s
+done freefall_freefall_012 72s
+done freefall_freefall_014 82s
+done freefall_freefall_016 93s
+done freefall_freefall_032 103s
+done freefall_freefall_020 114s
+done freefall_freefall_022 124s
+done freefall_freefall_024 135s
+done freefall_freefall_026 145s
+done freefall_freefall_028 156s
+done bounce_bounce_000 176s
+done bounce_bounce_002 197s
+done bounce_bounce_004 218s
+done bounce_bounce_006 239s
+done bounce_bounce_008 260s
+done bounce_bounce_010 281s
+done bounce_bounce_012 302s
+done bounce_bounce_014 323s
+done bounce_bounce_016 344s
+done bounce_bounce_018 364s
+done bounce_bounce_020 385s
+done bounce_bounce_022 406s
+done bounce_bounce_024 427s
+done bounce_bounce_026 448s
+done bounce_bounce_028 469s
+done incline_incline_030 490s
+done incline_incline_002 511s
+done incline_incline_004 532s
+done incline_incline_006 552s
+done incline_incline_008 573s
+done incline_incline_010 594s
+done incline_incline_012 615s
+done incline_incline_014 636s
+done incline_incline_016 657s
+done incline_incline_018 678s
+done incline_incline_020 699s
+done incline_incline_022 719s
+done incline_incline_024 740s
+done incline_incline_026 761s
+done incline_incline_028 782s
+{
+ "hier_check": {
+  "max_abs_diff": 0.0,
+  "ok": true,
+  "final_equals_norm23": true
+ },
+ "verdict": {
+  "g@freefall": {
+   "global": {
+    "taps_ge_0p5": 3,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "g@bounce": {
+   "global": {
+    "taps_ge_0p5": 2,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "g@incline": {
+   "global": {
+    "taps_ge_0p5": 0,
+    "passes": false
+   },
+   "window": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "e@bounce": {
+   "global": {
+    "taps_ge_0p5": 3,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "mu@incline": {
+   "global": {
+    "taps_ge_0p5": 2,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 1,
+    "passes": false
+   },
+   "case_passes": true
+  }
+ },
+ "gate1_v2_pass": true,
+ "n_worlds": {
+  "freefall": 15,
+  "bounce": 15,
+  "incline": 15
+ }
+}
