@@ -115,7 +115,8 @@
  "gate1_v2": {
   "data": "the 15 dev worlds per primary scene (held-out untouched), manifest settings (ss1, x1, delta as above), fp32, 64 frames",
   "criterion": "for EACH of g@freefall, g@bounce, g@incline, e@bounce, mu@incline: split-half reliability of world-level derivatives >= 0.5 at >=2 of the 4 hierarchical post-norm taps, for at least one of the two poolings; AND hierarchical-tap consistency check passes. Reliability = mean cos between the mean derivative of two random halves of the 15 dev worlds (2000 random splits).",
-  "declared_before_run": true
+  "declared_before_run": true,
+  "status": "PASS on the final v3 dev manifest (all five cases; g@incline passes only via window pooling)"
  },
  "amendments": [
   {
