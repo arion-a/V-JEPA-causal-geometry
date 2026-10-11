@@ -1,0 +1,126 @@
+{
+ "n_worlds": {
+  "freefall": 15,
+  "bounce": 15,
+  "incline": 15
+ },
+ "level": "97.5% two-sided paired world bootstrap",
+ "per_rep": {
+  "pt_g": {
+   "G": 0.293,
+   "G_wrong": -0.021,
+   "pairs": {
+    "freefall~bounce": 0.506,
+    "freefall~incline": 0.086,
+    "bounce~incline": 0.287
+   }
+  },
+  "pt_w": {
+   "G": 0.114,
+   "G_wrong": -0.033,
+   "pairs": {
+    "freefall~bounce": 0.197,
+    "freefall~incline": 0.007,
+    "bounce~incline": 0.139
+   }
+  },
+  "rw_g": {
+   "G": 0.02,
+   "G_wrong": 0.002,
+   "pairs": {
+    "freefall~bounce": -0.084,
+    "freefall~incline": -0.12,
+    "bounce~incline": 0.264
+   }
+  },
+  "rw_w": {
+   "G": 0.004,
+   "G_wrong": 0.01,
+   "pairs": {
+    "freefall~bounce": -0.104,
+    "freefall~incline": -0.154,
+    "bounce~incline": 0.271
+   }
+  },
+  "px": {
+   "G": -0.001,
+   "G_wrong": 0.036,
+   "pairs": {
+    "freefall~bounce": -0.037,
+    "freefall~incline": 0.004,
+    "bounce~incline": 0.03
+   }
+  },
+  "traj": {
+   "G": 0.145,
+   "G_wrong": -0.358,
+   "pairs": {
+    "freefall~bounce": 0.161,
+    "freefall~incline": 0.082,
+    "bounce~incline": 0.192
+   }
+  }
+ },
+ "endpoints": {
+  "global": {
+   "vjepa_G": 0.293,
+   "trajectory_G": 0.145,
+   "diff_vs_trajectory": 0.148,
+   "diff_vs_trajectory_interval": [
+    -0.157,
+    0.315
+   ],
+   "gravity_minus_wrong": 0.314,
+   "gravity_minus_wrong_interval": [
+    0.054,
+    0.449
+   ],
+   "pixel_minus_vjepa": -0.294,
+   "pixel_minus_vjepa_interval": [
+    -0.384,
+    -0.071
+   ],
+   "random_minus_vjepa": -0.273,
+   "random_minus_vjepa_interval": [
+    -0.391,
+    -0.035
+   ],
+   "primary_success": false,
+   "wrong_param_ok": true,
+   "baselines_ok": true,
+   "verdict_this_pooling": "not distinguished from kinematics"
+  },
+  "window": {
+   "vjepa_G": 0.114,
+   "trajectory_G": 0.145,
+   "diff_vs_trajectory": -0.031,
+   "diff_vs_trajectory_interval": [
+    -0.218,
+    0.133
+   ],
+   "gravity_minus_wrong": 0.148,
+   "gravity_minus_wrong_interval": [
+    -0.079,
+    0.302
+   ],
+   "pixel_minus_vjepa": -0.115,
+   "pixel_minus_vjepa_interval": [
+    -0.221,
+    0.06
+   ],
+   "random_minus_vjepa": -0.11,
+   "random_minus_vjepa_interval": [
+    -0.251,
+    0.078
+   ],
+   "primary_success": false,
+   "wrong_param_ok": false,
+   "baselines_ok": true,
+   "verdict_this_pooling": "not distinguished from kinematics"
+  }
+ },
+ "claim": "not distinguished from kinematics",
+ "split": "heldout",
+ "utc": "2026-10-11T04:28:59Z",
+ "config_confirmatory": "mean over the 3 scene pairs (freefall~bounce, freefall~incline, bounce~incline) of the cosine between world-mean gravity directions, V-JEPA minus tracked-trajectory baseline"
+}
