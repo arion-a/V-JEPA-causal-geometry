@@ -1,0 +1,95 @@
+{
+ "n_worlds": 15,
+ "calibration": {
+  "-": {
+   "mean_rms_resid_over_effect": 0.249,
+   "max": 0.249
+  },
+  "+": {
+   "mean_rms_resid_over_effect": 0.249,
+   "max": 0.249
+  }
+ },
+ "peak_resid_m_max": 0.1183,
+ "peak_effect_m_mean": 0.486,
+ "reps": {
+  "pt_g": {
+   "cos_world_mean": 0.604,
+   "ci95": [
+    0.415,
+    0.704
+   ],
+   "reliability_g": 0.871,
+   "reliability_v": 0.921,
+   "ceiling": 0.945,
+   "cos_over_ceiling": 0.639,
+   "per_world_cos_mean": 0.384,
+   "per_world_cos_other_world": 0.34
+  },
+  "pt_w": {
+   "cos_world_mean": 0.696,
+   "ci95": [
+    0.521,
+    0.768
+   ],
+   "reliability_g": 0.889,
+   "reliability_v": 0.921,
+   "ceiling": 0.95,
+   "cos_over_ceiling": 0.732,
+   "per_world_cos_mean": 0.446,
+   "per_world_cos_other_world": 0.389
+  },
+  "rw_g": {
+   "cos_world_mean": -0.078,
+   "ci95": [
+    -0.196,
+    0.02
+   ],
+   "reliability_g": 0.132,
+   "reliability_v": 0.079,
+   "ceiling": 0.185,
+   "cos_over_ceiling": -0.42,
+   "per_world_cos_mean": -0.107,
+   "per_world_cos_other_world": 0.012
+  },
+  "rw_w": {
+   "cos_world_mean": -0.104,
+   "ci95": [
+    -0.206,
+    0.002
+   ],
+   "reliability_g": 0.113,
+   "reliability_v": 0.08,
+   "ceiling": 0.173,
+   "cos_over_ceiling": -0.599,
+   "per_world_cos_mean": -0.109,
+   "per_world_cos_other_world": 0.003
+  },
+  "px": {
+   "cos_world_mean": 0.959,
+   "ci95": [
+    0.94,
+    0.966
+   ],
+   "reliability_g": 0.611,
+   "reliability_v": 0.593,
+   "ceiling": 0.752,
+   "cos_over_ceiling": 1.276,
+   "per_world_cos_mean": 0.954,
+   "per_world_cos_other_world": 0.173
+  },
+  "traj": {
+   "cos_world_mean": 0.969,
+   "ci95": [
+    0.969,
+    0.969
+   ],
+   "reliability_g": 1.0,
+   "reliability_v": 1.0,
+   "ceiling": 1.0,
+   "cos_over_ceiling": 0.969,
+   "per_world_cos_mean": 0.969,
+   "per_world_cos_other_world": 0.969
+  }
+ }
+}
