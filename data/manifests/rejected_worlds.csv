@@ -1,2 +1,5 @@
 family,kind,index,seed,reason
-incline,incline,11,541821397,g_mu_collinear
+freefall,freefall,freefall_freefall_007,3760243169,retired:object_out_of_view
+freefall,freefall,freefall_freefall_015,4288491716,retired:object_out_of_view
+freefall,freefall,freefall_freefall_018,3316023453,retired:object_out_of_view
+incline,incline,incline_incline_000,2784305083,retired:g_mu_collinear

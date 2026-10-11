@@ -8,12 +8,13 @@
   "nuisance": 30,
   "composition": 40
  },
- "rejected": 1,
+ "rejected": 4,
  "rejected_by_reason": {
-  "g_mu_collinear": 1
+  "retired:object_out_of_view": 3,
+  "retired:g_mu_collinear": 1
  },
  "gate1_clips": 20,
- "manifest_sha256": "90381bba48486d5e9b655ea6fb1a06534287ab042194e6d98451d8ac51b48256",
+ "manifest_sha256": "13a0f796a3099fc2450cc5a1998e370e2b1bd9c0ca7ee932bf793aa445355e72",
  "splits": {
   "dev": 55,
   "heldout": 55

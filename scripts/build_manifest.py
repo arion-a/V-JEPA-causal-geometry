@@ -57,29 +57,61 @@ def check_world(w, family, kind):
     return True, "ok", sims
 
 
+def load_frozen(path):
+    """Worlds of an earlier manifest in file order: [(wid, fam, kind, split, seed)]."""
+    seen, out = set(), []
+    for r in csv.DictReader(open(path)):
+        if r["world_id"] not in seen:
+            seen.add(r["world_id"]); out.append((r["world_id"], r["family"], r["kind"], r["split"], int(r["world_seed"])))
+    return out
+
+
 def main():
-    alloc = CFG["allocation"]; plan = []
-    for fam in ("freefall", "bounce", "incline"): plan += [(fam, fam)] * alloc[fam]["worlds"]
-    for k, n in alloc["nuisance"]["split_across"].items(): plan += [("nuisance", k)] * n
-    for k, n in alloc["composition"]["split_across"].items(): plan += [("composition", k)] * n
-    rows, rej, counters = [], [], {}
-    for fam, kind in plan:
-        key = f"{fam}:{kind}"; counters.setdefault(key, 0)
-        while True:
-            idx = counters[key]; counters[key] += 1
-            seed = S.derive_seed(CFG["root_seed"], f"world-{fam}-{kind}", idx)
+    import argparse
+    ap = argparse.ArgumentParser(); ap.add_argument("--freeze-from", default=None, help="earlier manifest CSV: keep its worlds (id, seed, split) and only retire/replace worlds that fail the current validity gate")
+    args = ap.parse_args()
+    alloc = CFG["allocation"]; rej = []
+    if args.freeze_from:
+        frozen = load_frozen(args.freeze_from); rows, meta, retired = [], [], []
+        used = {}                                                               # (fam,kind) -> set of seed indices already used by any frozen world
+        for wid, fam, kind, split, seed in frozen:
+            idxs = [i for i in range(5000) if S.derive_seed(CFG["root_seed"], f"world-{fam}-{kind}", i) == seed]; used.setdefault((fam, kind), set()).update(idxs)
+        next_ord = {}
+        for wid, fam, kind, split, seed in frozen: next_ord[(fam, kind)] = max(next_ord.get((fam, kind), -1), int(wid.rsplit("_", 1)[1]))
+        for wid, fam, kind, split, seed in frozen:
             w = S.make_world(kind, seed); ok, why, sims = check_world(w, fam, kind)
-            if ok: break
-            rej.append(dict(family=fam, kind=kind, index=idx, seed=seed, reason=why))
-            if sum(1 for r in rej if r["family"] == fam and r["kind"] == kind) > V["max_rejections_per_family"]:
-                raise RuntimeError(f"{key}: >{V['max_rejections_per_family']} rejections (last reason {why}); fix the design or the gate, do not loop")
-        rows.append((fam, kind, w, sims))
-    # splits: per (family,kind) alternate dev / heldout in generation order (first half dev)
-    seen, out = {}, []
-    for wi, (fam, kind, w, sims) in enumerate(rows):
-        seen[(fam, kind)] = seen.get((fam, kind), -1) + 1; seen[fam] = seen.get(fam, -1) + 1
-        split = "dev" if seen[fam] % 2 == 0 else "heldout"            # parity of the within-family ordinal (v1 dev worlds stay dev)
-        wid = f"{fam}_{kind}_{seen[(fam, kind)]:03d}"
+            if ok: rows.append((fam, kind, w, sims)); meta.append((wid, split)); continue
+            rej.append(dict(family=fam, kind=kind, index=wid, seed=seed, reason=f"retired:{why}")); retired.append((wid, fam, kind, split))
+            while True:                                                         # replacement: a NEW world (unused seed index), same split as the retired one
+                idx = max(used[(fam, kind)]) + 1; used[(fam, kind)].add(idx)
+                nseed = S.derive_seed(CFG["root_seed"], f"world-{fam}-{kind}", idx); w2 = S.make_world(kind, nseed); ok2, why2, sims2 = check_world(w2, fam, kind)
+                if ok2: break
+                rej.append(dict(family=fam, kind=kind, index=f"new-index-{idx}", seed=nseed, reason=why2))
+            next_ord[(fam, kind)] += 1; nwid = f"{fam}_{kind}_{next_ord[(fam, kind)]:03d}"
+            rows.append((fam, kind, w2, sims2)); meta.append((nwid, split)); print(f"retired {wid} ({why}) -> new world {nwid} [{split}]")
+    else:
+        plan = []
+        for fam in ("freefall", "bounce", "incline"): plan += [(fam, fam)] * alloc[fam]["worlds"]
+        for k, n in alloc["nuisance"]["split_across"].items(): plan += [("nuisance", k)] * n
+        for k, n in alloc["composition"]["split_across"].items(): plan += [("composition", k)] * n
+        rows, counters = [], {}
+        for fam, kind in plan:
+            key = f"{fam}:{kind}"; counters.setdefault(key, 0)
+            while True:
+                idx = counters[key]; counters[key] += 1
+                seed = S.derive_seed(CFG["root_seed"], f"world-{fam}-{kind}", idx)
+                w = S.make_world(kind, seed); ok, why, sims = check_world(w, fam, kind)
+                if ok: break
+                rej.append(dict(family=fam, kind=kind, index=idx, seed=seed, reason=why))
+                if sum(1 for r in rej if r["family"] == fam and r["kind"] == kind) > V["max_rejections_per_family"]:
+                    raise RuntimeError(f"{key}: >{V['max_rejections_per_family']} rejections (last reason {why}); fix the design or the gate, do not loop")
+            rows.append((fam, kind, w, sims))
+        seen, meta = {}, []
+        for fam, kind, w, sims in rows:
+            seen[(fam, kind)] = seen.get((fam, kind), -1) + 1; seen[fam] = seen.get(fam, -1) + 1
+            meta.append((f"{fam}_{kind}_{seen[(fam, kind)]:03d}", "dev" if seen[fam] % 2 == 0 else "heldout"))     # parity of the within-family ordinal
+    out = []
+    for (fam, kind, w, sims), (wid, split) in zip(rows, meta):
         for var, (over, nz) in variants(fam, kind).items():
             th = {**B, **over}; s = sims[var]
             out.append(dict(clip_id=f"{wid}__{var}", world_id=wid, family=fam, kind=kind, split=split, variant=var, world_seed=w.seed,
@@ -97,12 +129,9 @@ def main():
         wr = csv.DictWriter(f, fieldnames=list(out[0])); wr.writeheader(); wr.writerows(out)
     with open(f"{OUT}/rejected_worlds.csv", "w", newline="") as f:
         wr = csv.DictWriter(f, fieldnames=["family", "kind", "index", "seed", "reason"]); wr.writeheader(); wr.writerows(rej)
-    traj = {r["clip_id"]: None for r in out}
-    sims_by_world = {}
-    seen2 = {}
-    for wi, (fam, kind, w, sims) in enumerate(rows):
-        seen2[(fam, kind)] = seen2.get((fam, kind), -1) + 1
-        for var in sims: traj[f"{fam}_{kind}_{seen2[(fam, kind)]:03d}__{var}"] = sims[var]["pos"].astype(np.float64)
+    traj = {}
+    for (fam, kind, w, sims), (wid, split) in zip(rows, meta):
+        for var in sims: traj[f"{wid}__{var}"] = sims[var]["pos"].astype(np.float64)
     np.savez_compressed(f"{OUT}/trajectories.npz", **traj)          # tracked-state baseline inputs (step 1.7)
     h = hashlib.sha256(open(f"{OUT}/pilot_manifest.csv", "rb").read()).hexdigest()
     by_fam = {}

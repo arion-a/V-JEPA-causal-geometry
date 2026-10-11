@@ -1,5 +1,5 @@
 {
- "protocol": "A-pilot-v2",
+ "protocol": "A-pilot-v3",
  "frozen_utc": "2026-10-10 (v2 amendments)",
  "decisions": {
   "frames_per_clip": 64,
@@ -20,11 +20,11 @@
   "mu": 0.25
  },
  "delta": {
-  "g": 0.5,
+  "g": 1.0,
   "e": 0.05,
   "mu": 0.009
  },
- "delta_rule": "delta_g=0.5 fixed in every scene; delta_e and delta_mu give the same peak trajectory displacement as delta_g inside the same scene (calibrated on 8 dedicated 'calib' seeds, NOT manifest worlds: bounce g(0.5) 0.222 m -> e 0.049; incline(v2) g(0.5) 0.040 m -> mu 0.0087; rounded to 0.05 / 0.009)",
+ "delta_rule": "delta_g=1.0 (amendment A6: Gate 1c showed delta_g=0.5 gives unreliable gravity derivatives in bounce/incline; 1.0 is the smallest step passing all three gravity cases; 2.0 pushes free-fall objects out of frame). delta_e=0.05 and delta_mu=0.009 unchanged (already reliable). The earlier equal-displacement standardisation (v2 A3) no longer holds exactly for g vs e/mu: analyses report derivatives per unit step and compare directions (cosines), not raw magnitudes.",
  "nuisance": {
   "cam_shift_m": 0.3,
   "color": "complement of base colour"
@@ -153,6 +153,14 @@
    "what": "validity threshold for 'intervention moves the object' changed from 0.05 m to 2 pixels of peak projected displacement between +/- variants (comparable across scenes); builder aborts after 400 rejections per family",
    "why": "the 0.05 m threshold was set for the v1 incline; the v2 incline g effect is ~0.04 m (~4 px) so it rejected 11/12 worlds and the builder looped. Scene-scale fix, made without looking at any held-out data.",
    "approved_by_user": "within approved amendment A3 (incline redesign); flagged to user"
+  },
+  {
+   "id": "A6",
+   "date": "2026-10-11",
+   "what": "delta_g 0.5 -> 1.0 in every scene (g = 9.8 -/+ 1.0); gravity clips (g-/g+, composition g+/both+) regenerated; worlds failing the new validity gate are retired and replaced by NEW worlds with the same split (no world changes split)",
+   "why": "Gate 1 v2 failed g@bounce and g@incline; declared Gate 1c on dev worlds found delta_g=1.0 is the smallest step where all three gravity cases pass (4x compromised: 9/30 free-fall variants leave frame)",
+   "approved_by_user": true,
+   "caveat": "measured directions depend on step size (secant, not tangent); reliability is not evidence of mechanism"
   }
  ],
  "gate1c": {
@@ -169,7 +177,7 @@
   ],
   "criterion": "per m and case (g@freefall, g@bounce, g@incline): split-half reliability >=0.5 at >=2 of 4 hierarchical taps for at least one pooling; candidate = smallest m where all three pass",
   "declared_before_run": true,
-  "status": "done: candidate m=2 (delta_g=1.0); adoption pending user decision (amendment A6)",
+  "status": "done; delta_g=1.0 adopted as A6",
   "any_adoption_is_an_amendment": true
  }
 }
