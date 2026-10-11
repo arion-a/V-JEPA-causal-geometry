@@ -169,7 +169,7 @@
   ],
   "criterion": "per m and case (g@freefall, g@bounce, g@incline): split-half reliability >=0.5 at >=2 of 4 hierarchical taps for at least one pooling; candidate = smallest m where all three pass",
   "declared_before_run": true,
-  "status": "pending",
+  "status": "done: candidate m=2 (delta_g=1.0); adoption pending user decision (amendment A6)",
   "any_adoption_is_an_amendment": true
  }
 }
