@@ -1,0 +1,533 @@
+{
+ "started": "2026-10-11T00:42:44Z",
+ "hier_check": {
+  "max_abs_diff": 0.0,
+  "ok": true,
+  "final_equals_norm23": true
+ },
+ "reliability": {
+  "g@freefall|global": {
+   "norm5": {
+    "mean": 0.472,
+    "worst": 0.201
+   },
+   "norm11": {
+    "mean": 0.79,
+    "worst": 0.6
+   },
+   "norm17": {
+    "mean": 0.845,
+    "worst": 0.731
+   },
+   "norm23": {
+    "mean": 0.871,
+    "worst": 0.727
+   }
+  },
+  "g@freefall|window": {
+   "norm5": {
+    "mean": 0.535,
+    "worst": 0.291
+   },
+   "norm11": {
+    "mean": 0.795,
+    "worst": 0.58
+   },
+   "norm17": {
+    "mean": 0.876,
+    "worst": 0.792
+   },
+   "norm23": {
+    "mean": 0.889,
+    "worst": 0.788
+   }
+  },
+  "g@bounce|global": {
+   "norm5": {
+    "mean": 0.192,
+    "worst": -0.477
+   },
+   "norm11": {
+    "mean": 0.435,
+    "worst": -0.155
+   },
+   "norm17": {
+    "mean": 0.614,
+    "worst": -0.004
+   },
+   "norm23": {
+    "mean": 0.623,
+    "worst": 0.011
+   }
+  },
+  "g@bounce|window": {
+   "norm5": {
+    "mean": 0.539,
+    "worst": -0.461
+   },
+   "norm11": {
+    "mean": 0.624,
+    "worst": -0.58
+   },
+   "norm17": {
+    "mean": 0.664,
+    "worst": -0.645
+   },
+   "norm23": {
+    "mean": 0.654,
+    "worst": -0.624
+   }
+  },
+  "g@incline|global": {
+   "norm5": {
+    "mean": 0.308,
+    "worst": -0.323
+   },
+   "norm11": {
+    "mean": 0.363,
+    "worst": -0.26
+   },
+   "norm17": {
+    "mean": 0.309,
+    "worst": -0.548
+   },
+   "norm23": {
+    "mean": 0.389,
+    "worst": -0.511
+   }
+  },
+  "g@incline|window": {
+   "norm5": {
+    "mean": 0.655,
+    "worst": 0.316
+   },
+   "norm11": {
+    "mean": 0.665,
+    "worst": 0.294
+   },
+   "norm17": {
+    "mean": 0.684,
+    "worst": 0.156
+   },
+   "norm23": {
+    "mean": 0.665,
+    "worst": 0.132
+   }
+  },
+  "e@bounce|global": {
+   "norm5": {
+    "mean": 0.406,
+    "worst": -0.127
+   },
+   "norm11": {
+    "mean": 0.562,
+    "worst": 0.159
+   },
+   "norm17": {
+    "mean": 0.616,
+    "worst": 0.107
+   },
+   "norm23": {
+    "mean": 0.608,
+    "worst": -0.029
+   }
+  },
+  "e@bounce|window": {
+   "norm5": {
+    "mean": 0.916,
+    "worst": 0.738
+   },
+   "norm11": {
+    "mean": 0.934,
+    "worst": 0.79
+   },
+   "norm17": {
+    "mean": 0.947,
+    "worst": 0.833
+   },
+   "norm23": {
+    "mean": 0.928,
+    "worst": 0.748
+   }
+  },
+  "mu@incline|global": {
+   "norm5": {
+    "mean": 0.548,
+    "worst": 0.173
+   },
+   "norm11": {
+    "mean": 0.512,
+    "worst": 0.156
+   },
+   "norm17": {
+    "mean": 0.465,
+    "worst": -0.028
+   },
+   "norm23": {
+    "mean": 0.392,
+    "worst": -0.109
+   }
+  },
+  "mu@incline|window": {
+   "norm5": {
+    "mean": 0.506,
+    "worst": 0.217
+   },
+   "norm11": {
+    "mean": 0.452,
+    "worst": 0.15
+   },
+   "norm17": {
+    "mean": 0.367,
+    "worst": -0.049
+   },
+   "norm23": {
+    "mean": 0.368,
+    "worst": -0.059
+   }
+  }
+ },
+ "verdict": {
+  "g@freefall": {
+   "global": {
+    "taps_ge_0p5": 3,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "g@bounce": {
+   "global": {
+    "taps_ge_0p5": 2,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "g@incline": {
+   "global": {
+    "taps_ge_0p5": 0,
+    "passes": false
+   },
+   "window": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "e@bounce": {
+   "global": {
+    "taps_ge_0p5": 3,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 4,
+    "passes": true
+   },
+   "case_passes": true
+  },
+  "mu@incline": {
+   "global": {
+    "taps_ge_0p5": 2,
+    "passes": true
+   },
+   "window": {
+    "taps_ge_0p5": 1,
+    "passes": false
+   },
+   "case_passes": true
+  }
+ },
+ "gate1_v2_pass": true,
+ "n_worlds": {
+  "freefall": 15,
+  "bounce": 15,
+  "incline": 15
+ },
+ "descriptive_not_gating": {
+  "within|bounce|g~e|global|norm11": {
+   "cos_mean": -0.0924305833876133,
+   "cos_per_world": [
+    -0.455,
+    -0.318,
+    0.189,
+    0.012,
+    -0.172,
+    0.223,
+    -0.248,
+    0.174,
+    -0.28,
+    -0.342,
+    0.012,
+    -0.169,
+    0.353,
+    0.108,
+    -0.475
+   ],
+   "eff_rank_mean": 1.9802924156188966
+  },
+  "within|bounce|g~e|global|norm23": {
+   "cos_mean": -0.08189866567651431,
+   "cos_per_world": [
+    -0.174,
+    0.028,
+    0.371,
+    -0.267,
+    -0.135,
+    0.033,
+    -0.11,
+    -0.111,
+    -0.244,
+    -0.484,
+    0.059,
+    -0.259,
+    0.509,
+    0.258,
+    -0.701
+   ],
+   "eff_rank_mean": 1.971287989616394
+  },
+  "within|bounce|g~e|window|norm11": {
+   "cos_mean": -0.2501908615231514,
+   "cos_per_world": [
+    -0.899,
+    -0.852,
+    -0.044,
+    0.248,
+    -0.253,
+    0.756,
+    -0.625,
+    0.277,
+    -0.194,
+    -0.907,
+    -0.613,
+    -0.81,
+    0.875,
+    0.071,
+    -0.783
+   ],
+   "eff_rank_mean": 1.8392164627710978
+  },
+  "within|bounce|g~e|window|norm23": {
+   "cos_mean": -0.26342812503377594,
+   "cos_per_world": [
+    -0.871,
+    -0.774,
+    0.07,
+    0.128,
+    -0.282,
+    0.814,
+    -0.529,
+    -0.042,
+    -0.176,
+    -0.909,
+    -0.613,
+    -0.782,
+    0.891,
+    -0.063,
+    -0.813
+   ],
+   "eff_rank_mean": 1.8467353264490762
+  },
+  "within|bounce|g~e|tracked_trajectory": {
+   "cos_mean": -0.29460123713429703,
+   "cos_per_world": [
+    -0.925,
+    -0.895,
+    0.001,
+    -0.225,
+    -0.383,
+    0.48,
+    -0.832,
+    0.331,
+    -0.201,
+    -0.85,
+    -0.468,
+    -0.534,
+    0.861,
+    0.12,
+    -0.897
+   ],
+   "eff_rank_mean": 1.8405745112184888
+  },
+  "within|incline|g~mu|global|norm11": {
+   "cos_mean": -0.009607880314191183,
+   "cos_per_world": [
+    -0.037,
+    0.539,
+    -0.374,
+    0.057,
+    0.054,
+    0.155,
+    0.088,
+    -0.216,
+    -0.103,
+    0.037,
+    0.272,
+    -0.075,
+    -0.43,
+    -0.041,
+    -0.073
+   ],
+   "eff_rank_mean": 1.9852920373280842
+  },
+  "within|incline|g~mu|global|norm23": {
+   "cos_mean": -0.09552934964497885,
+   "cos_per_world": [
+    -0.066,
+    0.565,
+    -0.563,
+    0.095,
+    0.264,
+    0.031,
+    -0.164,
+    -0.366,
+    0.086,
+    -0.359,
+    0.013,
+    -0.22,
+    -0.515,
+    0.124,
+    -0.358
+   ],
+   "eff_rank_mean": 1.972241457303365
+  },
+  "within|incline|g~mu|window|norm11": {
+   "cos_mean": -0.026361046296854814,
+   "cos_per_world": [
+    0.051,
+    0.232,
+    -0.249,
+    -0.09,
+    0.028,
+    0.142,
+    0.13,
+    -0.276,
+    0.011,
+    0.053,
+    -0.002,
+    -0.051,
+    -0.312,
+    -0.031,
+    -0.032
+   ],
+   "eff_rank_mean": 1.9940606355667114
+  },
+  "within|incline|g~mu|window|norm23": {
+   "cos_mean": -0.09014901456733544,
+   "cos_per_world": [
+    0.129,
+    0.191,
+    -0.301,
+    -0.029,
+    0.059,
+    0.07,
+    0.002,
+    -0.365,
+    -0.07,
+    -0.206,
+    -0.043,
+    -0.158,
+    -0.498,
+    0.071,
+    -0.203
+   ],
+   "eff_rank_mean": 1.9882404088974
+  },
+  "within|incline|g~mu|tracked_trajectory": {
+   "cos_mean": -0.6653494952037609,
+   "cos_per_world": [
+    -0.569,
+    -0.578,
+    -0.613,
+    -0.691,
+    -0.664,
+    -0.746,
+    -0.583,
+    -0.655,
+    -0.597,
+    -0.711,
+    -0.669,
+    -0.816,
+    -0.67,
+    -0.692,
+    -0.726
+   ],
+   "eff_rank_mean": 1.8514264276570693
+  },
+  "cross|global|norm11": {
+   "freefall~bounce": {
+    "g_g": 0.251692533493042,
+    "g_other": -0.05484674870967865,
+    "gap": 0.30653928220272064
+   },
+   "freefall~incline": {
+    "g_g": 0.08783145248889923,
+    "g_other": -0.1339191347360611,
+    "gap": 0.22175058722496033
+   },
+   "bounce~incline": {
+    "g_g": 0.1009596735239029,
+    "g_other": -0.12597651779651642,
+    "gap": 0.2269361913204193
+   }
+  },
+  "cross|global|norm23": {
+   "freefall~bounce": {
+    "g_g": 0.3496032655239105,
+    "g_other": -0.11498014628887177,
+    "gap": 0.4645834118127823
+   },
+   "freefall~incline": {
+    "g_g": 0.16867047548294067,
+    "g_other": -0.15746450424194336,
+    "gap": 0.32613497972488403
+   },
+   "bounce~incline": {
+    "g_g": 0.2061060667037964,
+    "g_other": -0.2808452248573303,
+    "gap": 0.4869512915611267
+   }
+  },
+  "cross|window|norm11": {
+   "freefall~bounce": {
+    "g_g": 0.1638820618391037,
+    "g_other": -0.08775581419467926,
+    "gap": 0.25163787603378296
+   },
+   "freefall~incline": {
+    "g_g": 0.025039542466402054,
+    "g_other": -0.05394187942147255,
+    "gap": 0.0789814218878746
+   },
+   "bounce~incline": {
+    "g_g": -0.07491335272789001,
+    "g_other": 0.07258714735507965,
+    "gap": -0.14750050008296967
+   }
+  },
+  "cross|window|norm23": {
+   "freefall~bounce": {
+    "g_g": 0.2046215534210205,
+    "g_other": -0.1293627917766571,
+    "gap": 0.3339843451976776
+   },
+   "freefall~incline": {
+    "g_g": 0.10224705934524536,
+    "g_other": -0.162247434258461,
+    "gap": 0.26449449360370636
+   },
+   "bounce~incline": {
+    "g_g": 0.05695655569434166,
+    "g_other": -0.023477140814065933,
+    "gap": 0.08043369650840759
+   }
+  }
+ }
+}

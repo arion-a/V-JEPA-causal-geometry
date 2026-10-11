@@ -1,0 +1,100 @@
+nohup: ignoring input
+pybullet build time: Oct 10 2026 13:43:31
+/usr/local/lib/python3.12/dist-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+/usr/lib/python3.12/contextlib.py:105: FutureWarning: `torch.backends.cuda.sdp_kernel()` is deprecated. In the future, this context manager will be removed. Please see `torch.nn.attention.sdpa_kernel()` for the new context manager, with updated signature.
+  self.gen = func(*args, **kwds)
+done freefall_freefall_000 40s
+done freefall_freefall_002 81s
+done freefall_freefall_004 122s
+done freefall_freefall_006 162s
+done freefall_freefall_008 203s
+done freefall_freefall_010 244s
+done freefall_freefall_012 285s
+done freefall_freefall_014 325s
+done freefall_freefall_016 366s
+done freefall_freefall_018 407s
+done freefall_freefall_020 448s
+done freefall_freefall_022 489s
+done freefall_freefall_024 530s
+done freefall_freefall_026 571s
+done freefall_freefall_028 612s
+done bounce_bounce_000 658s
+done bounce_bounce_002 705s
+done bounce_bounce_004 752s
+done bounce_bounce_006 798s
+done bounce_bounce_008 845s
+done bounce_bounce_010 892s
+done bounce_bounce_012 938s
+done bounce_bounce_014 985s
+done bounce_bounce_016 1031s
+done bounce_bounce_018 1078s
+done bounce_bounce_020 1125s
+done bounce_bounce_022 1171s
+done bounce_bounce_024 1218s
+done bounce_bounce_026 1264s
+done bounce_bounce_028 1311s
+done incline_incline_000 1355s
+done incline_incline_002 1398s
+done incline_incline_004 1442s
+done incline_incline_006 1485s
+done incline_incline_008 1529s
+done incline_incline_010 1572s
+done incline_incline_012 1616s
+done incline_incline_014 1660s
+done incline_incline_016 1703s
+done incline_incline_018 1747s
+done incline_incline_020 1790s
+done incline_incline_022 1834s
+done incline_incline_024 1877s
+done incline_incline_026 1921s
+done incline_incline_028 1964s
+{
+ "adoption": {
+  "m1": {
+   "cases": {
+    "freefall": true,
+    "bounce": false,
+    "incline": false
+   },
+   "all_three_pass": false
+  },
+  "m2": {
+   "cases": {
+    "freefall": true,
+    "bounce": true,
+    "incline": true
+   },
+   "all_three_pass": true
+  },
+  "m4": {
+   "cases": {
+    "freefall": true,
+    "bounce": true,
+    "incline": true
+   },
+   "all_three_pass": true
+  }
+ },
+ "candidate": 2,
+ "validity": {
+  "freefall": {
+   "n": 60,
+   "not_in_view": 10,
+   "transition_outside_12_50": 0,
+   "no_impact": 0
+  },
+  "bounce": {
+   "n": 60,
+   "not_in_view": 0,
+   "transition_outside_12_50": 0,
+   "no_impact": 0
+  },
+  "incline": {
+   "n": 60,
+   "not_in_view": 0,
+   "transition_outside_12_50": 0,
+   "no_impact": 0
+  }
+ }
+}
