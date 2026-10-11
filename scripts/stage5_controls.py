@@ -24,24 +24,34 @@ t0 = time.time(); print("clips needed:", len(need_ids), flush=True)
 
 # ---- pretrained features (saved by the Gate-1 run on the same clips/masks)
 Z0 = np.load(f"{CG}/features/pooled/gate1_v3.npz"); idx0 = {c: i for i, c in enumerate(Z0["ids"])}
+CACHE = f"{CG}/features/pooled/stage5_cache.npz"
 # ---- random-weight V-JEPA, same masks
 torch.manual_seed(0)
-enc = hub.vjepa2_1_vit_large_384(pretrained=False); enc = (enc[0] if isinstance(enc, (tuple, list)) else enc).cuda().eval()
-Fr = {}
-for (kind, wid), vs in worlds.items():
-    mask = np.zeros(32 * 24 * 24, bool)
-    for cid in vs.values(): mask |= S.object_token_mask(traj[cid], kind)
-    mt = torch.from_numpy(mask).cuda()
-    for p in NEED[kind]:
-        for sg in "+-":
-            cid = vs[f"{p}{sg}"]; Fr[cid] = FT.extract(enc, FT.to_tensor(np.load(f"{CG}/data/clips_v3/{cid}.npy")), mask=mt)
-    print("random-weight done", wid, f"{time.time() - t0:.0f}s", flush=True)
-del enc; torch.cuda.empty_cache()
-# ---- pixel baseline
-def pix(cid):
-    fr = np.load(f"{CG}/data/clips_v3/{cid}.npy", mmap_mode="r")[::4].astype(np.float32)
-    return fr.reshape(16, 32, 12, 32, 12, 3).mean((2, 4)).ravel()
-Px = {cid: pix(cid) for cid in need_ids}; print("pixel baseline done", f"{time.time() - t0:.0f}s", flush=True)
+def load_or_build():
+    global Fr, Px
+    if os.path.exists(CACHE):
+        C = np.load(CACHE, allow_pickle=True); Fr = {c: dict(normed=C["rw_normed"][i], normed_win=C["rw_win"][i]) for i, c in enumerate(C["ids"])}; Px = {c: C["px"][i] for i, c in enumerate(C["ids"])}
+        print("loaded cache", len(Fr), flush=True); return
+    enc = hub.vjepa2_1_vit_large_384(pretrained=False); enc = (enc[0] if isinstance(enc, (tuple, list)) else enc).cuda().eval()
+    Fr = {}
+    for (kind, wid), vs in worlds.items():
+        mask = np.zeros(32 * 24 * 24, bool)
+        for cid in vs.values(): mask |= S.object_token_mask(traj[cid], kind)
+        mt = torch.from_numpy(mask).cuda()
+        for p in NEED[kind]:
+            for sg in "+-":
+                cid = vs[f"{p}{sg}"]; Fr[cid] = FT.extract(enc, FT.to_tensor(np.load(f"{CG}/data/clips_v3/{cid}.npy")), mask=mt)
+        print("random-weight done", wid, f"{time.time() - t0:.0f}s", flush=True)
+    del enc; torch.cuda.empty_cache()
+    def pix(cid):        # pixel baseline: 16 frames, 16x16 RGB (24x24 block means); coarser than first declared (32x32) only to keep the statistics fast
+        fr = np.load(f"{CG}/data/clips_v3/{cid}.npy", mmap_mode="r")[::4].astype(np.float32)
+        return fr.reshape(16, 16, 24, 16, 24, 3).mean((2, 4)).ravel()
+    Px = {cid: pix(cid) for cid in need_ids}; print("pixel baseline done", f"{time.time() - t0:.0f}s", flush=True)
+    ids = list(need_ids); np.savez(CACHE, ids=np.array(ids), rw_normed=np.stack([Fr[c]["normed"] for c in ids]), rw_win=np.stack([Fr[c]["normed_win"] for c in ids]), px=np.stack([Px[c] for c in ids]))
+    print("cache saved", flush=True)
+
+
+load_or_build()
 
 def pair(rep, kind, par):
     """-> (P, M) arrays [n_worlds, d] for the matched +/- clips of one case."""
@@ -60,6 +70,7 @@ def pair(rep, kind, par):
 reps = [f"{m}|{p}|norm{t}" for m in ("pretrained", "random") for p in ("global", "window") for t in NT] + ["pixel", "trajectory"]
 res = dict(n_worlds={k: sum(1 for (kk, _) in worlds if kk == k) for k in S.KINDS}, note="dev only, descriptive; CIs are 95% world-bootstrap percentile intervals (biased slightly low near cos=1)", reps={})
 for rep in reps:
+    print("stats", rep, f"{time.time() - t0:.0f}s", flush=True)
     D = {c: pair(rep, c[1], c[0]) for c in CASES}; V = {c: D[c][0] - D[c][1] for c in CASES}; o = {"reliability": {}, "sign_flip_null": {}, "shuffled_pairing": {}, "cross_scene_g": {}, "within_scene": {}}
     for c in CASES:
         name = f"{c[0]}@{c[1]}"; o["reliability"][name] = round(DS.split_half_reliability(V[c])[0], 3)
