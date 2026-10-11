@@ -32,6 +32,7 @@ input{font:13px var(--sans);flex:1 1 180px;min-width:0;padding:5px 8px;border:1p
 .kind{color:var(--kc);font-weight:500;text-transform:uppercase;letter-spacing:.05em}
 .idx{color:var(--fg);font-weight:500}
 .ttl{font-size:15px;font-weight:600;margin:5px 0 0;text-wrap:balance}
+.an{width:100%;border-collapse:collapse;margin:6px 0 2px;font-size:13px}.an th{width:84px;text-align:left;vertical-align:top;font:500 11px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:3px 8px 3px 0}.an td{padding:3px 0;overflow-wrap:anywhere}.an tr+tr{border-top:1px solid var(--line)}
 .sum{margin:3px 0 4px;overflow-wrap:anywhere;color:var(--muted)}
 details summary{cursor:pointer;color:var(--muted);font-size:12px}
 .mono{font-family:var(--mono);font-size:11.5px;overflow-wrap:anywhere;color:var(--muted)}
@@ -56,7 +57,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 let sel=new Set(), q="", verdict={};
 async function verify(){
   let prev="0".repeat(64), bad=[];
-  for(const e of chain){const {hash,title,...rest}=e; let h=null; try{h=await hex(canon(rest))}catch(x){}
+  for(const e of chain){const {hash,title,stage,question,idea,outcome,...rest}=e; let h=null; try{h=await hex(canon(rest))}catch(x){}
     const linkOK=e.prev_hash===prev; const hashOK=h===null?null:h===hash;
     verdict[e.index]={linkOK,hashOK}; if(!linkOK||hashOK===false)bad.push(e.index); prev=e.hash;}
   return bad;}
@@ -79,11 +80,11 @@ function render(){
    const mark=v.hashOK===false||v.linkOK===false?'<span class="bad v">hash mismatch</span>':'<span class="ok v">verified</span>';
    return `<div class="node" style="--kc:var(--k-${e.kind})"><div class="rail"><span class="dot"></span></div><div class="card">
     <div class="top"><span class="idx">#${e.index}</span><span class="kind">${esc(e.kind)}</span><span>${esc(e.utc)}</span>${mark}</div>
-    <h2 class="ttl">${esc(e.title||"Untitled")}</h2><div class="sum">${esc(e.summary)}</div>
+    <h2 class="ttl">${esc(e.title||"Untitled")}</h2><table class="an"><tr><th>Part</th><td>${esc(e.stage||"")}</td></tr><tr><th>Question</th><td>${esc(e.question||"")}</td></tr><tr><th>Idea</th><td>${esc(e.idea||"")}</td></tr><tr><th>Outcome</th><td>${esc(e.outcome||"")}</td></tr></table><div class="sum">${esc(e.summary)}</div>
     <details><summary>Hash, parent, files${arts.length?" ("+arts.length+")":""}</summary>
      <div class="mono">hash ${e.hash}<br>prev ${e.prev_hash}<br>git ${esc(e.git_commit||"none")}${e.backfilled?"<br>back-filled from earlier session":""}</div>
      ${arts.length?'<pre>'+arts.map(([a,h])=>esc(a)+"  "+h.slice(0,16)+"…").join("\n")+'</pre>':""}
-     ${Object.keys(e.details||{}).filter(k=>k!=='title').length?'<pre>'+esc(JSON.stringify(Object.fromEntries(Object.entries(e.details).filter(([k])=>k!=='title')),null,1))+'</pre>':""}
+     ${Object.keys(e.details||{}).filter(k=>!['title','stage','question','idea','outcome'].includes(k)).length?'<pre>'+esc(JSON.stringify(Object.fromEntries(Object.entries(e.details).filter(([k])=>!['title','stage','question','idea','outcome'].includes(k))),null,1))+'</pre>':""}
     </details></div></div>`}).join("");}
 function tools(){
   const box=document.getElementById("tools");

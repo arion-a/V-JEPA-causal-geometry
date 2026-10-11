@@ -5,6 +5,9 @@ ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 from cg import ledger as L
 chain = L.read(f"{ROOT}/log/ledger.jsonl"); ok, problems = L.verify(f"{ROOT}/log/ledger.jsonl", root=ROOT)
 titles = json.load(open(f"{ROOT}/log/titles.json"))
+ann = json.load(open(f"{ROOT}/log/annotations.json"))
+for e in chain:
+    for f in ("stage", "question", "idea", "outcome"): e[f] = e["details"].get(f) or ann.get(str(e["index"]), {}).get(f, "")
 for e in chain: e["title"] = e["details"].get("title") or titles.get(str(e["index"]), "")      # display only: new nodes carry the title inside the hashed entry; nodes 0-70 use log/titles.json
 data = json.dumps(dict(chain=chain, server_ok=ok, server_problems=problems, built=time.strftime("%Y-%m-%d %H:%M:%SZ", time.gmtime())), ensure_ascii=False).replace("</", "<\\/")
 html = open(f"{ROOT}/scripts/ledger_report_template.html").read().replace("/*__DATA__*/null", data)
