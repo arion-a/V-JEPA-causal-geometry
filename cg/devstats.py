@@ -39,3 +39,36 @@ def within_scene(Vg, Vp):
         sv = np.linalg.svd(np.stack([ua, ub], 1), compute_uv=False); p = sv / sv.sum(); p = p[p > 1e-12]
         er.append(float(np.exp(-(p * np.log(p)).sum())))
     return dict(cos_mean=float(np.mean(cos)), cos_per_world=[round(c, 3) for c in cos], eff_rank_mean=float(np.mean(er)))
+
+
+def bootstrap_mean_cos(VA, VB, n=2000, seed=0):
+    """cos between world-mean derivatives of two groups; 95% CI by resampling worlds within each group (the world is the independent unit)."""
+    rng = np.random.default_rng(seed); obs = mean_cos(VA, VB); xs = []
+    for _ in range(n):
+        xs.append(mean_cos(VA[rng.integers(0, len(VA), len(VA))], VB[rng.integers(0, len(VB), len(VB))]))
+    return float(obs), float(np.percentile(xs, 2.5)), float(np.percentile(xs, 97.5))
+
+
+def within_scene_ci(Vg, Vp, n=2000, seed=0):
+    """mean per-world cos(g-derivative, other-parameter derivative) with a 95% bootstrap CI over worlds."""
+    per = np.array([_unit(a) @ _unit(b) for a, b in zip(Vg, Vp)]); rng = np.random.default_rng(seed)
+    bs = [per[rng.integers(0, len(per), len(per))].mean() for _ in range(n)]
+    return float(per.mean()), float(np.percentile(bs, 2.5)), float(np.percentile(bs, 97.5))
+
+
+def shuffled_pairing_reliability(Zplus, Zminus, n=20, seed=0):
+    """Null: pair world i's '+' clip with a DIFFERENT world's '-' clip (destroys the matched-pair structure), then split-half reliability. Should be ~0."""
+    rng = np.random.default_rng(seed); out = []
+    for _ in range(n):
+        perm = rng.permutation(len(Zplus))
+        while (perm == np.arange(len(perm))).any(): perm = rng.permutation(len(Zplus))
+        out.append(split_half_reliability(Zplus - Zminus[perm], max_splits=300)[0])
+    return float(np.mean(out)), float(np.max(out))
+
+
+def sign_flip_null_reliability(V, n=20, seed=0):
+    """Negative control: flip the sign of each world's derivative at random (=shuffled intervention labels), then split-half reliability. Should be ~0 for any V."""
+    rng = np.random.default_rng(seed); out = []
+    for _ in range(n):
+        s = rng.choice([-1.0, 1.0], size=(len(V), 1)); out.append(split_half_reliability(V * s, max_splits=300)[0])
+    return float(np.mean(out)), float(np.max(np.abs(out)))

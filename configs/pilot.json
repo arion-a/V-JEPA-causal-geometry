@@ -180,5 +180,18 @@
   "declared_before_run": true,
   "status": "done; delta_g=1.0 adopted as A6",
   "any_adoption_is_an_amendment": true
+ },
+ "stage5": {
+  "purpose": "controls on dev worlds: pretrained vs random-weight vs pixel-difference vs tracked trajectory",
+  "descriptive_only": true,
+  "no_verdict": "no hypothesis is accepted or rejected at Stage 5; held-out stays locked until the confirmatory primary endpoint is declared separately",
+  "metrics": [
+   "split-half reliability",
+   "sign-flip null",
+   "shuffled-pairing reliability",
+   "cross-scene gravity cosine + 95% world-bootstrap CI + wrong-parameter control",
+   "within-scene cos(g,e|mu) + CI"
+  ],
+  "declared_before_run": true
  }
 }

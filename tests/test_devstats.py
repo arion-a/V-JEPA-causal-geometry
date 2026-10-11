@@ -24,3 +24,15 @@ def test_reliability_samples_splits_for_large_n_and_is_seed_stable():
     rng = np.random.default_rng(3); d = 256; u = rng.normal(size=d); V = np.stack([u + rng.normal(size=d) * 0.5 for _ in range(15)])
     a, b = DS.split_half_reliability(V), DS.split_half_reliability(V)
     assert a == b and 0.8 < a[0] <= 1.0                    # 15 worlds -> sampled splits, deterministic
+
+
+def test_bootstrap_cos_ci_and_nulls():
+    rng = np.random.default_rng(4); d = 128; u = rng.normal(size=d)
+    A = np.stack([u + rng.normal(size=d) * 0.3 for _ in range(15)]); B = np.stack([u + rng.normal(size=d) * 0.3 for _ in range(15)])
+    obs, lo, hi = DS.bootstrap_mean_cos(A, B, n=300); assert lo > 0.8 and hi <= 1.0 and lo < obs      # near the bound the percentile CI sits slightly below the estimate
+    Zm = rng.normal(size=(15, d)); Zp = Zm + u * 2                                                    # a real systematic '+ vs -' signal in every world
+    matched = DS.split_half_reliability(Zp - Zm)[0]
+    shuffled = DS.shuffled_pairing_reliability(Zp, Zm, n=10)[0]
+    assert matched > 0.95 and shuffled <= matched                                                     # re-pairing keeps the systematic part, adds world noise: lowers, not zeroes
+    assert abs(DS.sign_flip_null_reliability(Zp - Zm)[0]) < 0.3                                       # random sign flips destroy it: the real null
+    m, l, h = DS.within_scene_ci(A, -A); assert m < -0.99
