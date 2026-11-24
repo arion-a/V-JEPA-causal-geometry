@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" font-family="Segoe UI,Helvetica,Arial,sans-serif">
+<rect width="900" height="330" rx="14" fill="#0f172a"/>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/></marker></defs>
+<text x="450" y="34" fill="#f1f5f9" font-size="20" font-weight="700" text-anchor="middle">Experiment design: does V-JEPA encode the cause, or only the trajectory?</text>
+<g font-size="13" text-anchor="middle">
+<rect x="24" y="62" width="160" height="124" rx="10" fill="#1e293b" stroke="#38bdf8"/>
+<text x="104" y="88" fill="#38bdf8" font-weight="700">1. Simulate</text>
+<text x="104" y="110" fill="#cbd5e1">3 scenes: freefall,</text><text x="104" y="128" fill="#cbd5e1">bounce, incline</text>
+<text x="104" y="150" fill="#cbd5e1">30 random worlds</text><text x="104" y="168" fill="#cbd5e1">per scene</text>
+<rect x="212" y="62" width="160" height="124" rx="10" fill="#1e293b" stroke="#fb923c"/>
+<text x="292" y="88" fill="#fb923c" font-weight="700">2. Intervene</text>
+<text x="292" y="110" fill="#cbd5e1">same world, change</text><text x="292" y="128" fill="#cbd5e1">one parameter only</text>
+<text x="292" y="150" fill="#cbd5e1">gravity g, bounce e,</text><text x="292" y="168" fill="#cbd5e1">friction mu (plus / minus)</text>
+<rect x="400" y="62" width="160" height="124" rx="10" fill="#1e293b" stroke="#a78bfa"/>
+<text x="480" y="88" fill="#a78bfa" font-weight="700">3. Frozen V-JEPA 2.1</text>
+<text x="480" y="110" fill="#cbd5e1">ViT-L 384, no training,</text><text x="480" y="128" fill="#cbd5e1">pool features per clip</text>
+<text x="480" y="150" fill="#cbd5e1">whole frame or</text><text x="480" y="168" fill="#cbd5e1">object window</text>
+<rect x="588" y="62" width="160" height="124" rx="10" fill="#1e293b" stroke="#34d399"/>
+<text x="668" y="88" fill="#34d399" font-weight="700">4. Direction of change</text>
+<text x="668" y="110" fill="#cbd5e1">feature(plus) minus</text><text x="668" y="128" fill="#cbd5e1">feature(minus) = one</text>
+<text x="668" y="150" fill="#cbd5e1">vector per world,</text><text x="668" y="168" fill="#cbd5e1">averaged over worlds</text>
+<rect x="776" y="62" width="104" height="124" rx="10" fill="#064e3b" stroke="#34d399"/>
+<text x="828" y="88" fill="#a7f3d0" font-weight="700">5. Test</text>
+<text x="828" y="110" fill="#a7f3d0">is the gravity</text><text x="828" y="128" fill="#a7f3d0">direction the</text><text x="828" y="146" fill="#a7f3d0">same across</text><text x="828" y="164" fill="#a7f3d0">scenes? (G)</text>
+</g>
+<g stroke="#94a3b8" stroke-width="2" marker-end="url(#a)" fill="none"><path d="M184 124 H210"/><path d="M372 124 H398"/><path d="M560 124 H586"/><path d="M748 124 H774"/></g>
+<rect x="24" y="214" width="856" height="84" rx="10" fill="#1e293b" stroke="#475569"/>
+<text x="452" y="240" fill="#e2e8f0" font-size="14" font-weight="700" text-anchor="middle">Compared against baselines run on the same worlds</text>
+<text x="452" y="264" fill="#cbd5e1" font-size="13" text-anchor="middle">tracked object trajectory  ·  raw pixels  ·  same network with random weights  ·  wrong-parameter control</text>
+<text x="452" y="284" fill="#94a3b8" font-size="12" text-anchor="middle">Uncertainty from a paired bootstrap over worlds (2,000 resamples). Held-out worlds were analysed once.</text>
+</svg>
