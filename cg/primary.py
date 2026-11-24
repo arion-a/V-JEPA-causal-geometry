@@ -18,20 +18,10 @@ from enum import StrEnum
 import numpy as np
 from numpy.typing import NDArray
 
+from cg.json_types import JsonValue
+from cg.scenes import Param, Scene
+
 type Array = NDArray[np.float64]
-type JsonValue = str | int | float | bool | None | list[JsonValue] | dict[str, JsonValue]
-
-
-class Scene(StrEnum):
-    FREEFALL = "freefall"
-    BOUNCE = "bounce"
-    INCLINE = "incline"
-
-
-class Param(StrEnum):
-    G = "g"
-    E = "e"
-    MU = "mu"
 
 
 class Pooling(StrEnum):

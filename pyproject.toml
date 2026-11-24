@@ -1,12 +1,39 @@
 [tool.mypy]
 python_version = "3.12"
 strict = true
-files = ["cg/devstats.py", "cg/primary.py", "tests/test_devstats.py", "tests/test_devstats_golden.py", "tests/test_primary.py", "tests/test_primary_golden.py"]
+mypy_path = "tests"
+files = [
+  "cg",
+  "tests/golden_util.py",
+  "tests/stubs.py",
+  "tests/test_analysis_golden.py",
+  "tests/test_devstats.py",
+  "tests/test_devstats_golden.py",
+  "tests/test_extract.py",
+  "tests/test_extract_golden.py",
+  "tests/test_features.py",
+  "tests/test_features_golden.py",
+  "tests/test_gate1_analysis.py",
+  "tests/test_gate1_analysis_golden.py",
+  "tests/test_geometry.py",
+  "tests/test_geometry_golden.py",
+  "tests/test_ledger.py",
+  "tests/test_ledger_golden.py",
+  "tests/test_primary.py",
+  "tests/test_primary_golden.py",
+  "tests/test_sim_pb_golden.py",
+  "tests/test_simulate.py",
+  "tests/test_simulate_golden.py",
+]
+
+[[tool.mypy.overrides]]
+module = ["pybullet"]
+ignore_missing_imports = true
 
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-include = ["cg/devstats.py", "cg/primary.py", "tests/test_primary.py", "tests/test_primary_golden.py", "tests/test_devstats.py", "tests/test_devstats_golden.py", "tests/test_primary.py", "tests/test_primary_golden.py"]
+include = ["cg/*.py", "tests/golden_util.py", "tests/stubs.py", "tests/test_*_golden.py", "tests/test_devstats.py", "tests/test_extract.py", "tests/test_features.py", "tests/test_gate1_analysis.py", "tests/test_geometry.py", "tests/test_ledger.py", "tests/test_primary.py", "tests/test_simulate.py"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "ANN", "C90", "PLR0913", "PLR0915", "SIM", "RET"]

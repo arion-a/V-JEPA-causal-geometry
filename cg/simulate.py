@@ -1,77 +1,146 @@
-"""Deterministic physical scenarios with exact event handling, plus a numpy renderer.
+"""Deterministic numpy scenarios with exact event handling and a numpy renderer.
 
-Pipeline-validation backend (pure numpy, no engine dependency). Protocol A calls for MuJoCo/PyBullet in the
-GPU stage: implement the same `Scenario.trajectory(theta, world)` interface there and keep these as
-analytic cross-checks. Intervened parameters theta=(g, e, mu); nuisance eta=(camera shift, colour).
-
-Scenarios: freefall (g), bounce (g,e; needs >=1 impact), incline (g,mu; needs contact sliding).
+A pipeline-validation backend with no engine dependency; the protocol runs use cg.sim_pb. Scenarios:
+freefall (g), bounce (g, e; needs an impact), incline (g, mu; needs sliding). Positions are (x, z)
+in metres, time in seconds, frames float32 in [0, 1] with shape (T, 3, res, res).
 """
-from dataclasses import dataclass
+
+from __future__ import annotations
+
+from collections.abc import Mapping
+from dataclasses import dataclass, replace
+
 import numpy as np
+from numpy.typing import NDArray
 
-T, FPS = 16, 16.0          # frames and fps for the clip window (1.0 s)
-PARAMS = ("g", "e", "mu")
+from cg.scenes import OBSERVABLE, Param, Scene
+
+type Array = NDArray[np.float64]
+
+T, FPS = 16, 16.0
+_SUBSTEPS = 20
 
 
-@dataclass
+@dataclass(frozen=True)
+class Theta:
+    g: float
+    e: float
+    mu: float
+
+    def get(self, param: Param) -> float:
+        return float(getattr(self, param.value))
+
+
+BASE = Theta(g=9.8, e=0.6, mu=0.2)
+DELTA = Theta(g=1.0, e=0.1, mu=0.05)
+
+
+@dataclass(frozen=True, eq=False)
 class World:
-    kind: str
+    kind: Scene
     seed: int
-    x0: float; z0: float; vx: float; vz: float; angle: float
-    color: np.ndarray
+    x0: float
+    z0: float
+    vx: float
+    vz: float
+    angle: float
+    color: Array
+
+
+@dataclass(frozen=True, eq=False)
+class Nuisance:
+    color: Array | None = None
     cam_shift: float = 0.0
 
 
-def make_world(kind, seed):
+@dataclass(frozen=True, eq=False)
+class Clip:
+    frames: NDArray[np.float32]
+    xz: Array
+    impacts: tuple[int, ...]
+
+
+NO_NUISANCE = Nuisance()
+
+
+def observable(kind: Scene) -> tuple[Param, ...]:
+    return OBSERVABLE[Scene(kind)]
+
+
+def make_world(kind: Scene, seed: int) -> World:
     r = np.random.default_rng(seed)
-    return World(kind, seed, r.uniform(-.5, .5), r.uniform(3.0, 4.0), r.uniform(-.5, .5), r.uniform(-.5, .5),
-                 r.uniform(.25, .45), r.uniform(.4, 1.0, 3))
+    x0 = r.uniform(-0.5, 0.5)
+    z0 = r.uniform(3.0, 4.0)
+    vx = r.uniform(-0.5, 0.5)
+    vz = r.uniform(-0.5, 0.5)
+    angle = r.uniform(0.25, 0.45)
+    return World(Scene(kind), seed, x0, z0, vx, vz, angle, r.uniform(0.4, 1.0, 3))
 
 
-def observable(kind):
-    return {"freefall": ("g",), "bounce": ("g", "e"), "incline": ("g", "mu")}[kind]
+def with_overrides(theta: Theta, overrides: Mapping[Param, float]) -> Theta:
+    return replace(theta, **{param.value: value for param, value in overrides.items()})
 
 
-def trajectory(w, theta):
-    """(x,z) positions [T,2] and impact frame list. theta: dict g,e,mu."""
-    t = np.arange(T) / FPS
-    g, e, mu = theta["g"], theta["e"], theta["mu"]
-    if w.kind == "freefall":
-        return np.stack([w.x0 + w.vx * t, w.z0 + w.vz * t - .5 * g * t ** 2], 1), []
-    if w.kind == "bounce":
-        x, z, vz, out, hits = w.x0, w.z0, w.vz, [], []
-        dt = 1 / (FPS * 20)
-        for i in range(T * 20):
-            if i % 20 == 0: out.append((x, z))
-            vz -= g * dt; z += vz * dt; x += w.vx * dt
-            if z <= 0 and vz < 0: z, vz = -z * e, -vz * e; hits.append(i // 20)
-        return np.array(out), hits
-    # incline: sphere slides (no rolling) along a plane of angle a, Coulomb friction mu; stays on the plane.
+def _freefall(w: World, theta: Theta, t: Array) -> Array:
+    return np.stack([w.x0 + w.vx * t, w.z0 + w.vz * t - 0.5 * theta.g * t**2], 1)
+
+
+def _bounce(w: World, theta: Theta) -> tuple[Array, list[int]]:
+    x, z, vz = w.x0, w.z0, w.vz
+    out: list[tuple[float, float]] = []
+    hits: list[int] = []
+    dt = 1 / (FPS * _SUBSTEPS)
+    for i in range(T * _SUBSTEPS):
+        if i % _SUBSTEPS == 0:
+            out.append((x, z))
+        vz -= theta.g * dt
+        z += vz * dt
+        x += w.vx * dt
+        if z <= 0 and vz < 0:
+            z, vz = -z * theta.e, -vz * theta.e
+            hits.append(i // _SUBSTEPS)
+    return np.array(out), hits
+
+
+def _incline(w: World, theta: Theta, t: Array) -> tuple[Array, list[int]]:
+    """Sphere slides without rolling along a plane of angle a with Coulomb friction mu."""
     a = w.angle
-    acc = g * (np.sin(a) - mu * np.cos(a))
+    acc = theta.g * (np.sin(a) - theta.mu * np.cos(a))
     s0 = 0.5
-    s = s0 + np.maximum(0, .5 * acc * t ** 2) if acc > 0 else np.full_like(t, s0)
-    hit = [0] if acc > 0 else []
-    return np.stack([s * np.cos(a), 3.0 - s * np.sin(a)], 1), hit
+    s = s0 + np.maximum(0, 0.5 * acc * t**2) if acc > 0 else np.full_like(t, s0)
+    return np.stack([s * np.cos(a), 3.0 - s * np.sin(a)], 1), [0] if acc > 0 else []
 
 
-def render(w, xz, res=64, nuis_color=None, cam_shift=0.0):
-    """float32 [T,3,res,res]; world x in [-3,3], z in [-0.5,5.5]; gaussian disc + ground/plane line."""
-    col = w.color if nuis_color is None else nuis_color
-    px = (xz[:, 0] + 3 + cam_shift) / 6 * res; pz = (5.5 - xz[:, 1]) / 6 * res
+def trajectory(w: World, theta: Theta) -> tuple[Array, list[int]]:
+    """(x, z) positions [T, 2] and the frames at which an impact happened."""
+    t = np.arange(T) / FPS
+    if w.kind is Scene.FREEFALL:
+        return _freefall(w, theta, t), []
+    if w.kind is Scene.BOUNCE:
+        return _bounce(w, theta)
+    return _incline(w, theta, t)
+
+
+def render(w: World, xz: Array, res: int = 64, nuis: Nuisance = NO_NUISANCE) -> NDArray[np.float32]:
+    """Gaussian disc on a ground line; world x in [-3, 3], z in [-0.5, 5.5]."""
+    col = w.color if nuis.color is None else nuis.color
+    px = (xz[:, 0] + 3 + nuis.cam_shift) / 6 * res
+    pz = (5.5 - xz[:, 1]) / 6 * res
     g = np.arange(res)
-    bl = np.exp(-.5 * (((g[None, None, :] - px[:, None, None]) ** 2 + (g[None, :, None] - pz[:, None, None]) ** 2) / 1.8 ** 2))
-    img = np.full((len(xz), 3, res, res), .15, np.float32)
-    img[:, :, int((5.5 - 0) / 6 * res):, :] = .35 if w.kind != "freefall" else .15
-    return np.clip(img + bl[:, None] * col[None, :, None, None], 0, 1).astype(np.float32)
+    dist2 = (g[None, None, :] - px[:, None, None]) ** 2 + (
+        g[None, :, None] - pz[:, None, None]
+    ) ** 2
+    blob = np.exp(-0.5 * (dist2 / 1.8**2))
+    img = np.full((len(xz), 3, res, res), 0.15, np.float32)
+    img[:, :, int((5.5 - 0) / 6 * res) :, :] = 0.35 if w.kind is not Scene.FREEFALL else 0.15
+    return np.clip(img + blob[:, None] * col[None, :, None, None], 0, 1).astype(np.float32)
 
 
-BASE = dict(g=9.8, e=0.6, mu=0.2)
-DELTA = dict(g=1.0, e=0.1, mu=0.05)       # symmetric perturbation (parameter units); validated at Gate 1
-
-
-def clip(w, theta_over=None, nuis=None, res=64):
-    th = {**BASE, **(theta_over or {})}
-    xz, hits = trajectory(w, th)
-    n = nuis or {}
-    return render(w, xz, res, n.get("color"), n.get("cam", 0.0)), xz, hits
+def clip(
+    w: World,
+    theta_over: Mapping[Param, float] | None = None,
+    nuis: Nuisance = NO_NUISANCE,
+    res: int = 64,
+) -> Clip:
+    xz, hits = trajectory(w, with_overrides(BASE, theta_over or {}))
+    return Clip(render(w, xz, res, nuis), xz, tuple(hits))

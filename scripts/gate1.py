@@ -51,16 +51,19 @@ comp = {}
 for w in worlds:
     ids = {c.split("__")[1]: c for c in F if c.startswith(w + "__")}
     if "second+" in ids: comp[w] = {k: ids[k] for k in ("base", "g+", "second+", "both+")}
-an = GA.analyse(F, CFG["delta"], jitter, half, comp, jitter2)
+plan = GA.Plan(CFG["delta"]["g"], jitter, jitter2, {w: GA.HalfStep(*v) for (w, _), v in half.items()},
+               {w: GA.CompositionClips(c["base"], c["g+"], c["second+"], c["both+"]) for w, c in comp.items()})
+an = GA.analyse(F, plan)
 # predeclared Gate-1 criterion: signal >= 5x jitter floor in at least one hierarchical tap for each observable parameter
 crit = {}
 for par, kind in (("g", "freefall"), ("g", "bounce"), ("g", "incline"), ("e", "bounce"), ("mu", "incline")):
-    w = next(w for w in worlds if w.endswith(f"_{kind}") and f"snr_{par}" in an["raw0"].get(w, {}))
-    best = {t: an[t][w][f"snr_{par}"] for t in GA.NORM if f"snr_{par}" in an[t].get(w, {})}
+    snr = lambda t, w: getattr(an[t].get(w), f"snr_{par}", None)
+    w = next(w for w in worlds if w.endswith(f"_{kind}") and snr("raw0", w) is not None)
+    best = {t: snr(t, w) for t in GA.NORM if snr(t, w) is not None}
     crit[f"{par}@{kind}"] = dict(world=w, snr_by_hier_tap={k: round(v, 2) for k, v in best.items()}, passes=bool(max(best.values()) >= 5))
 R["criteria_snr_ge_5_at_some_hier_tap"] = crit
 R["gate1_pass"] = all(v["passes"] for v in crit.values()) and R["checks"]["hierarchical_taps_match_model"]["ok"]
-R["analysis"] = an; R["extra_clips"] = extra; R["seconds_per_clip_infer_fp32"] = round(float(np.mean(secs)), 2); R["n_clips_extracted"] = len(feats)
+R["analysis"] = GA.to_json(an); R["extra_clips"] = extra; R["seconds_per_clip_infer_fp32"] = round(float(np.mean(secs)), 2); R["n_clips_extracted"] = len(feats)
 np.savez_compressed(f"{CG}/features/pooled/gate1.npz", ids=np.array(list(feats)), raw=np.stack([f["raw"] for f in feats.values()]),
                     normed=np.stack([f["normed"] for f in feats.values()]), final=np.stack([f["final"] for f in feats.values()]))
 json.dump(R, open(f"{OUT}/gate1.json", "w"), indent=1, default=float)

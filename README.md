@@ -60,7 +60,9 @@ Full definitions, equations, conditions and the observed / unsupported / not-tes
 ## Quick start
 
 ```bash
-pytest tests                               # 40 tests
+pytest tests                               # 149 tests, incl. golden-master comparisons
+mypy                                       # strict typing of cg/ and the typed tests
+ruff check                                 # lint (settings in pyproject.toml)
 python3 scripts/ledger.py verify --files   # verify the hash-chained ledger
 ```
 

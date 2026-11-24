@@ -5,6 +5,7 @@ import numpy as np
 import pytest
 
 from cg import primary as p
+from cg.scenes import Param, Scene
 
 GOLDEN = Path(__file__).parent / "golden"
 BASELINE = json.loads((GOLDEN / "primary_baseline.json").read_text())["results"]
@@ -24,14 +25,14 @@ def reps_for(scenario: str) -> dict[str, dict[p.Case, p.Array]]:
     for key in INPUTS.files:
         name, rep, param, scene = key.split("|")
         if name == scenario:
-            reps.setdefault(rep, {})[(p.Param(param), p.Scene(scene))] = INPUTS[key]
+            reps.setdefault(rep, {})[(Param(param), Scene(scene))] = INPUTS[key]
     return reps
 
 
 @pytest.mark.parametrize("scenario", SCENARIOS)
 def test_unrounded_statistics_and_bootstrap_draws_match_baseline(scenario: str) -> None:
     reps = reps_for(scenario)
-    sizes = {s: len(next(iter(reps.values()))[(p.Param.G, s)]) for s in p.SCENES}
+    sizes = {s: len(next(iter(reps.values()))[(Param.G, s)]) for s in p.SCENES}
     full = {s: np.arange(sizes[s]) for s in p.SCENES}
     boot = p._bootstrap(reps, sizes, N_BOOT, seed=0)
     for name, rep in reps.items():

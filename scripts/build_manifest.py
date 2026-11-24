@@ -137,7 +137,7 @@ def main():
     by_fam = {}
     for r in out: by_fam[r["family"]] = by_fam.get(r["family"], 0) + 1
     summ = dict(clips=len(out), worlds=len(rows), clips_by_family=by_fam, rejected=len(rej),
-                rejected_by_reason={k: sum(1 for r in rej if r["reason"] == k) for k in {r["reason"] for r in rej}},
+                rejected_by_reason={k: sum(1 for r in rej if r["reason"] == k) for k in sorted({r["reason"] for r in rej})},
                 gate1_clips=sum(r["gate1"] for r in out), manifest_sha256=h,
                 splits={s: len({r["world_id"] for r in out if r["split"] == s}) for s in ("dev", "heldout")})
     json.dump(summ, open(f"{OUT}/manifest_summary.json", "w"), indent=1); print(json.dumps(summ, indent=1))

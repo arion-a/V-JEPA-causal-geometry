@@ -4,23 +4,25 @@
                      with their current hashes, the chain verifies, and --unlock-hash names that node. Analysed once.
 Representations (block 23 only): pretrained V-JEPA 2.1 {global, window}, random-weight V-JEPA {global, window}, pixel (16 frames, 16x16 RGB), tracked trajectory."""
 import argparse, csv, importlib, json, os, sys, time
+from pathlib import Path
 import numpy as np
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 CG = os.environ.get("CG_ROOT", "/workspace/vjepa-causal-geometry"); sys.path.insert(0, ROOT); sys.path.insert(0, f"{CG}/vendor/vjepa2")
 from cg import ledger as L, primary as P
+from cg.scenes import Param, Scene
 
 ap = argparse.ArgumentParser(); ap.add_argument("--split", choices=("dev", "heldout"), default="dev"); ap.add_argument("--unlock-hash", default=None); ap.add_argument("--n-boot", type=int, default=2000)
 a = ap.parse_args()
 
 
 def check_unlock(h):
-    path = f"{ROOT}/log/ledger.jsonl"; ok, problems = L.verify(path, root=ROOT)
+    path = Path(ROOT) / "log" / "ledger.jsonl"; ok, problems = L.verify(path, root=Path(ROOT))
     if not ok: sys.exit(f"REFUSED: ledger does not verify: {problems[:3]}")
     e = next((x for x in L.read(path) if x["hash"] == h), None)
     if not e or e["kind"] != "decision" or not e["summary"].startswith("UNLOCK HELD-OUT"): sys.exit("REFUSED: --unlock-hash is not an 'UNLOCK HELD-OUT' decision node")
     need = {"scripts/heldout_primary.py", "cg/primary.py", "configs/pilot.json"}
     if not need <= set(e["artifacts"]): sys.exit(f"REFUSED: unlock node must list artifacts {sorted(need)}")
-    if any(L.read(path)[i]["summary"].startswith("HELD-OUT PRIMARY RUN") for i in range(len(L.read(path)))): sys.exit("REFUSED: held-out was already analysed once")
+    if any(str(x["summary"]).startswith("HELD-OUT PRIMARY RUN") for x in L.read(path)): sys.exit("REFUSED: held-out was already analysed once")
     print("unlock verified:", h[:12], flush=True)
 
 
@@ -85,7 +87,7 @@ def V(rep, par, kind):
     return np.array(out, dtype=np.float64)
 
 
-CASES = [(P.Param.G, P.Scene.FREEFALL), (P.Param.G, P.Scene.BOUNCE), (P.Param.G, P.Scene.INCLINE), (P.Param.E, P.Scene.BOUNCE), (P.Param.MU, P.Scene.INCLINE)]
+CASES = [(Param.G, Scene.FREEFALL), (Param.G, Scene.BOUNCE), (Param.G, Scene.INCLINE), (Param.E, Scene.BOUNCE), (Param.MU, Scene.INCLINE)]
 reps = {r: {c: V(r, *c) for c in CASES} for r in ("pt_g", "pt_w", "rw_g", "rw_w", "px", "traj")}
 endpoints = [P.Endpoint(P.Pooling.GLOBAL, "pt_g", "traj", "px", "rw_g"), P.Endpoint(P.Pooling.WINDOW, "pt_w", "traj", "px", "rw_w")]
 res = P.to_json(P.run(reps, endpoints, n_boot=a.n_boot, seed=0))

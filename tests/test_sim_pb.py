@@ -1,4 +1,5 @@
 import json, os
+from dataclasses import replace
 import numpy as np
 import pytest
 pytest.importorskip("pybullet")
@@ -71,11 +72,11 @@ def test_validity_gate_can_reject():
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
     spec = importlib.util.spec_from_file_location("bm", os.path.join(os.path.dirname(__file__), "..", "scripts", "build_manifest.py"))
     bm = importlib.util.module_from_spec(spec); spec.loader.exec_module(bm)
-    w = S.make_world("bounce", 5); w.h0 = 6.0                                   # drops too high: no impact inside the 1 s clip
+    w = replace(S.make_world("bounce", 5), h0=6.0)                                  # drops too high: no impact inside the 1 s clip
     ok, why, _ = bm.check_world(w, "bounce", "bounce"); assert not ok and why in ("no_impact", "object_out_of_view")
-    w = S.make_world("incline", 5); w.angle = np.radians(5)                       # shallow slope: object barely slides
+    w = replace(S.make_world("incline", 5), angle=float(np.radians(5)))                      # shallow slope: object barely slides
     ok, why, _ = bm.check_world(w, "incline", "incline"); assert not ok and why in ("no_slide", "mu_no_effect", "g_no_effect", "bad_transition")
-    w = S.make_world("freefall", 5); w.x0 = 40.0                                  # starts far off-screen
+    w = replace(S.make_world("freefall", 5), x0=40.0)                                 # starts far off-screen
     ok, why, _ = bm.check_world(w, "freefall", "freefall"); assert not ok and why == "object_out_of_view"
 
 

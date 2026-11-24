@@ -3,7 +3,9 @@ Usage: python3 scripts/ledger_report.py   (then republish the page as the Artifa
 import json, os, sys, time
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")); sys.path.insert(0, ROOT)
 from cg import ledger as L
-chain = L.read(f"{ROOT}/log/ledger.jsonl"); ok, problems = L.verify(f"{ROOT}/log/ledger.jsonl", root=ROOT)
+from pathlib import Path
+LEDGER = Path(ROOT) / "log" / "ledger.jsonl"
+chain = L.read(LEDGER); ok, problems = L.verify(LEDGER, root=Path(ROOT))
 titles = json.load(open(f"{ROOT}/log/titles.json"))
 ann = json.load(open(f"{ROOT}/log/annotations.json"))
 for e in chain:

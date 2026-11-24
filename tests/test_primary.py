@@ -6,9 +6,10 @@ import numpy as np
 import pytest
 
 from cg import primary as p
+from cg.scenes import Param
 
 ROOT = Path(__file__).parent.parent
-GRAVITY = [(p.Param.G, s) for s in p.SCENES]
+GRAVITY = [(Param.G, s) for s in p.SCENES]
 
 
 def shared_gravity(rng: np.random.Generator, d: int, direction: p.Array) -> dict[p.Case, p.Array]:
@@ -22,7 +23,7 @@ def independent_others(rng: np.random.Generator, d: int) -> dict[p.Case, p.Array
     return {
         (param, scene): np.stack([rng.normal(size=d) * 3 for _ in range(15)])
         for param, scene in p.REQUIRED_CASES
-        if param is not p.Param.G
+        if param is not Param.G
     }
 
 
