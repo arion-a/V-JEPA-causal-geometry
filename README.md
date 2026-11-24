@@ -6,18 +6,30 @@ This repository is a pre-registered pilot ("Protocol A") that tests this on the 
 
 > **Status: pilot complete, main hypothesis not supported.** On held-out worlds, V-JEPA's gravity direction is more alike across scenes than for raw pixels or an untrained network, but it is **not distinguishable from a baseline that just tracks the object's trajectory**. Several planned analyses were not run (listed below).
 
-![Experiment design: intervene on gravity, encode, compare the change across scenes](docs/img/design.svg)
+![Experiment design: change only gravity in three scenes, represent each clip with V-JEPA, compare the representation changes across scenes](docs/img/design.svg)
 
 ## The idea in one minute
 
-If a model understands that gravity is a *mechanism*, then changing gravity should move its internal features in a similar direction whether the object is falling freely, bouncing, or sliding down a slope. If it only encodes what the motion looks like, those directions will differ from scene to scene.
+If the model's representation is organised by the physical cause, then changing gravity should move the representation in the same direction whether the object falls freely, bounces, or slides down a slope. If it only reflects what each motion looks like, the direction will differ from scene to scene.
 
 The pilot makes that measurable:
 
-1. Simulate three scenes (freefall, bounce, incline) in PyBullet, 30 random worlds each, split 15 development / 15 held-out before any analysis.
-2. For each world, render matched clips that differ in exactly one parameter (g, restitution e, or friction mu).
-3. Take the difference in V-JEPA features between the plus and minus clip. That is the *direction of change* for that parameter.
-4. Score how similar the gravity direction is across scenes (the alignment statistic **G**) and compare against four baselines run on the same worlds.
+1. Simulate three scenes (freefall, bounce, incline) in PyBullet. Each scene has 30 random worlds, split 15 development and 15 held-out before any analysis.
+2. For each world, render a pair of clips that differ in exactly one parameter. For gravity the pair is g = 8.8 and g = 10.8 (base value 9.8, step 1.0). The base values of the other parameters are restitution e = 0.6 and friction mu = 0.25.
+3. Feed both clips to frozen V-JEPA 2.1 and subtract the two representations: vector(g = 10.8) minus vector(g = 8.8). This difference is the **representation change** for gravity in that world. Average it over the 15 held-out worlds of the scene.
+4. Compute **G**: the average cosine between the representation changes of the three scene pairs (freefall and bounce, freefall and incline, bounce and incline). G = 1 means the same direction in every scene; G = 0 means unrelated directions.
+5. Compute G again for three baselines on the same worlds: raw pixels (16 frames downsampled to 16 x 16 RGB), V-JEPA with random weights, and the object's tracked trajectory. One further control compares gravity in one scene with a different parameter (restitution or friction) in the other scene; gravity-specific alignment should beat it.
+
+## Terms used here
+
+| Term | Meaning in this repo |
+| --- | --- |
+| Clip | One simulated video: 64 frames at 64 fps (1 second), 384 x 384 pixels |
+| World | One random draw of a scene's nuisance settings (object size, colour, start height, horizontal start offset and speed, slope angle) |
+| Scene | One of freefall (no floor; g only), bounce (floor; g and restitution e), incline (slope then flat run-out; g and friction mu) |
+| Representation | The 1024-number vector from the final block of V-JEPA 2.1 ViT-L 384 for one clip. Whole-frame pooling averages all 18,432 token vectors; object-window pooling averages only the tokens near the moving object |
+| Cosine | Similarity of two vectors by direction only, from -1 (opposite) through 0 (unrelated) to 1 (same direction) |
+| Trajectory baseline | The same calculation on the simulator's tracked object positions (64 x 3 numbers per clip) instead of V-JEPA representations |
 
 ## Result
 
@@ -30,7 +42,7 @@ The pilot makes that measurable:
 
 | Hypothesis | Status |
 | --- | --- |
-| H1: parameter changes give a reliable change in features | Repeatability supported. Not shown to exceed render jitter. The original jitter test failed and its rule was replaced (amendment A4). |
+| H1: changing a parameter gives a reliable change in the representation | Repeatability across worlds supported. Not shown to exceed render jitter (the change caused by a meaningless 5 mm camera shift). The original jitter test failed and its rule was replaced (amendment A4). |
 | H2: gravity directions align across scenes more than baselines (primary, confirmatory) | **Not supported** |
 | H3: physical vs. visual-nuisance subspaces separate | Not tested |
 | H4: simultaneous changes add up in feature space | Not tested |
