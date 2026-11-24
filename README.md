@@ -6,6 +6,8 @@ This repository is a pre-registered pilot ("Protocol A") that tests this on the 
 
 > **Status: pilot complete, main hypothesis not supported.** On held-out worlds, V-JEPA's gravity direction is more alike across scenes than for raw pixels or an untrained network, but it is **not distinguishable from a baseline that just tracks the object's trajectory**. Several planned analyses were not run (listed below).
 
+![Animated summary: change gravity, compare the representation changes, result](docs/img/core.svg)
+
 ![Experiment design: change only gravity in three scenes, represent each clip with V-JEPA, compare the representation changes across scenes](docs/img/design.svg)
 
 ## The idea in one minute
