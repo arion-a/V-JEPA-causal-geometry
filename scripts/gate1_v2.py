@@ -9,6 +9,7 @@ ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 CG = os.environ.get("CG_ROOT", "/workspace/vjepa-causal-geometry"); VENDOR = f"{CG}/vendor/vjepa2"
 sys.path.insert(0, ROOT); sys.path.insert(0, VENDOR)
 import torch
+from dataclasses import asdict
 from cg import sim_pb as S, features as FT, devstats as DS
 torch.backends.cuda.matmul.allow_tf32 = False; torch.backends.cudnn.allow_tf32 = False
 OUT = f"{CG}/results/gate1_v3"; os.makedirs(OUT, exist_ok=True); os.makedirs(f"{CG}/features/pooled", exist_ok=True)
@@ -48,7 +49,7 @@ rel, verdict = {}, {}
 for par, kind in CASES:
     case = f"{par}@{kind}"; verdict[case] = {}
     for pool in ("global", "window"):
-        rs = [DS.split_half_reliability(V(kind, par, pool, k)) for k in range(4)]
+        rs = [DS.split_half_reliability(V(kind, par, pool, k), seed=0) for k in range(4)]
         rel[f"{case}|{pool}"] = {f"norm{NT[k]}": dict(mean=round(rs[k][0], 3), worst=round(rs[k][1], 3)) for k in range(4)}
         verdict[case][pool] = dict(taps_ge_0p5=sum(r[0] >= 0.5 for r in rs), passes=sum(r[0] >= 0.5 for r in rs) >= 2)
     verdict[case]["case_passes"] = any(verdict[case][p]["passes"] for p in ("global", "window"))
@@ -58,13 +59,13 @@ R["gate1_v2_pass"] = bool(all(v["case_passes"] for v in verdict.values()) and R[
 desc = {}
 for kind, par in (("bounce", "e"), ("incline", "mu")):
     for pool in ("global", "window"):
-        for k in (1, 3): desc[f"within|{kind}|g~{par}|{pool}|norm{NT[k]}"] = DS.within_scene(V(kind, "g", pool, k), V(kind, par, pool, k))
+        for k in (1, 3): desc[f"within|{kind}|g~{par}|{pool}|norm{NT[k]}"] = asdict(DS.within_scene(V(kind, "g", pool, k), V(kind, par, pool, k)))
     tj = lambda p: np.array([(traj[vs[f"{p}+"]] - traj[vs[f"{p}-"]]).ravel() for (kk, _), vs in worlds.items() if kk == kind])
-    desc[f"within|{kind}|g~{par}|tracked_trajectory"] = DS.within_scene(tj("g"), tj(par))
+    desc[f"within|{kind}|g~{par}|tracked_trajectory"] = asdict(DS.within_scene(tj("g"), tj(par)))
 for pool in ("global", "window"):
     for k in (1, 3):
         gF, gB, gI = (V(q, "g", pool, k) for q in S.KINDS); eB, mI = V("bounce", "e", pool, k), V("incline", "mu", pool, k)
-        desc[f"cross|{pool}|norm{NT[k]}"] = {"freefall~bounce": DS.alignment_with_control(gF, gB, eB), "freefall~incline": DS.alignment_with_control(gF, gI, mI), "bounce~incline": DS.alignment_with_control(gB, gI, mI)}
+        desc[f"cross|{pool}|norm{NT[k]}"] = {"freefall~bounce": asdict(DS.alignment_with_control(gF, gB, eB)), "freefall~incline": asdict(DS.alignment_with_control(gF, gI, mI)), "bounce~incline": asdict(DS.alignment_with_control(gB, gI, mI))}
 R["descriptive_not_gating"] = desc
 np.savez_compressed(f"{CG}/features/pooled/gate1_v3.npz", ids=np.array(list(feats)), normed=np.stack([f["normed"] for f in feats.values()]), normed_win=np.stack([f["normed_win"] for f in feats.values()]),
                     raw=np.stack([f["raw"] for f in feats.values()]), raw_win=np.stack([f["raw_win"] for f in feats.values()]))

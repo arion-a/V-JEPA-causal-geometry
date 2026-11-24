@@ -65,7 +65,7 @@ rng = np.random.default_rng(0); res = dict(n_worlds=len(ids), calibration={k: di
 for rep in ("pt_g", "pt_w", "rw_g", "rw_w", "px", "traj"):
     A, B = Vd(rep, "g"), Vd(rep, "v"); full = np.arange(len(ids)); obs = pcos(A, B, full)
     bs = [pcos(A, B, (ix := rng.integers(0, len(ids), len(ids)))) for _ in range(2000)]
-    rg, rv = DS.split_half_reliability(A)[0], DS.split_half_reliability(B)[0]; ceil = float(np.sqrt(sb(rg) * sb(rv))) if rg > 0 and rv > 0 else float("nan")
+    rg, rv = DS.split_half_reliability(A, seed=0)[0], DS.split_half_reliability(B, seed=0)[0]; ceil = float(np.sqrt(sb(rg) * sb(rv))) if rg > 0 and rv > 0 else float("nan")
     pw = float(np.mean([unit(a) @ unit(b) for a, b in zip(A, B)])); pw_shuf = float(np.mean([unit(a) @ unit(B[(i + 1 + rng.integers(0, len(ids) - 1)) % len(ids)]) for i, a in enumerate(A) for _ in range(1)]))
     res["reps"][rep] = dict(cos_world_mean=round(obs, 3), ci95=[round(float(np.percentile(bs, 2.5)), 3), round(float(np.percentile(bs, 97.5)), 3)], reliability_g=round(rg, 3), reliability_v=round(rv, 3),
                             ceiling=round(ceil, 3), cos_over_ceiling=round(obs / ceil, 3) if ceil == ceil else None,

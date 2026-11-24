@@ -5,6 +5,7 @@ import numpy as np
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 CG = os.environ.get("CG_ROOT", "/workspace/vjepa-causal-geometry")
 sys.path.insert(0, ROOT)
+from dataclasses import asdict
 from cg import devstats as DS
 Z = np.load(f"{CG}/features/pooled/dev_derivs.npz"); idx = {c: i for i, c in enumerate(Z["ids"])}; traj = np.load(f"{ROOT}/data/manifests/trajectories.npz")
 rows = [r for r in csv.DictReader(open(f"{ROOT}/data/manifests/pilot_manifest.csv")) if r["family"] in ("bounce", "incline") and r["split"] == "dev"]
@@ -16,8 +17,8 @@ for kind, par in (("bounce", "e"), ("incline", "mu")):
     for pool, key in (("global", "normed"), ("window", "normed_win")):
         for tap, name in enumerate((5, 11, 17, 23)):
             d = lambda p: np.array([Z[key][idx[v[f"{p}+"]], tap] - Z[key][idx[v[f"{p}-"]], tap] for v in ws])
-            out[f"{kind}|g~{par}|{pool}|norm{name}"] = DS.within_scene(d("g"), d(par))
+            out[f"{kind}|g~{par}|{pool}|norm{name}"] = asdict(DS.within_scene(d("g"), d(par)))
     tr = lambda p: np.array([(traj[v[f"{p}+"]] - traj[v[f"{p}-"]]).ravel() for v in ws])
-    out[f"{kind}|g~{par}|tracked_trajectory"] = DS.within_scene(tr("g"), tr(par))
+    out[f"{kind}|g~{par}|tracked_trajectory"] = asdict(DS.within_scene(tr("g"), tr(par)))
 os.makedirs(f"{CG}/results/dev_rank", exist_ok=True); json.dump(out, open(f"{CG}/results/dev_rank/dev_rank.json", "w"), indent=1)
 for k, v in out.items(): print(k.ljust(38), "cos_mean=%+.2f" % v["cos_mean"], "eff_rank=%.2f" % v["eff_rank_mean"])

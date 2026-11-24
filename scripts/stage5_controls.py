@@ -73,13 +73,13 @@ for rep in reps:
     print("stats", rep, f"{time.time() - t0:.0f}s", flush=True)
     D = {c: pair(rep, c[1], c[0]) for c in CASES}; V = {c: D[c][0] - D[c][1] for c in CASES}; o = {"reliability": {}, "sign_flip_null": {}, "shuffled_pairing": {}, "cross_scene_g": {}, "within_scene": {}}
     for c in CASES:
-        name = f"{c[0]}@{c[1]}"; o["reliability"][name] = round(DS.split_half_reliability(V[c])[0], 3)
-        o["sign_flip_null"][name] = round(DS.sign_flip_null_reliability(V[c])[0], 3); o["shuffled_pairing"][name] = round(DS.shuffled_pairing_reliability(*D[c])[0], 3)
+        name = f"{c[0]}@{c[1]}"; o["reliability"][name] = round(DS.split_half_reliability(V[c], seed=0)[0], 3)
+        o["sign_flip_null"][name] = round(DS.sign_flip_null_reliability(V[c], seed=0)[0], 3); o["shuffled_pairing"][name] = round(DS.shuffled_pairing_reliability(*D[c], seed=0)[0], 3)
     wrong = {"bounce": ("e", "bounce"), "incline": ("mu", "incline")}
     for A, B in (("freefall", "bounce"), ("freefall", "incline"), ("bounce", "incline")):
         gA, gB = V[("g", A)], V[("g", B)]; wr = V[wrong[B]]
-        o["cross_scene_g"][f"{A}~{B}"] = dict(g_g=[round(x, 3) for x in DS.bootstrap_mean_cos(gA, gB)], g_vs_wrong_param=[round(x, 3) for x in DS.bootstrap_mean_cos(gA, wr)])
-    o["within_scene"]["bounce g~e"] = [round(x, 3) for x in DS.within_scene_ci(V[("g", "bounce")], V[("e", "bounce")])]
-    o["within_scene"]["incline g~mu"] = [round(x, 3) for x in DS.within_scene_ci(V[("g", "incline")], V[("mu", "incline")])]
+        o["cross_scene_g"][f"{A}~{B}"] = dict(g_g=[round(x, 3) for x in DS.bootstrap_mean_cos(gA, gB, seed=0)], g_vs_wrong_param=[round(x, 3) for x in DS.bootstrap_mean_cos(gA, wr, seed=0)])
+    o["within_scene"]["bounce g~e"] = [round(x, 3) for x in DS.within_scene_ci(V[("g", "bounce")], V[("e", "bounce")], seed=0)]
+    o["within_scene"]["incline g~mu"] = [round(x, 3) for x in DS.within_scene_ci(V[("g", "incline")], V[("mu", "incline")], seed=0)]
     res["reps"][rep] = o
 json.dump(res, open(f"{OUT}/stage5.json", "w"), indent=1); print("STAGE5 DONE", f"{time.time() - t0:.0f}s", flush=True)

@@ -50,7 +50,7 @@ for kind in S.KINDS:
     for m in MULT:
         case = f"g@{kind}|m{m}(dg={m * D['g']})"; per_pool = {}
         for pool in ("global", "window"):
-            rs = [DS.split_half_reliability(V(kind, m, pool, k)) for k in range(4)]
+            rs = [DS.split_half_reliability(V(kind, m, pool, k), seed=0) for k in range(4)]
             R["reliability"][f"{case}|{pool}"] = {f"norm{NT[k]}": dict(mean=round(rs[k][0], 3), worst=round(rs[k][1], 3)) for k in range(4)}
             per_pool[pool] = dict(taps_ge_0p5=sum(r[0] >= 0.5 for r in rs), passes=sum(r[0] >= 0.5 for r in rs) >= 2)
         R["verdict"][case] = dict(per_pool, case_passes=any(v["passes"] for v in per_pool.values()))

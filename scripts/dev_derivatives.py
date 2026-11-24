@@ -8,6 +8,7 @@ ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
 CG = os.environ.get("CG_ROOT", "/workspace/vjepa-causal-geometry"); VENDOR = f"{CG}/vendor/vjepa2"
 sys.path.insert(0, ROOT); sys.path.insert(0, VENDOR)
 import importlib, torch
+from dataclasses import asdict
 from cg import sim_pb as S, features as FT, devstats as DS
 torch.backends.cuda.matmul.allow_tf32 = False; torch.backends.cudnn.allow_tf32 = False
 OUT = f"{CG}/results/dev_derivatives"; os.makedirs(OUT, exist_ok=True)
@@ -46,16 +47,16 @@ for pool in ("global", "window"):
         r = {}
         for par, kind in CASES:
             V = deriv(kind, par, pool, tap); mean_rel = float(np.mean([np.linalg.norm(v) / np.linalg.norm(feats[vs["base"]]["normed" if pool == "global" else "normed_win"][tap]) for v, ((k, _), vs) in zip(V, [(kk, vv) for kk, vv in worlds.items() if kk[0] == kind])]))
-            rel, worst = DS.split_half_reliability(V); r[f"{par}@{kind}"] = dict(split_half_cos=round(rel, 3), worst_split=round(worst, 3), mean_rel_signal=round(mean_rel, 5))
+            rel, worst = DS.split_half_reliability(V, seed=0); r[f"{par}@{kind}"] = dict(split_half_cos=round(rel, 3), worst_split=round(worst, 3), mean_rel_signal=round(mean_rel, 5))
         gF, gB, gI = (deriv(k, "g", pool, tap) for k in S.KINDS)
         eB, mI = deriv("bounce", "e", pool, tap), deriv("incline", "mu", pool, tap)
-        r["cross_context"] = {"freefall~bounce": DS.alignment_with_control(gF, gB, eB), "freefall~incline": DS.alignment_with_control(gF, gI, mI),
-                              "bounce~incline": DS.alignment_with_control(gB, gI, mI)}
+        r["cross_context"] = {"freefall~bounce": asdict(DS.alignment_with_control(gF, gB, eB)), "freefall~incline": asdict(DS.alignment_with_control(gF, gI, mI)),
+                              "bounce~incline": asdict(DS.alignment_with_control(gB, gI, mI))}
         res["out"][f"{pool}|norm{name}"] = r
 tb = {k: traj_deriv(k, "g") for k in S.KINDS}; te = traj_deriv("bounce", "e"); tm = traj_deriv("incline", "mu")
-res["tracked_trajectory_baseline"] = {"split_half_g": {k: round(DS.split_half_reliability(v)[0], 3) for k, v in tb.items()},
-                                      "freefall~bounce": DS.alignment_with_control(tb["freefall"], tb["bounce"], te), "freefall~incline": DS.alignment_with_control(tb["freefall"], tb["incline"], tm),
-                                      "bounce~incline": DS.alignment_with_control(tb["bounce"], tb["incline"], tm)}
+res["tracked_trajectory_baseline"] = {"split_half_g": {k: round(DS.split_half_reliability(v, seed=0)[0], 3) for k, v in tb.items()},
+                                      "freefall~bounce": asdict(DS.alignment_with_control(tb["freefall"], tb["bounce"], te)), "freefall~incline": asdict(DS.alignment_with_control(tb["freefall"], tb["incline"], tm)),
+                                      "bounce~incline": asdict(DS.alignment_with_control(tb["bounce"], tb["incline"], tm))}
 res["note"] = "dev worlds only; 5 worlds/scene; descriptive preview. Cosines between world-mean derivative vectors (same standardised step units)."
 np.savez_compressed(f"{CG}/features/pooled/dev_derivs.npz", ids=np.array(list(feats)), normed=np.stack([f["normed"] for f in feats.values()]), normed_win=np.stack([f["normed_win"] for f in feats.values()]),
                     raw=np.stack([f["raw"] for f in feats.values()]), raw_win=np.stack([f["raw_win"] for f in feats.values()]))
