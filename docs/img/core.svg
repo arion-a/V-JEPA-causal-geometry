@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="Segoe UI,Helvetica,Arial,sans-serif">
+<style>
+.s1{animation:a1 18s infinite}
+.s2{animation:a2 18s infinite}
+.s3{animation:a3 18s infinite}
+@keyframes a1{0%{opacity:0}3%{opacity:1}30%{opacity:1}34%{opacity:0}100%{opacity:0}}
+@keyframes a2{0%,33%{opacity:0}37%{opacity:1}62%{opacity:1}66%{opacity:0}100%{opacity:0}}
+@keyframes a3{0%,65%{opacity:0}69%{opacity:1}95%{opacity:1}99%,100%{opacity:0}}
+.ball1{animation:fall1 2s linear infinite}
+.ball2{animation:fall2 1.81s linear infinite}
+@keyframes fall1{from{transform:translateY(0)}to{transform:translateY(120px)}}
+@keyframes fall2{from{transform:translateY(0)}to{transform:translateY(120px)}}
+.arr{transform-box:fill-box;transform-origin:0% 100%;animation:grow 18s infinite}
+@keyframes grow{0%,37%{transform:scale(0)}44%{transform:scale(1)}62%{transform:scale(1)}100%{transform:scale(1)}}
+.bar{transform-box:fill-box;transform-origin:0% 50%;animation:bar 18s infinite}
+@keyframes bar{0%,69%{transform:scaleX(0)}78%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+</style>
+<rect width="900" height="400" rx="14" fill="#0f172a"/>
+<text x="450" y="34" fill="#f1f5f9" font-size="20" font-weight="700" text-anchor="middle">Does gravity move V-JEPA's representation the same way in every scene?</text>
+
+<g class="s1" font-size="13" text-anchor="middle">
+<text x="450" y="70" fill="#38bdf8" font-weight="700" font-size="15">Step 1. Change only gravity, in three simulated scenes</text>
+<g>
+<rect x="40" y="90" width="240" height="220" rx="10" fill="#1e293b" stroke="#38bdf8"/><text x="160" y="114" fill="#38bdf8" font-weight="700">Freefall</text>
+<rect x="320" y="90" width="240" height="220" rx="10" fill="#1e293b" stroke="#fb923c"/><text x="440" y="114" fill="#fb923c" font-weight="700">Bounce</text>
+<rect x="600" y="90" width="240" height="220" rx="10" fill="#1e293b" stroke="#34d399"/><text x="720" y="114" fill="#34d399" font-weight="700">Incline</text>
+<circle class="ball1" cx="130" cy="140" r="9" fill="#94a3b8"/><circle class="ball2" cx="190" cy="140" r="9" fill="#fbbf24"/>
+<circle class="ball1" cx="410" cy="140" r="9" fill="#94a3b8"/><circle class="ball2" cx="470" cy="140" r="9" fill="#fbbf24"/>
+<circle class="ball1" cx="690" cy="140" r="9" fill="#94a3b8"/><circle class="ball2" cx="750" cy="140" r="9" fill="#fbbf24"/>
+<text x="130" y="290" fill="#94a3b8" font-size="12">g = 8.8</text><text x="190" y="290" fill="#fbbf24" font-size="12">g = 10.8</text>
+<text x="410" y="290" fill="#94a3b8" font-size="12">g = 8.8</text><text x="470" y="290" fill="#fbbf24" font-size="12">g = 10.8</text>
+<text x="690" y="290" fill="#94a3b8" font-size="12">g = 8.8</text><text x="750" y="290" fill="#fbbf24" font-size="12">g = 10.8</text>
+</g>
+<text x="450" y="340" fill="#cbd5e1">Each pair is two 1-second simulated videos (clips) of the same world. Base g = 9.8; nothing else differs.</text>
+<text x="450" y="360" fill="#94a3b8" font-size="12">Schematic: the balls only show that a higher g falls faster.</text>
+</g>
+
+<g class="s2" font-size="13" text-anchor="middle">
+<text x="450" y="70" fill="#a78bfa" font-weight="700" font-size="15">Step 2. Subtract the representations of the two clips</text>
+<rect x="40" y="120" width="260" height="130" rx="10" fill="#1e293b" stroke="#a78bfa"/>
+<text x="170" y="148" fill="#a78bfa" font-weight="700">V-JEPA 2.1 (frozen)</text><text x="170" y="172" fill="#cbd5e1">clip, g = 10.8: a 1024-number vector</text><text x="170" y="192" fill="#cbd5e1">clip, g = 8.8: a 1024-number vector</text><text x="170" y="222" fill="#fbbf24">change = first vector minus second</text>
+<rect x="380" y="100" width="460" height="230" rx="10" fill="#1e293b" stroke="#475569"/>
+<g stroke-width="4" fill="none" stroke-linecap="round">
+<line class="arr" x1="450" y1="300" x2="610" y2="130" stroke="#38bdf8"/>
+<line class="arr" x1="450" y1="300" x2="720" y2="200" stroke="#fb923c"/>
+<line class="arr" x1="450" y1="300" x2="530" y2="120" stroke="#34d399"/>
+</g>
+<text x="618" y="124" fill="#38bdf8" font-size="12" text-anchor="start">freefall change</text><text x="726" y="206" fill="#fb923c" font-size="12" text-anchor="start">bounce change</text><text x="470" y="118" fill="#34d399" font-size="12" text-anchor="start">incline change</text>
+<text x="610" y="316" fill="#94a3b8" font-size="12">Illustrative arrows, not measured data</text>
+<text x="450" y="364" fill="#cbd5e1">Question: do the three changes point the same way? G = average cosine between them (1 = same direction, 0 = unrelated).</text>
+</g>
+
+<g class="s3" font-size="13">
+<text x="450" y="70" fill="#34d399" font-weight="700" font-size="15" text-anchor="middle">Step 3. Result on the 15 held-out worlds per scene (measured)</text>
+<line x1="300" x2="300" y1="100" y2="250" stroke="#475569"/>
+<text x="290" y="132" fill="#e2e8f0" text-anchor="end">V-JEPA, whole frame</text><rect class="bar" x="300" y="114" width="105" height="26" rx="4" fill="#a78bfa"/><text x="414" y="133" fill="#e2e8f0">G = 0.293</text>
+<text x="290" y="182" fill="#e2e8f0" text-anchor="end">Object's tracked trajectory</text><rect class="bar" x="300" y="164" width="52" height="26" rx="4" fill="#fb923c"/><text x="361" y="183" fill="#e2e8f0">G = 0.145</text>
+<text x="290" y="232" fill="#e2e8f0" text-anchor="end">Raw pixels</text><rect class="bar" x="299" y="214" width="2" height="26" fill="#64748b"/><text x="310" y="233" fill="#e2e8f0">G = -0.001</text>
+<text x="300" y="266" fill="#94a3b8" font-size="12" text-anchor="middle">0</text><text x="660" y="266" fill="#94a3b8" font-size="12" text-anchor="middle">1</text>
+<rect x="60" y="284" width="780" height="82" rx="10" fill="#1e293b" stroke="#fbbf24"/>
+<text x="450" y="312" fill="#fbbf24" font-weight="700" text-anchor="middle">V-JEPA minus trajectory = +0.148, 97.5% interval -0.157 to 0.315</text>
+<text x="450" y="334" fill="#cbd5e1" text-anchor="middle">The interval includes 0, so V-JEPA's alignment is not distinguished from the trajectory baseline.</text>
+<text x="450" y="354" fill="#cbd5e1" text-anchor="middle">Pre-registered hypothesis H2: not supported.</text>
+</g>
+</svg>
