@@ -5,3 +5,5 @@ results/*
 .pytest_cache/
 secrets/
 .claude/settings.local.json
+.mypy_cache/
+.ruff_cache/
