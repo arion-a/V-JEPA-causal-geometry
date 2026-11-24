@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" font-family="Segoe UI,Helvetica,Arial,sans-serif">
+<rect width="900" height="360" rx="14" fill="#0f172a"/>
+<text x="450" y="34" fill="#f1f5f9" font-size="20" font-weight="700" text-anchor="middle">Held-out result: cross-scene gravity alignment G</text>
+<text x="450" y="56" fill="#94a3b8" font-size="12" text-anchor="middle">G = average cosine between the gravity-change directions of the 3 scene pairs (1 = same direction, 0 = unrelated)</text>
+<g font-size="13">
+<line x1="250" x2="250" y1="76" y2="300" stroke="#475569"/>
+<line x1="610" x2="610" y1="76" y2="300" stroke="#1e293b"/>
+<text x="250" y="320" fill="#94a3b8" font-size="12" text-anchor="middle">0</text>
+<text x="430" y="320" fill="#94a3b8" font-size="12" text-anchor="middle">0.5</text>
+<text x="610" y="320" fill="#94a3b8" font-size="12" text-anchor="middle">1.0</text>
+<text x="240" y="106" fill="#e2e8f0" text-anchor="end">V-JEPA, whole frame</text><rect x="250" y="90" width="105" height="24" rx="4" fill="#a78bfa"/><text x="362" y="107" fill="#e2e8f0">0.293</text>
+<text x="240" y="146" fill="#e2e8f0" text-anchor="end">V-JEPA, object window</text><rect x="250" y="130" width="41" height="24" rx="4" fill="#a78bfa"/><text x="298" y="147" fill="#e2e8f0">0.114</text>
+<text x="240" y="186" fill="#e2e8f0" text-anchor="end">Tracked trajectory</text><rect x="250" y="170" width="52" height="24" rx="4" fill="#fb923c"/><text x="309" y="187" fill="#e2e8f0">0.145</text>
+<text x="240" y="226" fill="#e2e8f0" text-anchor="end">Random weights, whole frame</text><rect x="250" y="210" width="7" height="24" rx="3" fill="#64748b"/><text x="264" y="227" fill="#e2e8f0">0.020</text>
+<text x="240" y="266" fill="#e2e8f0" text-anchor="end">Raw pixels</text><rect x="249" y="250" width="2" height="24" fill="#64748b"/><text x="258" y="267" fill="#e2e8f0">-0.001</text>
+</g>
+<rect x="488" y="76" width="68" height="224" fill="#34d399" opacity="0.12"/>
+<text x="526" y="92" fill="#34d399" font-size="11" text-anchor="middle">highest G that</text><text x="526" y="106" fill="#34d399" font-size="11" text-anchor="middle">noise allows: 0.66-0.85</text><text x="526" y="120" fill="#34d399" font-size="11" text-anchor="middle">(dev worlds)</text>
+<rect x="650" y="90" width="230" height="140" rx="10" fill="#1e293b" stroke="#475569"/>
+<text x="765" y="116" fill="#f1f5f9" font-size="13" font-weight="700" text-anchor="middle">V-JEPA minus trajectory</text>
+<text x="765" y="142" fill="#cbd5e1" font-size="12" text-anchor="middle">whole frame: +0.148</text>
+<text x="765" y="160" fill="#94a3b8" font-size="11" text-anchor="middle">97.5% interval -0.157 to 0.315</text>
+<text x="765" y="186" fill="#cbd5e1" font-size="12" text-anchor="middle">object window: -0.031</text>
+<text x="765" y="204" fill="#94a3b8" font-size="11" text-anchor="middle">97.5% interval -0.218 to 0.133</text>
+<text x="765" y="222" fill="#fbbf24" font-size="11" text-anchor="middle">intervals include 0: not supported</text>
+<text x="450" y="348" fill="#94a3b8" font-size="12" text-anchor="middle">Source: reports/pilot_results.html, section 6.1. 15 held-out worlds per scene.</text>
+</svg>
