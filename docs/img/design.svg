@@ -29,6 +29,7 @@
 <text x="806" y="196" fill="#fb923c">bounce</text>
 <text x="640" y="108" fill="#34d399">incline</text>
 <text x="610" y="324" fill="#cbd5e1" text-anchor="middle">feature(g+) minus feature(g-)</text>
+<text x="872" y="100" fill="#fbbf24" font-size="11" text-anchor="end">illustrative arrows, not measured data</text>
 <text x="710" y="258" fill="#cbd5e1">angle between arrows</text>
 <text x="710" y="274" fill="#fbbf24" font-weight="700">G = mean cosine</text>
 </g>
