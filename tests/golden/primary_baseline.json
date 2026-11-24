@@ -1,0 +1,1485 @@
+{
+ "recorded_with": {
+  "commit": "036bdb9013707671f06e5a5f99736eb7a7182d7b",
+  "numpy": "2.5.3",
+  "n_boot": 300
+ },
+ "results": {
+  "success|seed0": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.999,
+     "G_wrong": 0.058,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "pt_w": {
+     "G": 0.999,
+     "G_wrong": -0.125,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "rw_g": {
+     "G": 0.136,
+     "G_wrong": 0.1,
+     "pairs": {
+      "freefall~bounce": 0.078,
+      "freefall~incline": 0.316,
+      "bounce~incline": 0.013
+     }
+    },
+    "rw_w": {
+     "G": -0.007,
+     "G_wrong": -0.115,
+     "pairs": {
+      "freefall~bounce": -0.096,
+      "freefall~incline": 0.074,
+      "bounce~incline": -0.001
+     }
+    },
+    "px": {
+     "G": -0.144,
+     "G_wrong": -0.091,
+     "pairs": {
+      "freefall~bounce": -0.148,
+      "freefall~incline": -0.146,
+      "bounce~incline": -0.139
+     }
+    },
+    "traj": {
+     "G": 0.057,
+     "G_wrong": -0.106,
+     "pairs": {
+      "freefall~bounce": 0.128,
+      "freefall~incline": 0.111,
+      "bounce~incline": -0.07
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.999,
+     "trajectory_G": 0.057,
+     "diff_vs_trajectory": 0.943,
+     "diff_vs_trajectory_interval": [
+      0.933,
+      0.952
+     ],
+     "gravity_minus_wrong": 0.941,
+     "gravity_minus_wrong_interval": [
+      0.804,
+      1.085
+     ],
+     "pixel_minus_vjepa": -1.144,
+     "pixel_minus_vjepa_interval": [
+      -1.15,
+      -1.136
+     ],
+     "random_minus_vjepa": -0.864,
+     "random_minus_vjepa_interval": [
+      -0.873,
+      -0.852
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    },
+    "window": {
+     "vjepa_G": 0.999,
+     "trajectory_G": 0.057,
+     "diff_vs_trajectory": 0.943,
+     "diff_vs_trajectory_interval": [
+      0.933,
+      0.952
+     ],
+     "gravity_minus_wrong": 1.124,
+     "gravity_minus_wrong_interval": [
+      0.925,
+      1.3
+     ],
+     "pixel_minus_vjepa": -1.144,
+     "pixel_minus_vjepa_interval": [
+      -1.15,
+      -1.136
+     ],
+     "random_minus_vjepa": -1.007,
+     "random_minus_vjepa_interval": [
+      -1.015,
+      -0.996
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    }
+   },
+   "claim": "mechanism-like geometry (both poolings pass, controls pass)"
+  },
+  "success|seed3": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.999,
+     "G_wrong": 0.058,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "pt_w": {
+     "G": 0.999,
+     "G_wrong": -0.125,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "rw_g": {
+     "G": 0.136,
+     "G_wrong": 0.1,
+     "pairs": {
+      "freefall~bounce": 0.078,
+      "freefall~incline": 0.316,
+      "bounce~incline": 0.013
+     }
+    },
+    "rw_w": {
+     "G": -0.007,
+     "G_wrong": -0.115,
+     "pairs": {
+      "freefall~bounce": -0.096,
+      "freefall~incline": 0.074,
+      "bounce~incline": -0.001
+     }
+    },
+    "px": {
+     "G": -0.144,
+     "G_wrong": -0.091,
+     "pairs": {
+      "freefall~bounce": -0.148,
+      "freefall~incline": -0.146,
+      "bounce~incline": -0.139
+     }
+    },
+    "traj": {
+     "G": 0.057,
+     "G_wrong": -0.106,
+     "pairs": {
+      "freefall~bounce": 0.128,
+      "freefall~incline": 0.111,
+      "bounce~incline": -0.07
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.999,
+     "trajectory_G": 0.057,
+     "diff_vs_trajectory": 0.943,
+     "diff_vs_trajectory_interval": [
+      0.931,
+      0.952
+     ],
+     "gravity_minus_wrong": 0.941,
+     "gravity_minus_wrong_interval": [
+      0.824,
+      1.085
+     ],
+     "pixel_minus_vjepa": -1.144,
+     "pixel_minus_vjepa_interval": [
+      -1.15,
+      -1.137
+     ],
+     "random_minus_vjepa": -0.864,
+     "random_minus_vjepa_interval": [
+      -0.873,
+      -0.855
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    },
+    "window": {
+     "vjepa_G": 0.999,
+     "trajectory_G": 0.057,
+     "diff_vs_trajectory": 0.943,
+     "diff_vs_trajectory_interval": [
+      0.931,
+      0.952
+     ],
+     "gravity_minus_wrong": 1.124,
+     "gravity_minus_wrong_interval": [
+      0.938,
+      1.274
+     ],
+     "pixel_minus_vjepa": -1.144,
+     "pixel_minus_vjepa_interval": [
+      -1.15,
+      -1.137
+     ],
+     "random_minus_vjepa": -1.007,
+     "random_minus_vjepa_interval": [
+      -1.015,
+      -0.998
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    }
+   },
+   "claim": "mechanism-like geometry (both poolings pass, controls pass)"
+  },
+  "traj_stronger|seed0": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": -0.012,
+     "G_wrong": 0.093,
+     "pairs": {
+      "freefall~bounce": -0.088,
+      "freefall~incline": 0.197,
+      "bounce~incline": -0.146
+     }
+    },
+    "pt_w": {
+     "G": 0.062,
+     "G_wrong": 0.099,
+     "pairs": {
+      "freefall~bounce": 0.171,
+      "freefall~incline": 0.016,
+      "bounce~incline": 0.0
+     }
+    },
+    "rw_g": {
+     "G": 0.065,
+     "G_wrong": 0.098,
+     "pairs": {
+      "freefall~bounce": -0.015,
+      "freefall~incline": 0.229,
+      "bounce~incline": -0.02
+     }
+    },
+    "rw_w": {
+     "G": 0.139,
+     "G_wrong": -0.072,
+     "pairs": {
+      "freefall~bounce": 0.065,
+      "freefall~incline": 0.07,
+      "bounce~incline": 0.282
+     }
+    },
+    "px": {
+     "G": -0.142,
+     "G_wrong": -0.118,
+     "pairs": {
+      "freefall~bounce": -0.07,
+      "freefall~incline": -0.259,
+      "bounce~incline": -0.097
+     }
+    },
+    "traj": {
+     "G": 0.999,
+     "G_wrong": -0.042,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": -0.012,
+     "trajectory_G": 0.999,
+     "diff_vs_trajectory": -1.012,
+     "diff_vs_trajectory_interval": [
+      -1.019,
+      -1.003
+     ],
+     "gravity_minus_wrong": -0.105,
+     "gravity_minus_wrong_interval": [
+      -0.115,
+      -0.093
+     ],
+     "pixel_minus_vjepa": -0.13,
+     "pixel_minus_vjepa_interval": [
+      -0.139,
+      -0.119
+     ],
+     "random_minus_vjepa": 0.077,
+     "random_minus_vjepa_interval": [
+      0.065,
+      0.088
+     ],
+     "primary_success": false,
+     "wrong_param_ok": false,
+     "baselines_ok": false,
+     "verdict_this_pooling": "trajectory baseline stronger"
+    },
+    "window": {
+     "vjepa_G": 0.062,
+     "trajectory_G": 0.999,
+     "diff_vs_trajectory": -0.937,
+     "diff_vs_trajectory_interval": [
+      -0.946,
+      -0.927
+     ],
+     "gravity_minus_wrong": -0.036,
+     "gravity_minus_wrong_interval": [
+      -0.051,
+      -0.023
+     ],
+     "pixel_minus_vjepa": -0.204,
+     "pixel_minus_vjepa_interval": [
+      -0.216,
+      -0.192
+     ],
+     "random_minus_vjepa": 0.076,
+     "random_minus_vjepa_interval": [
+      0.063,
+      0.089
+     ],
+     "primary_success": false,
+     "wrong_param_ok": false,
+     "baselines_ok": false,
+     "verdict_this_pooling": "trajectory baseline stronger"
+    }
+   },
+   "claim": "trajectory baseline stronger"
+  },
+  "traj_stronger|seed3": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": -0.012,
+     "G_wrong": 0.093,
+     "pairs": {
+      "freefall~bounce": -0.088,
+      "freefall~incline": 0.197,
+      "bounce~incline": -0.146
+     }
+    },
+    "pt_w": {
+     "G": 0.062,
+     "G_wrong": 0.099,
+     "pairs": {
+      "freefall~bounce": 0.171,
+      "freefall~incline": 0.016,
+      "bounce~incline": 0.0
+     }
+    },
+    "rw_g": {
+     "G": 0.065,
+     "G_wrong": 0.098,
+     "pairs": {
+      "freefall~bounce": -0.015,
+      "freefall~incline": 0.229,
+      "bounce~incline": -0.02
+     }
+    },
+    "rw_w": {
+     "G": 0.139,
+     "G_wrong": -0.072,
+     "pairs": {
+      "freefall~bounce": 0.065,
+      "freefall~incline": 0.07,
+      "bounce~incline": 0.282
+     }
+    },
+    "px": {
+     "G": -0.142,
+     "G_wrong": -0.118,
+     "pairs": {
+      "freefall~bounce": -0.07,
+      "freefall~incline": -0.259,
+      "bounce~incline": -0.097
+     }
+    },
+    "traj": {
+     "G": 0.999,
+     "G_wrong": -0.042,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": -0.012,
+     "trajectory_G": 0.999,
+     "diff_vs_trajectory": -1.012,
+     "diff_vs_trajectory_interval": [
+      -1.02,
+      -1.002
+     ],
+     "gravity_minus_wrong": -0.105,
+     "gravity_minus_wrong_interval": [
+      -0.12,
+      -0.093
+     ],
+     "pixel_minus_vjepa": -0.13,
+     "pixel_minus_vjepa_interval": [
+      -0.139,
+      -0.118
+     ],
+     "random_minus_vjepa": 0.077,
+     "random_minus_vjepa_interval": [
+      0.068,
+      0.088
+     ],
+     "primary_success": false,
+     "wrong_param_ok": false,
+     "baselines_ok": false,
+     "verdict_this_pooling": "trajectory baseline stronger"
+    },
+    "window": {
+     "vjepa_G": 0.062,
+     "trajectory_G": 0.999,
+     "diff_vs_trajectory": -0.937,
+     "diff_vs_trajectory_interval": [
+      -0.947,
+      -0.926
+     ],
+     "gravity_minus_wrong": -0.036,
+     "gravity_minus_wrong_interval": [
+      -0.049,
+      -0.023
+     ],
+     "pixel_minus_vjepa": -0.204,
+     "pixel_minus_vjepa_interval": [
+      -0.215,
+      -0.193
+     ],
+     "random_minus_vjepa": 0.076,
+     "random_minus_vjepa_interval": [
+      0.063,
+      0.089
+     ],
+     "primary_success": false,
+     "wrong_param_ok": false,
+     "baselines_ok": false,
+     "verdict_this_pooling": "trajectory baseline stronger"
+    }
+   },
+   "claim": "trajectory baseline stronger"
+  },
+  "pooling_dependent|seed0": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.999,
+     "G_wrong": -0.15,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "pt_w": {
+     "G": -0.053,
+     "G_wrong": -0.154,
+     "pairs": {
+      "freefall~bounce": 0.109,
+      "freefall~incline": -0.324,
+      "bounce~incline": 0.055
+     }
+    },
+    "rw_g": {
+     "G": -0.087,
+     "G_wrong": -0.047,
+     "pairs": {
+      "freefall~bounce": 0.062,
+      "freefall~incline": -0.169,
+      "bounce~incline": -0.154
+     }
+    },
+    "rw_w": {
+     "G": -0.068,
+     "G_wrong": 0.19,
+     "pairs": {
+      "freefall~bounce": -0.135,
+      "freefall~incline": -0.163,
+      "bounce~incline": 0.093
+     }
+    },
+    "px": {
+     "G": 0.04,
+     "G_wrong": 0.02,
+     "pairs": {
+      "freefall~bounce": -0.04,
+      "freefall~incline": 0.033,
+      "bounce~incline": 0.128
+     }
+    },
+    "traj": {
+     "G": 0.027,
+     "G_wrong": -0.054,
+     "pairs": {
+      "freefall~bounce": -0.048,
+      "freefall~incline": 0.114,
+      "bounce~incline": 0.015
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.999,
+     "trajectory_G": 0.027,
+     "diff_vs_trajectory": 0.972,
+     "diff_vs_trajectory_interval": [
+      0.963,
+      0.982
+     ],
+     "gravity_minus_wrong": 1.149,
+     "gravity_minus_wrong_interval": [
+      0.969,
+      1.243
+     ],
+     "pixel_minus_vjepa": -0.959,
+     "pixel_minus_vjepa_interval": [
+      -0.966,
+      -0.95
+     ],
+     "random_minus_vjepa": -1.086,
+     "random_minus_vjepa_interval": [
+      -1.093,
+      -1.077
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    },
+    "window": {
+     "vjepa_G": -0.053,
+     "trajectory_G": 0.027,
+     "diff_vs_trajectory": -0.08,
+     "diff_vs_trajectory_interval": [
+      -0.095,
+      -0.065
+     ],
+     "gravity_minus_wrong": 0.101,
+     "gravity_minus_wrong_interval": [
+      0.088,
+      0.11
+     ],
+     "pixel_minus_vjepa": 0.094,
+     "pixel_minus_vjepa_interval": [
+      0.084,
+      0.104
+     ],
+     "random_minus_vjepa": -0.015,
+     "random_minus_vjepa_interval": [
+      -0.026,
+      -0.005
+     ],
+     "primary_success": false,
+     "wrong_param_ok": true,
+     "baselines_ok": false,
+     "verdict_this_pooling": "trajectory baseline stronger"
+    }
+   },
+   "claim": "pooling-dependent, not supported"
+  },
+  "pooling_dependent|seed3": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.999,
+     "G_wrong": -0.15,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "pt_w": {
+     "G": -0.053,
+     "G_wrong": -0.154,
+     "pairs": {
+      "freefall~bounce": 0.109,
+      "freefall~incline": -0.324,
+      "bounce~incline": 0.055
+     }
+    },
+    "rw_g": {
+     "G": -0.087,
+     "G_wrong": -0.047,
+     "pairs": {
+      "freefall~bounce": 0.062,
+      "freefall~incline": -0.169,
+      "bounce~incline": -0.154
+     }
+    },
+    "rw_w": {
+     "G": -0.068,
+     "G_wrong": 0.19,
+     "pairs": {
+      "freefall~bounce": -0.135,
+      "freefall~incline": -0.163,
+      "bounce~incline": 0.093
+     }
+    },
+    "px": {
+     "G": 0.04,
+     "G_wrong": 0.02,
+     "pairs": {
+      "freefall~bounce": -0.04,
+      "freefall~incline": 0.033,
+      "bounce~incline": 0.128
+     }
+    },
+    "traj": {
+     "G": 0.027,
+     "G_wrong": -0.054,
+     "pairs": {
+      "freefall~bounce": -0.048,
+      "freefall~incline": 0.114,
+      "bounce~incline": 0.015
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.999,
+     "trajectory_G": 0.027,
+     "diff_vs_trajectory": 0.972,
+     "diff_vs_trajectory_interval": [
+      0.962,
+      0.981
+     ],
+     "gravity_minus_wrong": 1.149,
+     "gravity_minus_wrong_interval": [
+      0.984,
+      1.218
+     ],
+     "pixel_minus_vjepa": -0.959,
+     "pixel_minus_vjepa_interval": [
+      -0.966,
+      -0.95
+     ],
+     "random_minus_vjepa": -1.086,
+     "random_minus_vjepa_interval": [
+      -1.094,
+      -1.078
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    },
+    "window": {
+     "vjepa_G": -0.053,
+     "trajectory_G": 0.027,
+     "diff_vs_trajectory": -0.08,
+     "diff_vs_trajectory_interval": [
+      -0.093,
+      -0.065
+     ],
+     "gravity_minus_wrong": 0.101,
+     "gravity_minus_wrong_interval": [
+      0.091,
+      0.111
+     ],
+     "pixel_minus_vjepa": 0.094,
+     "pixel_minus_vjepa_interval": [
+      0.084,
+      0.104
+     ],
+     "random_minus_vjepa": -0.015,
+     "random_minus_vjepa_interval": [
+      -0.027,
+      -0.004
+     ],
+     "primary_success": false,
+     "wrong_param_ok": true,
+     "baselines_ok": false,
+     "verdict_this_pooling": "trajectory baseline stronger"
+    }
+   },
+   "claim": "pooling-dependent, not supported"
+  },
+  "control_fails|seed0": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.994,
+     "G_wrong": -0.092,
+     "pairs": {
+      "freefall~bounce": 0.994,
+      "freefall~incline": 0.992,
+      "bounce~incline": 0.996
+     }
+    },
+    "pt_w": {
+     "G": 0.995,
+     "G_wrong": -0.055,
+     "pairs": {
+      "freefall~bounce": 0.995,
+      "freefall~incline": 0.996,
+      "bounce~incline": 0.994
+     }
+    },
+    "rw_g": {
+     "G": -0.02,
+     "G_wrong": 0.02,
+     "pairs": {
+      "freefall~bounce": 0.038,
+      "freefall~incline": 0.003,
+      "bounce~incline": -0.099
+     }
+    },
+    "rw_w": {
+     "G": -0.055,
+     "G_wrong": -0.073,
+     "pairs": {
+      "freefall~bounce": -0.115,
+      "freefall~incline": -0.1,
+      "bounce~incline": 0.051
+     }
+    },
+    "px": {
+     "G": 1.0,
+     "G_wrong": 0.126,
+     "pairs": {
+      "freefall~bounce": 1.0,
+      "freefall~incline": 1.0,
+      "bounce~incline": 1.0
+     }
+    },
+    "traj": {
+     "G": -0.144,
+     "G_wrong": 0.009,
+     "pairs": {
+      "freefall~bounce": -0.231,
+      "freefall~incline": -0.047,
+      "bounce~incline": -0.155
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.994,
+     "trajectory_G": -0.144,
+     "diff_vs_trajectory": 1.138,
+     "diff_vs_trajectory_interval": [
+      1.124,
+      1.139
+     ],
+     "gravity_minus_wrong": 1.086,
+     "gravity_minus_wrong_interval": [
+      0.906,
+      1.208
+     ],
+     "pixel_minus_vjepa": 0.006,
+     "pixel_minus_vjepa_interval": [
+      0.008,
+      0.017
+     ],
+     "random_minus_vjepa": -1.014,
+     "random_minus_vjepa_interval": [
+      -1.017,
+      -0.999
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": false,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    },
+    "window": {
+     "vjepa_G": 0.995,
+     "trajectory_G": -0.144,
+     "diff_vs_trajectory": 1.139,
+     "diff_vs_trajectory_interval": [
+      1.125,
+      1.139
+     ],
+     "gravity_minus_wrong": 1.05,
+     "gravity_minus_wrong_interval": [
+      0.853,
+      1.2
+     ],
+     "pixel_minus_vjepa": 0.005,
+     "pixel_minus_vjepa_interval": [
+      0.008,
+      0.016
+     ],
+     "random_minus_vjepa": -1.049,
+     "random_minus_vjepa_interval": [
+      -1.051,
+      -1.033
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": false,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    }
+   },
+   "claim": "primary passes for both poolings but a control fails: not supported"
+  },
+  "control_fails|seed3": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.994,
+     "G_wrong": -0.092,
+     "pairs": {
+      "freefall~bounce": 0.994,
+      "freefall~incline": 0.992,
+      "bounce~incline": 0.996
+     }
+    },
+    "pt_w": {
+     "G": 0.995,
+     "G_wrong": -0.055,
+     "pairs": {
+      "freefall~bounce": 0.995,
+      "freefall~incline": 0.996,
+      "bounce~incline": 0.994
+     }
+    },
+    "rw_g": {
+     "G": -0.02,
+     "G_wrong": 0.02,
+     "pairs": {
+      "freefall~bounce": 0.038,
+      "freefall~incline": 0.003,
+      "bounce~incline": -0.099
+     }
+    },
+    "rw_w": {
+     "G": -0.055,
+     "G_wrong": -0.073,
+     "pairs": {
+      "freefall~bounce": -0.115,
+      "freefall~incline": -0.1,
+      "bounce~incline": 0.051
+     }
+    },
+    "px": {
+     "G": 1.0,
+     "G_wrong": 0.126,
+     "pairs": {
+      "freefall~bounce": 1.0,
+      "freefall~incline": 1.0,
+      "bounce~incline": 1.0
+     }
+    },
+    "traj": {
+     "G": -0.144,
+     "G_wrong": 0.009,
+     "pairs": {
+      "freefall~bounce": -0.231,
+      "freefall~incline": -0.047,
+      "bounce~incline": -0.155
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.994,
+     "trajectory_G": -0.144,
+     "diff_vs_trajectory": 1.138,
+     "diff_vs_trajectory_interval": [
+      1.125,
+      1.14
+     ],
+     "gravity_minus_wrong": 1.086,
+     "gravity_minus_wrong_interval": [
+      0.917,
+      1.222
+     ],
+     "pixel_minus_vjepa": 0.006,
+     "pixel_minus_vjepa_interval": [
+      0.008,
+      0.016
+     ],
+     "random_minus_vjepa": -1.014,
+     "random_minus_vjepa_interval": [
+      -1.018,
+      -0.998
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": false,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    },
+    "window": {
+     "vjepa_G": 0.995,
+     "trajectory_G": -0.144,
+     "diff_vs_trajectory": 1.139,
+     "diff_vs_trajectory_interval": [
+      1.126,
+      1.141
+     ],
+     "gravity_minus_wrong": 1.05,
+     "gravity_minus_wrong_interval": [
+      0.866,
+      1.197
+     ],
+     "pixel_minus_vjepa": 0.005,
+     "pixel_minus_vjepa_interval": [
+      0.007,
+      0.016
+     ],
+     "random_minus_vjepa": -1.049,
+     "random_minus_vjepa_interval": [
+      -1.053,
+      -1.034
+     ],
+     "primary_success": true,
+     "wrong_param_ok": true,
+     "baselines_ok": false,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    }
+   },
+   "claim": "primary passes for both poolings but a control fails: not supported"
+  },
+  "wrong_param_fails|seed0": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.999,
+     "G_wrong": 0.999,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "pt_w": {
+     "G": 0.999,
+     "G_wrong": 0.999,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "rw_g": {
+     "G": -0.031,
+     "G_wrong": 0.007,
+     "pairs": {
+      "freefall~bounce": 0.272,
+      "freefall~incline": -0.331,
+      "bounce~incline": -0.034
+     }
+    },
+    "rw_w": {
+     "G": -0.118,
+     "G_wrong": -0.119,
+     "pairs": {
+      "freefall~bounce": -0.185,
+      "freefall~incline": -0.173,
+      "bounce~incline": 0.006
+     }
+    },
+    "px": {
+     "G": -0.034,
+     "G_wrong": 0.137,
+     "pairs": {
+      "freefall~bounce": 0.069,
+      "freefall~incline": -0.037,
+      "bounce~incline": -0.133
+     }
+    },
+    "traj": {
+     "G": -0.087,
+     "G_wrong": 0.073,
+     "pairs": {
+      "freefall~bounce": -0.087,
+      "freefall~incline": -0.12,
+      "bounce~incline": -0.054
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.999,
+     "trajectory_G": -0.087,
+     "diff_vs_trajectory": 1.086,
+     "diff_vs_trajectory_interval": [
+      1.078,
+      1.092
+     ],
+     "gravity_minus_wrong": -0.0,
+     "gravity_minus_wrong_interval": [
+      -0.001,
+      0.0
+     ],
+     "pixel_minus_vjepa": -1.033,
+     "pixel_minus_vjepa_interval": [
+      -1.039,
+      -1.025
+     ],
+     "random_minus_vjepa": -1.03,
+     "random_minus_vjepa_interval": [
+      -1.038,
+      -1.023
+     ],
+     "primary_success": true,
+     "wrong_param_ok": false,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    },
+    "window": {
+     "vjepa_G": 0.999,
+     "trajectory_G": -0.087,
+     "diff_vs_trajectory": 1.086,
+     "diff_vs_trajectory_interval": [
+      1.079,
+      1.092
+     ],
+     "gravity_minus_wrong": -0.0,
+     "gravity_minus_wrong_interval": [
+      -0.001,
+      0.0
+     ],
+     "pixel_minus_vjepa": -1.033,
+     "pixel_minus_vjepa_interval": [
+      -1.039,
+      -1.025
+     ],
+     "random_minus_vjepa": -1.117,
+     "random_minus_vjepa_interval": [
+      -1.125,
+      -1.107
+     ],
+     "primary_success": true,
+     "wrong_param_ok": false,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    }
+   },
+   "claim": "primary passes for both poolings but a control fails: not supported"
+  },
+  "wrong_param_fails|seed3": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.999,
+     "G_wrong": 0.999,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "pt_w": {
+     "G": 0.999,
+     "G_wrong": 0.999,
+     "pairs": {
+      "freefall~bounce": 0.999,
+      "freefall~incline": 0.999,
+      "bounce~incline": 0.999
+     }
+    },
+    "rw_g": {
+     "G": -0.031,
+     "G_wrong": 0.007,
+     "pairs": {
+      "freefall~bounce": 0.272,
+      "freefall~incline": -0.331,
+      "bounce~incline": -0.034
+     }
+    },
+    "rw_w": {
+     "G": -0.118,
+     "G_wrong": -0.119,
+     "pairs": {
+      "freefall~bounce": -0.185,
+      "freefall~incline": -0.173,
+      "bounce~incline": 0.006
+     }
+    },
+    "px": {
+     "G": -0.034,
+     "G_wrong": 0.137,
+     "pairs": {
+      "freefall~bounce": 0.069,
+      "freefall~incline": -0.037,
+      "bounce~incline": -0.133
+     }
+    },
+    "traj": {
+     "G": -0.087,
+     "G_wrong": 0.073,
+     "pairs": {
+      "freefall~bounce": -0.087,
+      "freefall~incline": -0.12,
+      "bounce~incline": -0.054
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.999,
+     "trajectory_G": -0.087,
+     "diff_vs_trajectory": 1.086,
+     "diff_vs_trajectory_interval": [
+      1.078,
+      1.093
+     ],
+     "gravity_minus_wrong": -0.0,
+     "gravity_minus_wrong_interval": [
+      -0.001,
+      0.0
+     ],
+     "pixel_minus_vjepa": -1.033,
+     "pixel_minus_vjepa_interval": [
+      -1.039,
+      -1.025
+     ],
+     "random_minus_vjepa": -1.03,
+     "random_minus_vjepa_interval": [
+      -1.038,
+      -1.021
+     ],
+     "primary_success": true,
+     "wrong_param_ok": false,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    },
+    "window": {
+     "vjepa_G": 0.999,
+     "trajectory_G": -0.087,
+     "diff_vs_trajectory": 1.086,
+     "diff_vs_trajectory_interval": [
+      1.078,
+      1.093
+     ],
+     "gravity_minus_wrong": -0.0,
+     "gravity_minus_wrong_interval": [
+      -0.0,
+      0.0
+     ],
+     "pixel_minus_vjepa": -1.033,
+     "pixel_minus_vjepa_interval": [
+      -1.039,
+      -1.026
+     ],
+     "random_minus_vjepa": -1.117,
+     "random_minus_vjepa_interval": [
+      -1.125,
+      -1.107
+     ],
+     "primary_success": true,
+     "wrong_param_ok": false,
+     "baselines_ok": true,
+     "verdict_this_pooling": "V-JEPA above trajectory baseline"
+    }
+   },
+   "claim": "primary passes for both poolings but a control fails: not supported"
+  },
+  "undistinguished|seed0": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.989,
+     "G_wrong": 0.109,
+     "pairs": {
+      "freefall~bounce": 0.987,
+      "freefall~incline": 0.99,
+      "bounce~incline": 0.99
+     }
+    },
+    "pt_w": {
+     "G": 0.987,
+     "G_wrong": -0.009,
+     "pairs": {
+      "freefall~bounce": 0.984,
+      "freefall~incline": 0.991,
+      "bounce~incline": 0.987
+     }
+    },
+    "rw_g": {
+     "G": 0.031,
+     "G_wrong": 0.083,
+     "pairs": {
+      "freefall~bounce": 0.145,
+      "freefall~incline": 0.076,
+      "bounce~incline": -0.127
+     }
+    },
+    "rw_w": {
+     "G": 0.101,
+     "G_wrong": -0.025,
+     "pairs": {
+      "freefall~bounce": 0.075,
+      "freefall~incline": 0.007,
+      "bounce~incline": 0.221
+     }
+    },
+    "px": {
+     "G": -0.057,
+     "G_wrong": -0.015,
+     "pairs": {
+      "freefall~bounce": -0.231,
+      "freefall~incline": 0.123,
+      "bounce~incline": -0.063
+     }
+    },
+    "traj": {
+     "G": 0.987,
+     "G_wrong": 0.053,
+     "pairs": {
+      "freefall~bounce": 0.985,
+      "freefall~incline": 0.989,
+      "bounce~incline": 0.988
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.989,
+     "trajectory_G": 0.987,
+     "diff_vs_trajectory": 0.002,
+     "diff_vs_trajectory_interval": [
+      -0.007,
+      0.012
+     ],
+     "gravity_minus_wrong": 0.88,
+     "gravity_minus_wrong_interval": [
+      0.707,
+      1.058
+     ],
+     "pixel_minus_vjepa": -1.046,
+     "pixel_minus_vjepa_interval": [
+      -1.045,
+      -1.02
+     ],
+     "random_minus_vjepa": -0.958,
+     "random_minus_vjepa_interval": [
+      -0.954,
+      -0.935
+     ],
+     "primary_success": false,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "not distinguished from kinematics"
+    },
+    "window": {
+     "vjepa_G": 0.987,
+     "trajectory_G": 0.987,
+     "diff_vs_trajectory": -0.0,
+     "diff_vs_trajectory_interval": [
+      -0.009,
+      0.009
+     ],
+     "gravity_minus_wrong": 0.996,
+     "gravity_minus_wrong_interval": [
+      0.829,
+      1.127
+     ],
+     "pixel_minus_vjepa": -1.044,
+     "pixel_minus_vjepa_interval": [
+      -1.044,
+      -1.017
+     ],
+     "random_minus_vjepa": -0.886,
+     "random_minus_vjepa_interval": [
+      -0.886,
+      -0.86
+     ],
+     "primary_success": false,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "not distinguished from kinematics"
+    }
+   },
+   "claim": "not distinguished from kinematics"
+  },
+  "undistinguished|seed3": {
+   "n_worlds": {
+    "freefall": 15,
+    "bounce": 15,
+    "incline": 15
+   },
+   "level": "97.5% two-sided paired world bootstrap",
+   "per_rep": {
+    "pt_g": {
+     "G": 0.989,
+     "G_wrong": 0.109,
+     "pairs": {
+      "freefall~bounce": 0.987,
+      "freefall~incline": 0.99,
+      "bounce~incline": 0.99
+     }
+    },
+    "pt_w": {
+     "G": 0.987,
+     "G_wrong": -0.009,
+     "pairs": {
+      "freefall~bounce": 0.984,
+      "freefall~incline": 0.991,
+      "bounce~incline": 0.987
+     }
+    },
+    "rw_g": {
+     "G": 0.031,
+     "G_wrong": 0.083,
+     "pairs": {
+      "freefall~bounce": 0.145,
+      "freefall~incline": 0.076,
+      "bounce~incline": -0.127
+     }
+    },
+    "rw_w": {
+     "G": 0.101,
+     "G_wrong": -0.025,
+     "pairs": {
+      "freefall~bounce": 0.075,
+      "freefall~incline": 0.007,
+      "bounce~incline": 0.221
+     }
+    },
+    "px": {
+     "G": -0.057,
+     "G_wrong": -0.015,
+     "pairs": {
+      "freefall~bounce": -0.231,
+      "freefall~incline": 0.123,
+      "bounce~incline": -0.063
+     }
+    },
+    "traj": {
+     "G": 0.987,
+     "G_wrong": 0.053,
+     "pairs": {
+      "freefall~bounce": 0.985,
+      "freefall~incline": 0.989,
+      "bounce~incline": 0.988
+     }
+    }
+   },
+   "endpoints": {
+    "global": {
+     "vjepa_G": 0.989,
+     "trajectory_G": 0.987,
+     "diff_vs_trajectory": 0.002,
+     "diff_vs_trajectory_interval": [
+      -0.007,
+      0.012
+     ],
+     "gravity_minus_wrong": 0.88,
+     "gravity_minus_wrong_interval": [
+      0.745,
+      1.06
+     ],
+     "pixel_minus_vjepa": -1.046,
+     "pixel_minus_vjepa_interval": [
+      -1.045,
+      -1.021
+     ],
+     "random_minus_vjepa": -0.958,
+     "random_minus_vjepa_interval": [
+      -0.955,
+      -0.934
+     ],
+     "primary_success": false,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "not distinguished from kinematics"
+    },
+    "window": {
+     "vjepa_G": 0.987,
+     "trajectory_G": 0.987,
+     "diff_vs_trajectory": -0.0,
+     "diff_vs_trajectory_interval": [
+      -0.009,
+      0.01
+     ],
+     "gravity_minus_wrong": 0.996,
+     "gravity_minus_wrong_interval": [
+      0.829,
+      1.117
+     ],
+     "pixel_minus_vjepa": -1.044,
+     "pixel_minus_vjepa_interval": [
+      -1.043,
+      -1.018
+     ],
+     "random_minus_vjepa": -0.886,
+     "random_minus_vjepa_interval": [
+      -0.886,
+      -0.86
+     ],
+     "primary_success": false,
+     "wrong_param_ok": true,
+     "baselines_ok": true,
+     "verdict_this_pooling": "not distinguished from kinematics"
+    }
+   },
+   "claim": "not distinguished from kinematics"
+  }
+ }
+}

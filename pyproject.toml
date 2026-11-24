@@ -1,12 +1,12 @@
 [tool.mypy]
 python_version = "3.12"
 strict = true
-files = ["cg/devstats.py", "tests/test_devstats.py", "tests/test_devstats_golden.py"]
+files = ["cg/devstats.py", "cg/primary.py", "tests/test_devstats.py", "tests/test_devstats_golden.py", "tests/test_primary.py", "tests/test_primary_golden.py"]
 
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-include = ["cg/devstats.py", "tests/test_devstats.py", "tests/test_devstats_golden.py"]
+include = ["cg/devstats.py", "cg/primary.py", "tests/test_primary.py", "tests/test_primary_golden.py", "tests/test_devstats.py", "tests/test_devstats_golden.py", "tests/test_primary.py", "tests/test_primary_golden.py"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "ANN", "C90", "PLR0913", "PLR0915", "SIM", "RET"]

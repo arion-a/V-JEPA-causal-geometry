@@ -85,8 +85,9 @@ def V(rep, par, kind):
     return np.array(out, dtype=np.float64)
 
 
-CASES = [("g", "freefall"), ("g", "bounce"), ("g", "incline"), ("e", "bounce"), ("mu", "incline")]
+CASES = [(P.Param.G, P.Scene.FREEFALL), (P.Param.G, P.Scene.BOUNCE), (P.Param.G, P.Scene.INCLINE), (P.Param.E, P.Scene.BOUNCE), (P.Param.MU, P.Scene.INCLINE)]
 reps = {r: {c: V(r, *c) for c in CASES} for r in ("pt_g", "pt_w", "rw_g", "rw_w", "px", "traj")}
-res = P.run(reps, {"global": ("pt_g", "traj", "px", "rw_g"), "window": ("pt_w", "traj", "px", "rw_w")}, n_boot=a.n_boot)
+endpoints = [P.Endpoint(P.Pooling.GLOBAL, "pt_g", "traj", "px", "rw_g"), P.Endpoint(P.Pooling.WINDOW, "pt_w", "traj", "px", "rw_w")]
+res = P.to_json(P.run(reps, endpoints, n_boot=a.n_boot, seed=0))
 res.update(split=a.split, utc=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), config_confirmatory=json.load(open(f"{ROOT}/configs/pilot.json"))["confirmatory"]["statistic"])
 json.dump(res, open(f"{OUT}/primary.json", "w"), indent=1); print(json.dumps({k: res[k] for k in ("claim", "endpoints")}, indent=1)); print("PRIMARY DONE", a.split, f"{time.time() - t0:.0f}s", flush=True)
